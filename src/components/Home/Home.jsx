@@ -28,6 +28,7 @@ function Home() {
   const handleSearch = (e) => {
      e.preventDefault();
   }
+  // Testing the home
 
   return (
     <div className='background'>
