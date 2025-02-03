@@ -1,0 +1,107 @@
+/* PropertyListing.css */
+.property-listing {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f8f9fa;
+  }
+  
+  /* Navigation Bar */
+  .property-listing nav {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 12px 20px;
+  }
+  
+  /* Image Carousel */
+  .property-listing img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+  }
+  
+  /* Image Navigation Buttons */
+  .property-listing .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .property-listing .carousel-btn:hover {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .property-listing .prev {
+    left: 15px;
+  }
+  
+  .property-listing .next {
+    right: 15px;
+  }
+  
+  /* Property Info Overlay */
+  .property-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 20px;
+  }
+  
+  .property-info h1,
+  .property-info h2 {
+    margin: 5px 0;
+  }
+  
+  /* Icons for features */
+  .property-features {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .property-features div {
+    text-align: center;
+  }
+  
+  .property-features i {
+    font-size: 18px;
+  }
+  
+  /* Rating */
+  .property-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+  }
+  
+  /* Profile Pictures */
+  .profile-pictures {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  .profile-pictures div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: -10px;
+    border: 2px solid white;
+  }
+  
+  .profile-pictures img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
