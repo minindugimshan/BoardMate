@@ -239,3 +239,159 @@
 .fa{
     color: red;
 }
+
+
+/* MEdia queries for map and location slider */
+@media screen and (max-width: 1024px) {
+    .mapForm {
+        width: 70%;
+        padding-left: 15px;
+        margin-left: 4%;
+    }
+
+    .mapouter {
+        margin-top: 5%;
+        margin-right: 2%;
+        text-align: center;
+    }
+
+    .gmap_canvas {
+        width: 100%;
+        height: 350px;
+    }
+
+    .gmap_iframe {
+        width: 100%!important;
+        height: 350px!important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mapForm {
+        width: 90%;
+        padding-left: 10px;
+        margin-left: 3%;
+    }
+
+    .mapouter {
+        width: 100%;
+        margin-top: 3%;
+        text-align: center;
+    }
+
+    .gmap_canvas {
+        width: 100%;
+        height: 300px;
+    }
+
+    .gmap_iframe {
+        width: 100%!important;
+        height: 300px!important;
+    }
+
+    .container-form-map {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .mapForm {
+        width: 100%;
+        padding: 5px;
+        margin-left: 0;
+    }
+
+    .mapouter {
+        width: 100%;
+        margin-top: 2%;
+    }
+
+    .gmap_canvas {
+        width: 100%;
+        height: 250px;
+    }
+
+    .gmap_iframe {
+        width: 100%!important;
+        height: 250px!important;
+    }
+}
+
+/* Location Slider Banner */
+@media screen and (max-width: 1024px) {
+    .locations {
+        width: 220%;
+        gap: 50px;
+    }
+
+    .slide-wrapper {
+        width: 85%;
+        animation-duration: 16s;
+    }
+
+    .location-slider h1 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .locations h2 {
+        font-size: 22px;
+    }
+
+    .location-slider::before, 
+    .location-slider::after {
+        width: 100px;  /* Reduce the width of fade effect */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .locations {
+        width: 250%;
+        gap: 40px;
+    }
+
+    .slide-wrapper {
+        width: 95%;
+        animation-duration: 18s;
+    }
+
+    .location-slider h1 {
+        font-size: 20px;
+    }
+
+    .locations h2 {
+        font-size: 18px;
+    }
+
+    .location-slider::before, 
+    .location-slider::after {
+        width: 70px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .locations {
+        width: 280%;
+        gap: 30px;
+    }
+
+    .slide-wrapper {
+        width: 100%;
+        animation-duration: 20s;
+    }
+
+    .location-slider h1 {
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .locations h2 {
+        font-size: 16px;
+    }
+
+    .location-slider::before, 
+    .location-slider::after {
+        width: 50px;
+    }
+}

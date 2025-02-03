@@ -11,7 +11,9 @@ function Navigationbar() {
           <img src="/logo.jpeg" alt="logo" className='logo' />
         </Navbar.Brand> 
 
-        <Navbar.Toggle aria-controls='collapse-navbar' />
+        <Navbar.Toggle aria-controls='collapse-navbar'>
+          
+        </Navbar.Toggle>
 
         <Navbar.Collapse className='wholeLinks' id='collapse-navbar' >
           <nav className='links' >
