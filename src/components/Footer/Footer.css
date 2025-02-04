@@ -1,0 +1,89 @@
+.footer-h1{
+    margin-left: 8%;
+    margin-top: 20px;
+}
+.footer-p{
+    margin-left: 18px;
+    font-size: 12px;
+    color:rgb(96, 92, 92);
+}
+.footer{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    background: rgba(254, 254, 255, 0.3);
+    backdrop-filter: blur(20px); /* Applies blur */
+    -webkit-backdrop-filter: blur(30px); 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    color: rgb(0, 0, 0);
+}
+.footer-content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 8%;
+    
+}
+.visa{
+    height: 25px;
+    margin-left: 8%;
+}
+.mastercard{
+    height: 25px;
+    margin-left: 5%;
+}
+
+/* contact details css */
+.contact{
+   margin-right: 60px;
+   margin-top: 20px;
+}
+h5{
+    font-weight: bold;
+}
+.legend{
+    font-size: 20px;
+}
+.contact-fields{
+    border: 1px solid rgb(224, 215, 215);
+    text-align: left;
+    box-shadow: 1px 1px 1px;
+    padding: 10px ;
+}
+.fields label{
+    margin-left: 0px;
+    padding: 10px;
+    width: 100%;
+}
+.call-img{
+    height: 35px;
+}
+.mail , .location-link{
+    color: black;
+    text-decoration: none;
+}
+
+/* social media css */
+.social-heading{
+    font-weight: bold;
+    margin-right: 200px;
+    margin-top: 8%;
+    gap: 30px;
+}
+.social-img{
+    height: 50px;
+}
+
+/* About us CSS */
+.about-heading{
+    font-weight: bold;
+    margin-top: 8%;
+}
+.about-socials{
+    margin-right: 100px;
+}
+.about-socials p{
+    color: rgb(96, 92, 92);   
+}
+.about a{
+    text-decoration: none;
+}
