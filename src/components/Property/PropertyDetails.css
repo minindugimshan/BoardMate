@@ -1,0 +1,205 @@
+/* Property Details Page Styles */
+.property-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 20px;
+  }
+  
+  .property-details-content {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    width: 90%;
+    max-width: 800px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Image Gallery */
+  .property-gallery {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .property-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  /* Gallery Navigation Buttons */
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .gallery-nav.prev {
+    left: 10px;
+  }
+  
+  .gallery-nav.next {
+    right: 10px;
+  }
+  
+  .gallery-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Property Info Section */
+  .property-info-details {
+    padding: 20px;
+  }
+  
+  .property-info-details h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .location {
+    color: #777;
+    font-size: 16px;
+  }
+  
+  .rating-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #ffa500;
+    margin: 10px 0;
+  }
+  
+  /* Price Section */
+  .price-section h2 {
+    font-size: 22px;
+    color: #2a9d8f;
+    font-weight: bold;
+  }
+  
+  /* Amenities Section */
+  .amenities-section h3 {
+    margin-top: 15px;
+    font-size: 20px;
+    color: #444;
+  }
+  
+  .amenities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .amenity-item {
+    background: #e9ecef;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #555;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .amenity-item:hover {
+    transform: scale(1.05);
+    background: #d1e7dd;
+  }
+  
+  /* Description Section */
+  .description-section h3 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  
+  .description-section p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .book-tour-btn,
+  .contact-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .book-tour-btn {
+    background: #2a9d8f;
+    color: white;
+  }
+  
+  .book-tour-btn:hover {
+    transform: scale(1.05);
+    background: #21867a;
+  }
+  
+  .contact-btn {
+    background: #e63946;
+    color: white;
+    margin-left: 10px;
+  }
+  
+  .contact-btn:hover {
+    transform: scale(1.05);
+    background: #c72d3d;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .property-details-content {
+      width: 100%;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .contact-btn {
+      margin-left: 0;
+    }
+  }
+  
