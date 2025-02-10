@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignIn.css';
+import './SignIn2.css';
 
 const UniversitySignIn = () => {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const UniversitySignIn = () => {
         </form>
 
         <div className="additional-options">
-        <p>Already have an account? <span onClick={() => navigate('/student-signup')}>Log in</span></p>        </div>
+        <p>Already have an account? <span onClick={() => navigate('/student-login')}>Log in</span></p>        </div>
       </div>
     </div>
   );
