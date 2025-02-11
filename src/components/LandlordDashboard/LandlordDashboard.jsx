@@ -8,7 +8,7 @@ const LandlordDashboard = () => {
   const [properties] = useState([
     {
       id: 1,
-      image: "/api/placeholder/300/200",
+      image: "/thumbnail1.jpg",
       title: "Modern Studio Near IIT",
       location: "Colombo",
       price: "25,000 LKR",
@@ -19,7 +19,7 @@ const LandlordDashboard = () => {
     },
     {
       id: 2,
-      image: "/api/placeholder/300/200",
+      image: "/thumbnail2.jpg",
       title: "Shared Room in Dehiwala",
       location: "Dehiwala",
       price: "15,000 LKR",
@@ -45,13 +45,16 @@ const LandlordDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>Welcome Back!</h1>
+        <div className="dashboard-header">
+        <div>
+            <h1>Welcome Back!</h1>
+            <p>Manage your properties and track their performance all in one place</p>
+        </div>
         <button className="add-property-btn">
-          <Plus size={20} />
-          Add New Property
+            <Plus size={20} />
+            Add New Property
         </button>
-      </div>
+        </div>
 
       <div className="stats-grid">
         {stats.map((stat, index) => (

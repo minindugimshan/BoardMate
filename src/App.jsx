@@ -16,8 +16,7 @@ function App() {
       <div className="app">
         <nav className="navbar">
           <div className="nav-brand">
-            <img src="/logo.png" alt="RoomMate" className="nav-logo" />
-            <span className="nav-title">BoardMate</span>
+            <img src="/bmlogo.png" alt="BoardMate" className="nav-logo" />
           </div>
 
           {/* Mobile menu button */}
