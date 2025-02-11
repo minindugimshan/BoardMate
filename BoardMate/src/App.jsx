@@ -17,7 +17,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/Map' element={<Map />} />
         <Route path='/about' element={<About />} />
-        <Route path='/property/:id' element={<PropertyDetails />} /> {/* Updated path to match Home component navigation */}
+        <Route path='/property/:id' element={<PropertyDetails />} /> 
         <Route path='/search' element={<SearchResults />} />
       </Routes>
       <Footer />

@@ -151,11 +151,12 @@
 // export default Home
 
 
-import React, { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { TypeAnimation } from "react-type-animation";
 import { propertyData } from '../../data/propertyData';
 import './Home.css';
+import { useState } from 'react';
 
 function Home() {
   const navigate = useNavigate();
@@ -182,7 +183,7 @@ function Home() {
   };
 
   const handlePropertyClick = (propertyId) => {
-    navigate(`/properties/${propertyId}`);
+    navigate(`/property/${propertyId}`);
   };
 
   return (
@@ -269,3 +270,90 @@ function Home() {
 }
 
 export default Home;
+
+
+
+// import { useNavigate } from 'react-router-dom';
+// import { propertyData } from '../../data/propertyData';
+// import './Home.css';
+// import { useState } from 'react';
+
+// const Home = () => {
+//   const navigate = useNavigate();
+//   const [filters, setFilters] = useState({
+//     gender: '',
+//     priceRange: '',
+//     location: ''
+//   });
+
+//   const handleFilterChange = (e) => {
+//     const { name, value } = e.target;
+//     setFilters(prev => ({ ...prev, [name]: value }));
+//   };
+
+//   const filteredProperties = propertyData.filter(property => {
+//     return (
+//       (filters.gender ? property.gender === filters.gender : true) &&
+//       (filters.location ? property.location === filters.location : true)
+//     );
+//   });
+
+//   return (
+//     <div className="home-container">
+//       <div className="hero-section">
+//         <h1>Find Your Perfect Accommodation</h1>
+//         <div className="filter-section">
+//           <select 
+//             name="gender" 
+//             value={filters.gender} 
+//             onChange={handleFilterChange}
+//           >
+//             <option value="">All Genders</option>
+//             <option value="Boys">Boys Only</option>
+//             <option value="Girls">Girls Only</option>
+//           </select>
+
+//           <select 
+//             name="location" 
+//             value={filters.location} 
+//             onChange={handleFilterChange}
+//           >
+//             <option value="">All Locations</option>
+//             <option value="Dehiwala">Dehiwala</option>
+//             <option value="Colombo">Colombo</option>
+//           </select>
+//         </div>
+//       </div>
+
+//       <div className="properties-grid">
+//         {filteredProperties.map(property => (
+//           <div 
+//             key={property.id} 
+//             className="property-card"
+//             onClick={() => navigate(`/property/${property.id}`)}
+//           >
+//             <img 
+//               src={property.images[0]} 
+//               alt={property.name} 
+//               className="property-image" 
+//             />
+//             <div className="property-card-details">
+//               <h3>{property.name}</h3>
+//               <p>{property.location} • {property.gender}</p>
+//               <div className="property-card-footer">
+//                 <span className="price">
+//                   LKR {property.price.toLocaleString()} / month
+//                 </span>
+//                 <span className="rating">
+//                   ★ {property.rating}
+//                 </span>
+//               </div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Home;
