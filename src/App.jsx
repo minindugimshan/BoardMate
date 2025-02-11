@@ -24,8 +24,7 @@ function App() {
           </button>
 
           <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/map" className="nav-link">Map</Link>
+            <Link to="/" className="nav-link">Dashboard</Link>
             <Link to="/chat" className="nav-link">Chat</Link>
             <Link to="/support" className="nav-link">Support</Link>
           </div>
