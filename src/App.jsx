@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Building2, LogIn, UserPlus } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import './App.css';
 import LandlordDashboard from './components/LandlordDashboard/LandlordDashboard.jsx';
 
@@ -19,17 +19,23 @@ function App() {
             <img src="/bmlogo.png" alt="BoardMate" className="nav-logo" />
           </div>
 
-          {/* Mobile menu button */}
           <button className="mobile-menu-btn" onClick={toggleMenu}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Navigation links - shown on desktop or when menu is open on mobile */}
           <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" className="nav-link">
-              <Building2 size={20} />
-              <span>Dashboard</span>
-            </Link>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/map" className="nav-link">Map</Link>
+            <Link to="/chat" className="nav-link">Chat</Link>
+            <Link to="/support" className="nav-link">Support</Link>
+          </div>
+
+          <div className="profile-container">
+            <img 
+              className="profile" 
+              src="/api/placeholder/40/40"
+              alt="Profile" 
+            />
           </div>
         </nav>
 
