@@ -79,13 +79,7 @@ function Home() {
             <option value="" disabled hidden>Location</option>
             <option value="Colombo">Colombo</option>
             <option value="Dehiwala">Dehiwala-Mount Lavinia</option>
-            <option value="Kotte">Kotte</option>
-            <option value="Moratuwa">Moratuwa</option>
-            <option value="Kesbewa">Kesbewa</option>
-            <option value="Nugegoda">Nugegoda</option>
-            <option value="Homagama">Homagama</option>
-            <option value="Kaduwela">Kaduwela</option>
-            <option value="Maharagama">Maharagama</option>
+            <option value="Nugegoda">Nugegoda</option>   
           </select>
 
           <select 
@@ -97,7 +91,6 @@ function Home() {
             <option value=""disabled hidden>Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Prefer not to say</option>
           </select>
 
           <select 
@@ -120,7 +113,8 @@ function Home() {
             value={searchInput.roomType}
             onChange={handleChange}
           >
-            <option value=""disabled hidden>Room Type</option>
+            <option value=""disabled hidden>Room/House Type</option>
+            <option value="shared">Shared House</option>
             <option value="male">Single Room</option>
             <option value="female">Double Room</option>
             <option value="other">Shared Room</option>
@@ -135,7 +129,6 @@ function Home() {
         <img src="https://img.freepik.com/premium-photo/home-with-blue-roof-black-roof-with-house-background_198067-832069.jpg?uid=R185375474&ga=GA1.1.1174272196.1736108309&semt=ais_hybrid_sidr" alt="" />
       </div> <br /><br /><br />
        
-     
         
     </div> 
   );
