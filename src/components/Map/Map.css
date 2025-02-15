@@ -403,3 +403,12 @@
     height: 600px !important;
     width: 90% !important;
 }
+.marker{
+    height: 50px;
+    width: 60px;
+}
+.marker-heading{
+    color: white;
+    text-align: end;
+    margin-right: 5%;
+}
