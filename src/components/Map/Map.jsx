@@ -1,29 +1,120 @@
 import React, { useState } from 'react'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import "leaflet/dist/leaflet.css";
+import L from 'leaflet';
+import { propertyData } from '../../data/propertyData';
 import './Map.css'
 
+// Marker icon
+const markerIcon = new L.icon({
+    iconUrl: "/marker.png",
+    iconSize: [30,30],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+});
+
+// const extractLatLng = (mapUrl) => {
+//     if (!mapUrl || typeof mapUrl !== "string") {
+//         console.error("Invalid map URL:", mapUrl);
+//         return null;
+//     }
+
+//     // Corrected regex to extract both latitude (3d) and longitude (2d)
+//     const regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
+//     const match = mapUrl.match(regex);
+
+//     if (match) {
+//         const extracted = { lat: parseFloat(match[2]), lng: parseFloat(match[1]) };
+//         console.log("Extracted coordinates:", extracted); // Debugging line
+//         return extracted;
+//         // return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; // Order: lat, lng
+//     }
+
+//     console.error("Coordinates not found in URL:", mapUrl);
+//     return null;
+// };
+
+
+
+// const extractLatLng = (mapUrl) => {
+//     if (!mapUrl || typeof mapUrl !== "string") {
+//         console.error("Invalid map URL:", mapUrl);
+//         return null;
+//     }
+
+//     // First try the standard pattern
+//     let regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
+//     let match = mapUrl.match(regex);
+
+//     // If the first pattern doesn't match, try another structure
+//     if (!match) {
+//         regex = /!3d([-+]?\d*\.\d+)!2d([-+]?\d*\.\d+)/;
+//         match = mapUrl.match(regex);
+//     }
+
+//     if (match) {
+//         console.log("Extracted coordinates:", { lat: parseFloat(match[2]), lng: parseFloat(match[1]) });
+//         return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; 
+//     }
+
+//     console.error("Coordinates not found in URL:", mapUrl);
+//     return null;
+// };
+
+const extractLatLng = (mapUrl) => {
+    if (!mapUrl || typeof mapUrl !== "string") {
+        console.error("Invalid map URL:", mapUrl);
+        return null;
+    }
+
+    // Match standard coordinates (!2d and !3d)
+    let regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
+    let match = mapUrl.match(regex);
+
+    // If no match, check for encoded format (!2z)
+    if (!match) {
+        regex = /!2z([^!]+)/;
+        match = mapUrl.match(regex);
+
+        if (match) {
+            const decoded = match[1].replace(/N|E/g, "").split(" ");
+            if (decoded.length === 2) {
+                return { lat: parseFloat(decoded[0]), lng: parseFloat(decoded[1]) };
+            }
+        }
+    }
+
+    if (match) {
+        return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; // lat, lng
+    }
+
+    console.error("Coordinates not found in URL:", mapUrl);
+    return null;
+};
+
+
+
 function Map() {
+
+    const [filteredProperties , setFilteredProperties] = useState(propertyData);
 
     const [formInput, setFormInput] = useState({
         location : '',
         roomType : '',
-        monthlyBudget : 5000,
+        monthlyBudget : 9000,
         bedrooms : '',
         bathrooms : '',
         amenities : [],
     });
 
+
     const locations = [
         {value : 'Colombo' , label: 'Colombo'},
-        {value : 'Dehiwala-Mount Lavinia' , label: 'Dehiwala-Mount Lavinia'},
-        {value : 'Kotte' , label: 'Kotte'},
-        {value : 'Moratuwa' , label: 'Moratuwa'},
-        {value : 'Kesbewa' , label: 'Kesbewa'},
+        {value : 'Dehiwala' , label: 'Dehiwala'},
         {value : 'Nugegoda' , label: 'Nugegoda'},
-        {value : 'Homagama' , label: 'Homagama'},
-        {value : 'Kaduwela' , label: 'Kaduwela'},
-        {value : 'Maharagama' , label: 'Maharagama'},
 
     ];
+
 
     const roomTypes = [
         {value: 'single' , label:'Single Room'},
@@ -66,10 +157,25 @@ function Map() {
         })
     };
 
+    const handleFilter = (event) =>{
+        event.preventDefault();
+
+        
+
+        const results = propertyData.filter((property) => {
+            return(
+                (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) &&
+                (property.price <= Number(formInput.monthlyBudget))
+            );
+        }
+    );
+    setFilteredProperties(results)
+    }
+
   return (
     <div className='mapBackground'>
         <div className='container-form-map'>
-            <form action="" className='mapForm'>
+            <form action="" className='mapForm' onSubmit={handleFilter}>
                 <label htmlFor="location" className='locLabel'>Location</label> <br />
                 <select 
                     name="location" 
@@ -117,9 +223,9 @@ function Map() {
                     <input 
                         type="range" 
                         className='budget'
-                        min='5000'
-                        max='50000'
-                        step='2000'
+                        min='9000'
+                        max='45000'
+                        step='1000'
                         value={formInput.monthlyBudget}
                         onChange={ (e) => handleChange("monthlyBudget", e.target.value) }
                     />
@@ -209,21 +315,32 @@ function Map() {
                     )}
                 </div> <br /><br />
 
-                <button className='filters-button'>Apply Filters</button>
+                <button className='filters-button' type="submit">Apply Filters</button>
 
             </form>
 
-            <div class="mapouter">
-                <div class="gmap_canvas">
-                    <iframe 
-                        className="gmap_iframe" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        marginheight="0" marginwidth="0" 
-                        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=colombo district&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-                    </iframe>
-                </div>
-            </div>
+            <MapContainer center={[6.9271, 79.8612]} zoom={12} style={{ height: "500px", width: "100%" }}>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+
+                {/* Render properties dynamically */}
+                {filteredProperties.map((property) => {
+                const coordinates = extractLatLng(property.map);
+                if (!coordinates) return null;
+                return (
+                    <Marker key={property.id} position={[coordinates.lat, coordinates.lng]} icon={markerIcon}>
+                        <Popup>
+                            <b>{property.name}</b> <br /> <br />
+                            Type : {property.type} <br />
+                            Location : {property.location} <br />
+                            Price: {property.price} LKR <br />
+                        </Popup>
+                    </Marker>
+                    ) ;
+                })}
+            </MapContainer>
 
         </div> 
 
