@@ -490,7 +490,8 @@ export const propertyData = [
     description: "Ground floor, Beds, Ceiling fans, Sharing bathroom, Outside toilet + shower area, Separate electricity and water for G/F. Need 1 month key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.9471152845413!2d79.8600625!3d6.896929099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25bd8f2295b11%3A0xe3245358910d101d!2s66%2C%203%20Havelock%20Rd%2C%20Colombo%2000500!5e0!3m2!1sen!2slk!4v1739639883890!5m2!1sen!2slk"
   },
   {
     id: 18,
@@ -514,7 +515,8 @@ export const propertyData = [
     description: "High luxury furnished Room with Sharing toilet in a family home. A/c available. Additional charges apply, 1 month advance required.",
     images: [],
     rating: 4.6,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3961.23828442457!2d79.8693589!3d6.862021!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNDMuMyJOIDc5wrA1MicxNy42IkU!5e0!3m2!1sen!2slk!4v1739639947685!5m2!1sen!2slk"
   },
   {
     id: 19,
@@ -539,7 +541,8 @@ export const propertyData = [
     description: "Have 3 floors, Beds, Furniture, Inside bathrooms, Separate electricity & water bills, Can provide meals, Need 6 month key money.",
     images: [],
     rating: 4.2,
-    totalUsers: 0
+    totalUsers: 0,
+    map:""
   },
   {
     id: 20,
@@ -562,7 +565,8 @@ export const propertyData = [
     description: "Beds, Furniture, Sharing bathroom, Need 3 months key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2724218681374!2d79.8646389!3d6.8579167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMjguNSJOIDc5wrA1MSc1Mi43IkU!5e0!3m2!1sen!2slk!4v1739640027256!5m2!1sen!2slk"
   },
   {
     id: 21,
@@ -587,7 +591,8 @@ export const propertyData = [
     description: "Beds. Furniture, Ceiling fan, Sharing Bathroom, Seperate electricity & water, Need one month key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:""
   },
   {
     id: 22,
@@ -611,7 +616,8 @@ export const propertyData = [
     description: "Beds, Furniture, Ceiling fan, Attached bathroom, Need 3 months key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3513599762277!2d79.8696111!3d6.848416699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTQuMyJOIDc5wrA1MicxMC42IkU!5e0!3m2!1sen!2slk!4v1739640203947!5m2!1sen!2slk"
   },
   {
     id: 23,
@@ -638,7 +644,8 @@ export const propertyData = [
     description: "1st Floor, Beds, Tiled sharing bathroom, Fans. Tables, Chairs, Seperate electricity & water, Can provide food. Need month key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.52868759512!2d79.8653889!3d6.8270278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknMzcuMyJOIDc5wrA1MSc1NS40IkU!5e0!3m2!1sen!2slk!4v1739640268511!5m2!1sen!2slk"
   },
   {
     id: 24,
@@ -665,7 +672,8 @@ export const propertyData = [
     description: "2 rooms, Beds, Tables, Chairs, Pantry, with Ceiling fans, Attached sharing bathroom, Seperate electricity and water, Need 4 month key money",
     images: [],
     rating: 4.3,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.0400562295936!2d79.8559444!3d6.885805599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnMDguOSJOIDc5wrA1MScyMS40IkU!5e0!3m2!1sen!2slk!4v1739640412783!5m2!1sen!2slk" 
   },
   {
     id: 25,
@@ -690,7 +698,8 @@ export const propertyData = [
     description: "1 room, Beds, Tables, Chairs, Attached sharing bathroom, Ceiling fan, Need 3 months key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.592344882871!2d79.8734722!3d6.819333299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknMDkuNiJOIDc5wrA1MicyNC41IkU!5e0!3m2!1sen!2slk!4v1739640789624!5m2!1sen!2slk"
   },
   {
     id: 26,
@@ -715,7 +724,8 @@ export const propertyData = [
     description: "Fully tiled, Beds, With furniture, Attached bathroom, Seperate electricity & water, Need 2 month key money",
     images: [],
     rating: 4.2,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3465163144506!2d79.86738890000001!3d6.848999999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTYuNCJOIDc5wrA1MicwMi42IkU!5e0!3m2!1sen!2slk!4v1739640829858!5m2!1sen!2slk" 
   },
   {
     id: 27,
@@ -741,7 +751,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Ceiling fan, Cupboard Seperate sharing bathrrom, . Need 2 month key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d1980.6814238014883!2d79.867576!3d6.8470331!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNDguOSJOIDc5wrA1MicwOC4xIkU!5e0!3m2!1sen!2slk!4v1739640872876!5m2!1sen!2slk"
   },
   {
     id: 28,
@@ -768,7 +779,8 @@ export const propertyData = [
     description: "Beds, Tables, Chairs, Attached sharing bathroom, Pantry, Ceiling fan, Seperate electricity & water, Need 3 months key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.3632485820435!2d79.8691132!3d6.8469848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25b6d84baa2f3%3A0x348c423ae64a5e78!2sCooray%20Apartments!5e0!3m2!1sen!2slk!4v1739640907179!5m2!1sen!2slk"
   },
   {
     id: 29,
@@ -795,7 +807,8 @@ export const propertyData = [
     description: "Beds, Tables, Chairs, Pantry, Ceiling fan, Attached sharing bathrooms, If want can provide food also. Need 2 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3425949146613!2d79.8668333!3d6.849472199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTguMSJOIDc5wrA1MicwMC42IkU!5e0!3m2!1sen!2slk!4v1739640943246!5m2!1sen!2slk"
   },
   {
     id: 30,
@@ -823,7 +836,8 @@ export const propertyData = [
     description: "Beds, Tables, Chairs, Pantry, Ceiling fan, Attached sharing bathrooms, If want can provide kitchen equipments, have hot facilities (options), Need 1 month key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.330828270283!2d79.8764167!3d6.850888899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMDMuMiJOIDc5wrA1MiczNS4xIkU!5e0!3m2!1sen!2slk!4v1739640978728!5m2!1sen!2slk"
   },
   {
     id: 31,
@@ -853,7 +867,8 @@ export const propertyData = [
     description: "Beds, Full furnished (Tables, Chairs, Pantry, Sette, Kitchen equipments, Fridge) Ceiling fan, Attached sharing bathrooms, Need 2 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.190831065092!2d79.8934167!3d6.867722199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTInMDMuOCJOIDc5wrA1MyczNi4zIkU!5e0!3m2!1sen!2slk!4v1739641015179!5m2!1sen!2slk"
   },
   {
     id: 32,
@@ -881,7 +896,8 @@ export const propertyData = [
     description: "Middle class sharing rooms, Sharing bathrooms, Beds, Chairs, Tables, Ceiling fan, Pantry, Seperate electricity & water, Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2003137185216!2d79.8986111!3d6.8665833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNTkuNyJOIDc5wrA1Myc1NS4wIkU!5e0!3m2!1sen!2slk!4v1739641048648!5m2!1sen!2slk"
   },
   {
     id: 33,
@@ -909,7 +925,8 @@ export const propertyData = [
     description: "Sharing bed rooms, Sharing bathrooms, Beds, chairs, Tables, Ceiling fans, Pantry, Seperate electricity & water, Need 3 months key money.",
     images: [],
     rating: 4.1,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.423278971523!2d79.8636111!3d6.8397499999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMjMuMSJOIDc5wrA1MSc0OS4wIkU!5e0!3m2!1sen!2slk!4v1739641077231!5m2!1sen!2slk"
   },
   {
     id: 34,
@@ -937,7 +954,8 @@ export const propertyData = [
     description: "Sharing bed rooms, Sharing bathrooms, Beds, chairs, Tables, Ceiling fans, Pantry, Seperate electricity & water, Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.4262735256953!2d79.86986110000001!3d6.839388899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMjEuOCJOIDc5wrA1MicxMS41IkU!5e0!3m2!1sen!2slk!4v1739641107075!5m2!1sen!2slk"
   },
   {
     id: 35,
@@ -964,7 +982,8 @@ export const propertyData = [
     description: "Sharing bed room, Sharing bathroom, Beds, chairs, Tables, Ceiling fans, Pantry. Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.299901360193!2d79.8937222!3d6.8546111000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMTYuNiJOIDc5wrA1MyczNy40IkU!5e0!3m2!1sen!2slk!4v1739641133369!5m2!1sen!2slk"
   },
   {
     id: 36,
@@ -993,7 +1012,8 @@ export const propertyData = [
     description: "Sharing bed room, Sharing bathroom, Beds, chairs, Tables, Ceiling fans, Pantry, Seperate electricity & water, Need 3 months key money, Can provide meals also.",
     images: [],
     rating: 4.2,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.1035645861402!2d79.8717222!3d6.8781944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTInNDEuNSJOIDc5wrA1MicxOC4yIkU!5e0!3m2!1sen!2slk!4v1739641165967!5m2!1sen!2slk"
   },
   {
     id: 37,
@@ -1019,7 +1039,8 @@ export const propertyData = [
     description: "Middle class rooms, Sharing bathrooms, Beds, Chairs, Tables, Fans, Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3961.7061307200765!2d79.8789283!3d6.805558!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDgnMjAuMCJOIDc5wrA1Mic1Mi4wIkU!5e0!3m2!1sen!2slk!4v1739641195657!5m2!1sen!2slk"
   },
   {
     id: 38,
