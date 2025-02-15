@@ -182,7 +182,7 @@ export const propertyData = [
       images: [],
       rating: 4.1,
       totalUsers: 0,
-      map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d31580.249750464794!2d80.47568964999999!3d8.3492864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2slk!4v1739343335704!5m2!1sen!2slk"
+      map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d62348.72657506833!2d79.87319258619202!3d6.891096117658463!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2slk!4v1739618617042!5m2!1sen!2slk"
     },
     {
       id: 7,
