@@ -164,7 +164,7 @@ function Map() {
 
         const results = propertyData.filter((property) => {
             return(
-                (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) &&
+                (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) ||
                 (property.price <= Number(formInput.monthlyBudget))
             );
         }
@@ -224,7 +224,7 @@ function Map() {
                         type="range" 
                         className='budget'
                         min='9000'
-                        max='45000'
+                        max='50000'
                         step='1000'
                         value={formInput.monthlyBudget}
                         onChange={ (e) => handleChange("monthlyBudget", e.target.value) }
