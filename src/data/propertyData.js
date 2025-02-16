@@ -652,7 +652,7 @@ export const propertyData = [
     name: "Ms. Subodha's Mixed Hostel",
     type: "Mixed Hostel",
     price: 60000,
-    location: "Mt. Lavinia",
+    location: "Mount Lavinia",
     university: "IIT",
     gender: "Boys/Girls",
     address: "82, St. Rita road, Mt. Lavinia",
