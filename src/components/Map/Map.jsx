@@ -112,6 +112,22 @@ function Map() {
         {value : 'Colombo' , label: 'Colombo'},
         {value : 'Dehiwala' , label: 'Dehiwala'},
         {value : 'Nugegoda' , label: 'Nugegoda'},
+        {value : 'Boralesgamuwa' , label: 'Boralesgamuwa'},
+        {value : 'Mount Lavinia' , label: 'Mount Lavinia'},
+        {value : 'Kirulapana' , label : 'Kirulapana'},
+        {value : 'Colombo 06' , label : 'Colombo 06'},
+        {value : 'Colombo 05' , label : 'Colombo 05'},
+        {value : 'Colombo 04' , label : 'Colombo 04'},
+        {value : 'Wellawatte' , label : 'Wellawatte'},
+        // {value : 'Mt. Lavinia' , label : 'Mt. Lavinia'},
+        {value : 'Bambalapitiya' , label : 'Bambalapitiya'},
+        {value : 'Kollupitiya' , label : 'Kollupitiya'},
+        {value : 'Rathmalana' , label : 'Rathmalana'},
+        {value : 'Pepiliyana' , label : 'Pepiliyana'},
+        {value : 'Zoyzapura' , label : 'Zoyzapura'},
+        {value : 'Katubedda' , label : 'Katubedda'},
+        {value : 'Kalubowila' , label : 'Kalubowila'},
+        {value : 'Wijerama' , label : 'Wijerama'},
 
     ];
 
@@ -160,17 +176,30 @@ function Map() {
     const handleFilter = (event) =>{
         event.preventDefault();
 
-        
-
         const results = propertyData.filter((property) => {
             return(
-                (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) ||
+                (!formInput.location ||
+                property.location.toLowerCase().includes(formInput.location.toLowerCase())) &&
                 (property.price <= Number(formInput.monthlyBudget))
             );
         }
     );
     setFilteredProperties(results)
     }
+    // const handleFilter = (event) =>{
+    //     event.preventDefault();
+
+        
+
+    //     const results = propertyData.filter((property) => {
+    //         return(
+    //             (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) &&
+    //             (property.price <= Number(formInput.monthlyBudget))
+    //         );
+    //     }
+    // );
+    // setFilteredProperties(results)
+    // }
 
   return (
     <div className='mapBackground'>
