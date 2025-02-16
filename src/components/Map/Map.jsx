@@ -360,12 +360,15 @@ function Map() {
                 if (!coordinates) return null;
                 return (
                     <Marker key={property.id} position={[coordinates.lat, coordinates.lng]} icon={markerIcon}>
-                        <Popup>
-                            <b>{property.name}</b> <br /> <br />
-                            Type : {property.type} <br />
-                            Location : {property.location} <br />
-                            Price: {property.price} LKR <br />
-                        </Popup>
+                        
+                            <Popup>
+                                <b>{property.name}</b> <br /> <br />
+                                Type : {property.type} <br />
+                                Location : {property.location} <br />
+                                Price: {property.price} LKR <br />
+                            </Popup>
+                        
+                
                     </Marker>
                     ) ;
                 })}
@@ -392,30 +395,62 @@ function Map() {
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kotte
-                </h2>
-                <h2>
-                    <span className='fa'>&#xf3c5;</span>
                     Nugegoda
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Moratuwa
+                    Boralesgamuwa
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kesbewa
+                    Mount Lavinia
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Homagama
+                    Katubedda
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kirulapana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wellawatte
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Bambalapitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kollupitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Rathmalana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Pepiliyana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Zoyzapura
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kalubowila
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wijerama
                 </h2>
                 
             </div>
 
             <div className='locations'>
                 
-                <h2>
+            <h2>
                     <span className='fa'>&#xf3c5;</span>
                     Colombo
                 </h2>
@@ -425,23 +460,55 @@ function Map() {
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kotte
-                </h2>
-                <h2>
-                    <span className='fa'>&#xf3c5;</span>
                     Nugegoda
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Moratuwa
+                    Boralesgamuwa
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kesbewa
+                    Mount Lavinia
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Homagama
+                    Katubedda
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kirulapana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wellawatte
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Bambalapitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kollupitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Rathmalana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Pepiliyana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Zoyzapura
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kalubowila
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wijerama
                 </h2>
                 
             </div>

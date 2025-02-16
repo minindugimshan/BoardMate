@@ -191,7 +191,7 @@
 .locations{
     display: flex;
     white-space: nowrap;
-    gap: 80px;
+    gap: 20px;
     flex-shrink: 0;
     width: 180%;
     position: relative;
@@ -227,12 +227,12 @@
 
 .slide-wrapper{
     display: flex;
-    width: 70%;
-    animation: 14s slide linear infinite;
+    width: 100%;
+    animation: 17s slide linear infinite;
 }
 
 .locations h2{
-    font-size: 30px;
+    font-size: 21px;
     color: white;
     margin: 0 20px;
 }
@@ -396,7 +396,7 @@
     }
 }
 
-
+/* Leaflet map */
 .leaflet-container{
     margin-top: 10%;
     margin-right: 5%;
