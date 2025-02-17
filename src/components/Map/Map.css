@@ -404,11 +404,12 @@
     width: 90% !important;
 }
 .marker{
-    height: 50px;
-    width: 60px;
+    height: 40px;
+    width: 50px;
 }
 .marker-heading{
     color: white;
     text-align: end;
     margin-right: 5%;
+    font-size: medium;
 }

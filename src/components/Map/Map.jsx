@@ -378,7 +378,8 @@ function Map() {
         <h4 className='marker-heading'>
                 <img src="/marker.png" alt="marker" className='marker' />
                  - IIT Verified Accommodation
-            </h4>
+        </h4>
+        <br /><br /><br />
 
         <div className='location-slider'>
             <h1>We've got you covered in various locations!</h1> <br /><br />

@@ -646,13 +646,14 @@ export const propertyData = [
     rating: 4.0,
     totalUsers: 0,
     map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.52868759512!2d79.8653889!3d6.8270278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknMzcuMyJOIDc5wrA1MSc1NS40IkU!5e0!3m2!1sen!2slk!4v1739640268511!5m2!1sen!2slk"
+
   },
   {
     id: 24,
     name: "Ms. Subodha's Mixed Hostel",
     type: "Mixed Hostel",
     price: 60000,
-    location: "Mount Lavinia",
+    location: "Mt. Lavinia",
     university: "IIT",
     gender: "Boys/Girls",
     address: "82, St. Rita road, Mt. Lavinia",
@@ -1072,7 +1073,8 @@ export const propertyData = [
     description: "Beds, Full furnished (Tables, Chairs, Cupboards, Pantry, Sette, Kitchen equipments, Fridge, Washing machine) Ceiling fan, Attached sharing bathrooms, Have parking space, Need 2 months key money.",
     images: [],
     rating: 4.6,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3961.7028076131037!2d79.8770445!3d6.8059607!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDgnMjEuNSJOIDc5wrA1Mic0NS4yIkU!5e0!3m2!1sen!2slk!4v1739727333413!5m2!1sen!2slk"
   },
   {
     id: 39,
@@ -1097,7 +1099,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing washroom, Have kitchen facilities, Need 4 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.71394383025!2d79.8831944!3d6.804611100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDgnMTYuNiJOIDc5wrA1Mic1OS41IkU!5e0!3m2!1sen!2slk!4v1739727363648!5m2!1sen!2slk"
   },
   {
     id: 40,
@@ -1124,7 +1127,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Ceiling fan, Cupboard, Attached bathrrom, . Need 2 months key money",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3961.095473060294!2d79.8577655!3d6.8791646!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25ba826540eb5%3A0xb392ec3bca98a1ad!2s33%2C%201%20Galle%20Rd%2C%20Dehiwala-Mount%20Lavinia!5e0!3m2!1sen!2slk!4v1739727407481!5m2!1sen!2slk"
   },
   {
     id: 41,
@@ -1149,7 +1153,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Ceiling fan Sharing washroom, Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.7219191989843!2d79.8894321!3d6.8036444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2453a76d22503%3A0xb8bbddd9bf1c6a3c!2s19%2C%204%20Model%20Town%20Rd%2C%20Moratuwa%2010400!5e0!3m2!1sen!2slk!4v1739727446210!5m2!1sen!2slk"
   },
   {
     id: 42,
@@ -1175,7 +1180,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Ceiling fan, Pantry, Attached sharing bathrroms Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.512590091315!2d79.8683056!3d6.8289722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknNDQuMyJOIDc5wrA1MicwNS45IkU!5e0!3m2!1sen!2slk!4v1739727480759!5m2!1sen!2slk"
   },
   {
     id: 43,
@@ -1201,7 +1207,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Fans, Cupboards, Seperate sharing washrooms, Need 4 months key money.",
     images: [],
     rating: 4.1,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2652613688697!2d79.8661111!3d6.8587777999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMzEuNiJOIDc5wrA1MSc1OC4wIkU!5e0!3m2!1sen!2slk!4v1739727512945!5m2!1sen!2slk"
   },
   {
     id: 44,
@@ -1228,7 +1235,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Fans, Cupboards, Sharing washrooms, Seperate electricity and water, Need 3 months key money.",
     images: [],
     rating: 0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3961.075710686532!2d79.8559484!3d6.8815336!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25bc6b9f56495%3A0x1834104e0bf8070d!2s8a%20Mary&#39;s%20Rd%2C%20Colombo%2000400!5e0!3m2!1sen!2slk!4v1739727543733!5m2!1sen!2slk"
   },
   {
     id: 45,
@@ -1255,7 +1263,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Fans, Cupboards, Sharing attached bathroom, Including electricity and water, Need 3 months key",
     images: [],
     rating: 0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.113133338477!2d79.8705121!3d6.8770469!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25bb58db714c1%3A0xff290800cfbeefd3!2s44%2C%2033%20Pamankada%20Rd%2C%20Colombo!5e0!3m2!1sen!2slk!4v1739727572428!5m2!1sen!2slk"
   },
   {
     id: 46,
@@ -1283,7 +1292,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Fans, Cupboards, Sharing attached bathroom, Kitchen facility, Including electricity and water, Need 2 months key. Will be available after 17th of May 2023",
     images: [],
     rating: 0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.3517054025624!2d79.86885420000002!3d6.848375100000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25b047f1aadf1%3A0xfc34260f7a4b8fed!2s70%20Dammalankara%20Mawatha%2C%20Colombo!5e0!3m2!1sen!2slk!4v1739727628736!5m2!1sen!2slk"
   },
   {
     id: 47,
@@ -1308,7 +1318,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Ceiling fan, Sharing bathrroms, Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.0961511507408!2d79.86708329999999!3d6.8790833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTInNDQuNyJOIDc5wrA1MicwMS41IkU!5e0!3m2!1sen!2slk!4v1739727650753!5m2!1sen!2slk"
   },
   {
     id: 48,
@@ -1335,7 +1346,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Fans, Cupboards, Sharing attached bathroom, Pantry, Need 4 months key.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3960.9467548777925!2d79.8556667!3d6.8969721999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnNDkuMSJOIDc5wrA1MScyMC40IkU!5e0!3m2!1sen!2slk!4v1739727696183!5m2!1sen!2slk"
   },
   {
     id: 49,
@@ -1357,7 +1369,8 @@ export const propertyData = [
     description: "Without furniture, Pantry, Fully A/C, Need 4 months key money.",
     images: [],
     rating: 4.5,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.4297289677024!2d79.8670278!3d6.8389722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMjAuMyJOIDc5wrA1MicwMS4zIkU!5e0!3m2!1sen!2slk!4v1739727722985!5m2!1sen!2slk"
   },
   {
     id: 50,
@@ -1383,7 +1396,9 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Pantry, Electricity & water included for rent, Need 4 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.4297289677024!2d79.8670278!3d6.8389722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMjAuMyJOIDc5wrA1MicwMS4zIkU!5e0!3m2!1sen!2slk!4v1739727752225!5m2!1sen!2slk"
+
   },
   {
     id: 51,
@@ -1409,7 +1424,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, Electricity & water included for rent, Need 4 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.1660767069334!2d79.8936667!3d6.870694399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTInMTQuNSJOIDc5wrA1MyczNy4yIkU!5e0!3m2!1sen!2slk!4v1739778164684!5m2!1sen!2slk"
   },
   {
     id: 52,
@@ -1435,7 +1451,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, Electricity & water included for rent, Need 2 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3499765892566!2d79.8664167!3d6.8485833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTQuOSJOIDc5wrA1MSc1OS4xIkU!5e0!3m2!1sen!2slk!4v1739778224293!5m2!1sen!2slk"
   },
   {
     id: 53,
@@ -1458,7 +1475,8 @@ export const propertyData = [
     description: "Fully furnished, 2 floors, Panrty with gas cooker, Seperate water & electricity, Need 1 month key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3605852977335!2d79.8727778!3d6.847305599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTAuMyJOIDc5wrA1MicyMi4wIkU!5e0!3m2!1sen!2slk!4v1739778632267!5m2!1sen!2slk"
   },
   {
     id: 54,
@@ -1484,7 +1502,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, Seperate electricity & water, Need 2 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2333746067948!2d79.8691944!3d6.8626111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNDUuNCJOIDc5wrA1MicwOS4xIkU!5e0!3m2!1sen!2slk!4v1739778674289!5m2!1sen!2slk"
   },
   {
     id: 55,
@@ -1511,7 +1530,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, If you want can provide meals, Seperate electricity & water, Need 2 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3873312185215!2d79.8708333!3d6.8440832999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMzguNyJOIDc5wrA1MicxNS4wIkU!5e0!3m2!1sen!2slk!4v1739778853365!5m2!1sen!2slk"
   },
   {
     id: 56,
@@ -1537,7 +1557,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, If want can provide kitchen facilities,Eelectricity & water include to the rent, Need 1 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3873312185215!2d79.8708333!3d6.8440832999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMzguNyJOIDc5wrA1MicxNS4wIkU!5e0!3m2!1sen!2slk!4v1739778932942!5m2!1sen!2slk"
   },
   {
     id: 57,
@@ -1564,8 +1585,9 @@ export const propertyData = [
     description: "Individual room, Beds, Chairs, Tables, Sharing bathroom, If want can provide kitchen facilities,Seperate electricity & water, Need 1 months key money.",
     images: [],
     rating: 4.3,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3578181067805!2d79.87288889999999!3d6.847638900000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTEuNSJOIDc5wrA1MicyMi40IkU!5e0!3m2!1sen!2slk!4v1739779248850!5m2!1sen!2slk"
+   },
   {
     id: 58,
     name: "Mr. Luxman's Boys Hostel",
@@ -1590,8 +1612,9 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, Seperate electricity & water, Need 3 months key money.",
     images: [],
     rating: 4.2,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2673403424947!2d79.87652779999999!3d6.8585278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMzAuNyJOIDc5wrA1MiczNS41IkU!5e0!3m2!1sen!2slk!4v1739779301591!5m2!1sen!2slk"
+   },
   {
     id: 59,
     name: "Mrs. Dissanayake Hostel",
@@ -1616,7 +1639,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Have kitchen facility, Seperate electricity & water, Need 2 months key money.",
     images: [],
     rating: 0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3961.628976308305!2d79.8802569!3d6.8149016!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDgnNTMuNiJOIDc5wrA1Mic1Ny43IkU!5e0!3m2!1sen!2slk!4v1739779387683!5m2!1sen!2slk"
   },
   {
     id: 60,
@@ -1641,8 +1665,9 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Eelectricity & water include to the rent, Need 1 months key money.",
     images: [],
     rating: 0,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.4978678604457!2d79.86986110000001!3d6.83075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknNTAuNyJOIDc5wrA1MicxMS41IkU!5e0!3m2!1sen!2slk!4v1739779442857!5m2!1sen!2slk"
+   },
   {
     id: 61,
     name: "Ms. Arosha's Hostel",
@@ -1669,7 +1694,8 @@ export const propertyData = [
     description: "2 Anexes, Beds, Chairs, Tables, Sharing bathroom, Seperate Eelectricity & water, Need 2 month key money. (Optional - Refrigerator, Washinig machine)",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.203551400192!2d79.88577780000001!3d6.8661944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNTguMyJOIDc5wrA1MycwOC44IkU!5e0!3m2!1sen!2slk!4v1739779496791!5m2!1sen!2slk"
   },
   {
     id: 62,
@@ -1692,7 +1718,8 @@ export const propertyData = [
     description: "Fully furnished, Panrty, Seperate water & electricity, Need 2 month key money.",
     images: [],
     rating: 4.4,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.322060059965!2d79.8763611!3d6.851944400000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMDcuMCJOIDc5wrA1MiczNC45IkU!5e0!3m2!1sen!2slk!4v1739779546134!5m2!1sen!2slk"
   },
   {
     id: 63,
@@ -1718,8 +1745,9 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Eelectricity & water include to the rent, Need 1 months key money. Can provide foods.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.266647636861!2d79.90875!3d6.858611100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMzEuMCJOIDc5wrA1NCczMS41IkU!5e0!3m2!1sen!2slk!4v1739779773679!5m2!1sen!2slk"
+    },
   {
     id: 64,
     name: "Ms. Nilusha's Hostel",
@@ -1744,7 +1772,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Eelectricity & water include to the rent, Need 2 months key money. Can provide foods.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.00015507486!2d79.8691944!3d6.890583299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnMjYuMSJOIDc5wrA1MicwOS4xIkU!5e0!3m2!1sen!2slk!4v1739779843491!5m2!1sen!2slk"
   },
   {
     id: 65,
@@ -1771,7 +1800,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Washing machine, Have kitchen facility, Seperate electricity & water, Need 3 months key money.",
     images: [],
     rating: 4.5,
-    totalUsers: 0
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.9658165656224!2d79.86375509999999!3d6.894692300000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25bd767179325%3A0x36b2674d93751a74!2s51%2C%203%20D.%20S.%20Fonseka%20Rd%2C%20Colombo%2000500!5e0!3m2!1sen!2slk!4v1739779882318!5m2!1sen!2slk"
   },
   {
     id: 66,
@@ -1797,8 +1827,9 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Seperate bathroom, Water and electricity include to the rent. Can provide food. Need 1 months key money.",
     images: [],
     rating: 4.3,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3960.9562777268775!2d79.85622219999999!3d6.895833299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnNDUuMCJOIDc5wrA1MScyMi40IkU!5e0!3m2!1sen!2slk!4v1739779931040!5m2!1sen!2slk"
+   },
   {
     id: 67,
     name: "Ms. Majeed's Hostel",
@@ -1823,7 +1854,8 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom, Seperate electricity & water. Can provide food. Need 3 months key money.",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:""
   },
   {
     id: 68,
@@ -1848,8 +1880,9 @@ export const propertyData = [
     description: "Bed, Chair, Cloth rack, table, attached bathroom will be provided. 3 month refundable deposit",
     images: [],
     rating: 4.0,
-    totalUsers: 0
-  },
+    totalUsers: 0,
+    map:""
+   },
   {
     id: 69,
     name: "Ms. Kanchana De Silva's Boys Hostel",
@@ -1872,6 +1905,7 @@ export const propertyData = [
     description: "Beds, Chairs, Tables, Sharing bathroom",
     images: [],
     rating: 4.0,
-    totalUsers: 0
+    totalUsers: 0,
+    map:""
   }
 ].slice(0, 70); 
