@@ -646,6 +646,7 @@ export const propertyData = [
     rating: 4.0,
     totalUsers: 0,
     map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.52868759512!2d79.8653889!3d6.8270278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknMzcuMyJOIDc5wrA1MSc1NS40IkU!5e0!3m2!1sen!2slk!4v1739640268511!5m2!1sen!2slk"
+
   },
   {
     id: 24,
@@ -1424,7 +1425,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.1660767069334!2d79.8936667!3d6.870694399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTInMTQuNSJOIDc5wrA1MyczNy4yIkU!5e0!3m2!1sen!2slk!4v1739778164684!5m2!1sen!2slk"
   },
   {
     id: 52,
@@ -1451,7 +1452,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3499765892566!2d79.8664167!3d6.8485833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTQuOSJOIDc5wrA1MSc1OS4xIkU!5e0!3m2!1sen!2slk!4v1739778224293!5m2!1sen!2slk"
   },
   {
     id: 53,
@@ -1475,7 +1476,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3605852977335!2d79.8727778!3d6.847305599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTAuMyJOIDc5wrA1MicyMi4wIkU!5e0!3m2!1sen!2slk!4v1739778632267!5m2!1sen!2slk"
   },
   {
     id: 54,
@@ -1502,7 +1503,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2333746067948!2d79.8691944!3d6.8626111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNDUuNCJOIDc5wrA1MicwOS4xIkU!5e0!3m2!1sen!2slk!4v1739778674289!5m2!1sen!2slk"
   },
   {
     id: 55,
@@ -1530,7 +1531,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3873312185215!2d79.8708333!3d6.8440832999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMzguNyJOIDc5wrA1MicxNS4wIkU!5e0!3m2!1sen!2slk!4v1739778853365!5m2!1sen!2slk"
   },
   {
     id: 56,
@@ -1557,7 +1558,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3873312185215!2d79.8708333!3d6.8440832999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnMzguNyJOIDc5wrA1MicxNS4wIkU!5e0!3m2!1sen!2slk!4v1739778932942!5m2!1sen!2slk"
   },
   {
     id: 57,
@@ -1585,8 +1586,8 @@ export const propertyData = [
     images: [],
     rating: 4.3,
     totalUsers: 0,
-    map:
-  },
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.3578181067805!2d79.87288889999999!3d6.847638900000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNTEuNSJOIDc5wrA1MicyMi40IkU!5e0!3m2!1sen!2slk!4v1739779248850!5m2!1sen!2slk"
+   },
   {
     id: 58,
     name: "Mr. Luxman's Boys Hostel",
@@ -1612,8 +1613,8 @@ export const propertyData = [
     images: [],
     rating: 4.2,
     totalUsers: 0,
-    map:
-  },
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.2673403424947!2d79.87652779999999!3d6.8585278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMzAuNyJOIDc5wrA1MiczNS41IkU!5e0!3m2!1sen!2slk!4v1739779301591!5m2!1sen!2slk"
+   },
   {
     id: 59,
     name: "Mrs. Dissanayake Hostel",
@@ -1639,7 +1640,7 @@ export const propertyData = [
     images: [],
     rating: 0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3961.628976308305!2d79.8802569!3d6.8149016!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDgnNTMuNiJOIDc5wrA1Mic1Ny43IkU!5e0!3m2!1sen!2slk!4v1739779387683!5m2!1sen!2slk"
   },
   {
     id: 60,
@@ -1665,8 +1666,8 @@ export const propertyData = [
     images: [],
     rating: 0,
     totalUsers: 0,
-    map:
-  },
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.4978678604457!2d79.86986110000001!3d6.83075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNDknNTAuNyJOIDc5wrA1MicxMS41IkU!5e0!3m2!1sen!2slk!4v1739779442857!5m2!1sen!2slk"
+   },
   {
     id: 61,
     name: "Ms. Arosha's Hostel",
@@ -1694,7 +1695,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.203551400192!2d79.88577780000001!3d6.8661944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnNTguMyJOIDc5wrA1MycwOC44IkU!5e0!3m2!1sen!2slk!4v1739779496791!5m2!1sen!2slk"
   },
   {
     id: 62,
@@ -1718,7 +1719,7 @@ export const propertyData = [
     images: [],
     rating: 4.4,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.322060059965!2d79.8763611!3d6.851944400000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMDcuMCJOIDc5wrA1MiczNC45IkU!5e0!3m2!1sen!2slk!4v1739779546134!5m2!1sen!2slk"
   },
   {
     id: 63,
@@ -1745,8 +1746,8 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
-  },
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.266647636861!2d79.90875!3d6.858611100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTEnMzEuMCJOIDc5wrA1NCczMS41IkU!5e0!3m2!1sen!2slk!4v1739779773679!5m2!1sen!2slk"
+    },
   {
     id: 64,
     name: "Ms. Nilusha's Hostel",
@@ -1772,7 +1773,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3961.00015507486!2d79.8691944!3d6.890583299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnMjYuMSJOIDc5wrA1MicwOS4xIkU!5e0!3m2!1sen!2slk!4v1739779843491!5m2!1sen!2slk"
   },
   {
     id: 65,
@@ -1800,7 +1801,7 @@ export const propertyData = [
     images: [],
     rating: 4.5,
     totalUsers: 0,
-    map:
+    map:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.9658165656224!2d79.86375509999999!3d6.894692300000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25bd767179325%3A0x36b2674d93751a74!2s51%2C%203%20D.%20S.%20Fonseka%20Rd%2C%20Colombo%2000500!5e0!3m2!1sen!2slk!4v1739779882318!5m2!1sen!2slk"
   },
   {
     id: 66,
@@ -1827,8 +1828,8 @@ export const propertyData = [
     images: [],
     rating: 4.3,
     totalUsers: 0,
-    map:
-  },
+    map:"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3960.9562777268775!2d79.85622219999999!3d6.895833299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTMnNDUuMCJOIDc5wrA1MScyMi40IkU!5e0!3m2!1sen!2slk!4v1739779931040!5m2!1sen!2slk"
+   },
   {
     id: 67,
     name: "Ms. Majeed's Hostel",
@@ -1854,7 +1855,7 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:""
   },
   {
     id: 68,
@@ -1880,8 +1881,8 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
-  },
+    map:""
+   },
   {
     id: 69,
     name: "Ms. Kanchana De Silva's Boys Hostel",
@@ -1905,6 +1906,6 @@ export const propertyData = [
     images: [],
     rating: 4.0,
     totalUsers: 0,
-    map:
+    map:""
   }
 ].slice(0, 70); 
