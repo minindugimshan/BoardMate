@@ -60,7 +60,9 @@ function Footer() {
                 <Link to="/about">
                     <p>About</p>
                 </Link>
-                <p>T&C</p>
+                <Link to="/TC">
+                    <p>T&C</p>
+                </Link> 
             </div>
 
             <div className='socials'>
