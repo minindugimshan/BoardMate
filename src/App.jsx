@@ -6,6 +6,7 @@ import Navigationbar from './components/Navigationbar/Navigationbar'
 import Map from './components/Map/Map'
 import Footer from './components/Footer/Footer'
 import About from './components/About/About'
+import TC from './components/T&C/TC'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' element={<Home />}></Route>
         <Route path='/Map' element={<Map />}></Route>
         <Route path='/about' element={<About />} ></Route>
+        <Route path='/TC' element={<TC/>} ></Route>
       </Routes>
       <Footer />
     </>
