@@ -1,30 +1,59 @@
-/* styles.css */
-.container {
-  min-height: 100vh;
-  background-color: #f0f7ff;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #C8D9E6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 /* Navigation */
 .navbar {
-  padding: 1rem 2rem;
+  width: 100%;
+  padding: 1rem 2rem;  /* Added horizontal padding */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0;
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  object-fit: contain;
+}
+
+.logo-text {
   font-size: 1.25rem;
   font-weight: 600;
+  color: #2F4156;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .nav-links a {
-  color: #4a5568;
+  color: #2F4156;
   text-decoration: none;
 }
 
@@ -38,25 +67,30 @@
 
 /* Hero Section */
 .hero {
+  width: 100%;
   max-width: 80rem;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: 1rem 1rem; /* Added horizontal padding */
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
+  margin-top: -30px;
 }
 
+
 .hero-content {
-  max-width: 40%;
+  flex: 1;  /* Changed from max-width to flex */
+  min-width: 45%;  /* Added minimum width */
 }
 
 .hero-content h1 {
   font-size: 3.75rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: black;
+  color: #2F4156;
   line-height: 1.2;
+  margin-top: 0; 
 }
 
 .hero-content p {
@@ -91,19 +125,20 @@
 .hero-image {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center; /* Changed from flex-end to center */
+  max-width: 50%;  /* Added maximum width */
 }
 
 .hero-image img {
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 0.5rem;
 }
 
 
 /* Search Section */
 .search-container {
+  width: 100%;
   max-width: 64rem;
   margin: -2rem auto 0;
   padding: 0 2rem;
@@ -151,6 +186,7 @@
 
 /* Popular Homes Section */
 .popular-section {
+  width: 100%;
   max-width: 80rem;
   margin: 0 auto;
   padding: 6rem 2rem;
@@ -295,7 +331,21 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .hero {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .hero-content {
+    min-width: 100%;
+  }
+
+  .hero-image {
+    max-width: 100%;
+  }
+
+  .stats {
+    justify-content: center;
   }
 
   .property-grid {
@@ -304,6 +354,10 @@
 }
 
 @media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
   .nav-links {
     display: none;
   }

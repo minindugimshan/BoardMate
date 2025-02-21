@@ -9,7 +9,8 @@ const LandingPage = () => {
       {/* Navigation */}
       <nav className="navbar">
         <div className="logo">
-          <span>BoardMate</span>
+        <img src="/bmlogo.png" alt="BoardMate Logo" className="logo-image" />
+        <span className="logo-text">BoardMate</span>
         </div>
         <div className="nav-links">
           <a href="#">List your property</a>
@@ -44,7 +45,7 @@ const LandingPage = () => {
         </div>
         
         <div className="hero-image">
-          <img src="./hero3.jpeg" alt="Modern house" />
+          <img src="./herofinal2.png" alt="Modern house" />
         </div>
       </div>
 
