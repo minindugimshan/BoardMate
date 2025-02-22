@@ -1,6 +1,5 @@
-// LandingPage.jsx
 import React from 'react';
-import { Search, MapPin, Building, DollarSign } from 'lucide-react';
+import { Search, MapPin, Building, DollarSign, Shield, Clock, Tag } from 'lucide-react';
 import './style.css';
 
 const LandingPage = () => {
@@ -9,13 +8,12 @@ const LandingPage = () => {
       {/* Navigation */}
       <nav className="navbar">
         <div className="logo">
-        <img src="/bmlogo.png" alt="BoardMate Logo" className="logo-image" />
-        <span className="logo-text">BoardMate</span>
+          <img src="/bmlogo.png" alt="BoardMate Logo" className="logo-image" />
         </div>
         <div className="nav-links">
           <a href="#">List your property</a>
-          <a href="#">Register</a>
-          <a href="#">Sign Up</a>
+          <a href="#">LogIn</a>
+          <a href="#">SignUp</a>
           <a href="#">Support</a>
           <button className="nav-button">Find A Place</button>
         </div>
@@ -25,8 +23,24 @@ const LandingPage = () => {
       <div className="hero">
         <div className="hero-content">
           <h1>Finding Your Place <br />Made Easy</h1>
-          <p>Want to find a home? We are ready to help you find one that suits your lifestyle and needs</p>
+          <p>Discover and book safe, verified student accommodations near top universities and cities across Sri Lanka</p>
           <button className="cta-button">Get Started</button>
+
+          {/* Feature Icons Section */}
+          <div className="feature-icons">
+            <div className="feature-item">
+              <Shield size={24} />
+              <span>Verified Properties</span>
+            </div>
+            <div className="feature-item">
+              <Clock size={24} />
+              <span>24x7 Assistance</span>
+            </div>
+            <div className="feature-item">
+              <Tag size={24} />
+              <span>Secure Payments</span>
+            </div>
+          </div>
 
           <div className="stats">
             <div className="stat-item">
