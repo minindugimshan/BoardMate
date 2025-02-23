@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, MapPin, Building, DollarSign, Shield, Clock, Tag } from 'lucide-react';
+import { Search, MapPin, Building, DollarSign, Shield, Clock, Tag} from 'lucide-react';
 import './style.css';
 
 const LandingPage = () => {
@@ -12,9 +12,10 @@ const LandingPage = () => {
         </div>
         <div className="nav-links">
           <a href="#">List your property</a>
-          <a href="#">LogIn</a>
-          <a href="#">SignUp</a>
+          <a href="#">Log In</a>
+          <a href="#">Sign Up</a>
           <a href="#">Support</a>
+          <a href="#">About Us</a>
           <button className="nav-button">Find A Place</button>
         </div>
       </nav>
@@ -42,18 +43,66 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="stats">
-            <div className="stat-item">
-              <div className="stat-number">1200+</div>
-              <div className="stat-label">Listed Properties</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">4500+</div>
-              <div className="stat-label">Happy Customers</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-number">100+</div>
-              <div className="stat-label">Awards</div>
+          {/* Search Section */}
+          <div className="search-container">
+            <div className="search-box">
+              <div className="search-input">
+                <div className="search-input-group">
+                  <label className="search-input-label">University</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Select an University</option>
+                    <option value="IIT">Informatics Institute of Technology</option>
+                  </select>
+                </div>
+              </div>
+              <div className="search-input">
+                <div className="search-input-group">
+                  <label className="search-input-label">Location</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Enter city or area</option>
+                    <option value="Bambalapitiya">Bambalapitiya</option>
+                    <option value="Wallewatta">Wallewatta</option>
+                    <option value="Galle">Galle</option>
+                  </select>
+                </div>
+              </div>
+              <div className="search-input">
+                <div className="search-input-group">
+                  <label className="search-input-label">Gender</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Please specify</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div className="search-input">
+                <div className="search-input-group">
+                  <label className="search-input-label">Room Type</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Select type</option>
+                    <option value="single">Single Room</option>
+                    <option value="shared">Shared Room</option>
+                    <option value="apartment">Apartment</option>
+                  </select>
+                </div>
+              </div>
+              <div className="search-input">
+                <div className="search-input-group">
+                  <label className="search-input-label">Price Range</label>
+                  <select defaultValue="">
+                    <option value="" disabled>Set your budget</option>
+                    <option value="0-10000">Rs. 0 - 10,000</option>
+                    <option value="10000-20000">Rs. 10,000 - 20,000</option>
+                    <option value="20000-30000">Rs. 20,000 - 30,000</option>
+                    <option value="30000+">Rs. 30,000+</option>
+                  </select>
+                </div>
+              </div>
+              <button className="search-button">
+                <Search size={18} />
+                Search Now
+              </button>
             </div>
           </div>
         </div>
@@ -62,83 +111,11 @@ const LandingPage = () => {
           <img src="./herofinal2.png" alt="Modern house" />
         </div>
       </div>
-
-      {/* Search Section */}
-      <div className="search-container">
-        <div className="search-box">
-          <div className="search-input">
-            <MapPin size={20} />
-            <input type="text" placeholder="Location" />
-          </div>
-          <div className="search-input">
-            <Building size={20} />
-            <input type="text" placeholder="Property Type" />
-          </div>
-          <div className="search-input">
-            <DollarSign size={20} />
-            <input type="text" placeholder="Budget" />
-          </div>
-          <button className="search-button">Search Now</button>
-        </div>
-      </div>
-
-      {/* Popular Homes Section */}
-      <div className="popular-section">
-        <div className="section-header">
-          <div>
-            <span className="section-label">POPULAR</span>
-            <h2>Our Popular Homes</h2>
-          </div>
-          <button className="explore-button">
-            Explore All
-            <svg className="arrow-icon" viewBox="0 0 24 24">
-              <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="property-grid">
-          {properties.map((property, index) => (
-            <div key={index} className="property-card">
-              <img src={property.image} alt={property.location} />
-              <div className="property-info">
-                <div className="location">
-                  <MapPin size={16} />
-                  <span>{property.location}</span>
-                </div>
-                <div className="specs">{property.specs}</div>
-                <div className="price-row">
-                  <span className="price">{property.price}</span>
-                  <button className="book-button">Book Now</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Testimonial Section */}
-      <div className="testimonial">
-        <div className="testimonial-content">
-          <div className="founder">
-            <h3>Kevin Durant</h3>
-            <p>Founder, La Maison</p>
-          </div>
-          <div className="quote">
-            <p>"Our business is built off of close relationships and we are glad that we are able to share our positive real estate experiences with ur clients."</p>
-          </div>
-        </div>
-        
-        <div className="partners">
-          {['EQUINIX', 'DIGITAL REALTY', 'EQUINIX', 'DIGITAL REALTY'].map((partner, index) => (
-            <div key={index} className="partner">{partner}</div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
 
+// Properties data
 const properties = [
   {
     location: "Banana Island, Lagos",
