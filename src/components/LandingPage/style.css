@@ -137,13 +137,13 @@ body, html {
   width: 100%;
   max-width: 80rem;
   padding-left: 40px;
-  padding-top: 1rem; /* Reduced from default padding */
+  padding-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4rem;
   position: relative;
-  margin-bottom: 6rem;
+  margin-bottom: 2rem; /* Reduced from 6rem to 2rem */
 }
 
 
@@ -264,6 +264,7 @@ body, html {
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
+  margin-top: -30px;
 }
 
 .search-box {

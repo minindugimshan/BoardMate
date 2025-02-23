@@ -1,0 +1,141 @@
+.popular-homes {
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 4rem 2rem;
+    margin-top: -60px; /* Added negative margin to pull section up */
+    position: relative; /* Added position relative */
+    z-index: 10; /* Lower z-index than search container */
+  }
+  
+  .popular-homes-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 60px; /* Added padding to prevent content from being hidden under search box */
+  }
+  
+  .popular-homes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+  
+  .popular-homes-header h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+  
+  .explore-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .explore-button:hover {
+    opacity: 0.8;
+  }
+  
+  .arrow {
+    margin-left: 0.5rem;
+  }
+  
+  .property-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .property-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .property-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .property-card {
+    background-color: #171717;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .property-image-container {
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+  }
+  
+  .property-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .property-card:hover .property-image {
+    transform: scale(1.1);
+  }
+  
+  .property-content {
+    padding: 1.5rem;
+  }
+  
+  .property-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: #a3a3a3;
+  }
+  
+  .property-location svg {
+    color: #a3a3a3;
+  }
+  
+  .property-location span {
+    font-size: 0.875rem;
+  }
+  
+  .property-specs {
+    font-size: 0.875rem;
+    color: #d4d4d4;
+    margin-bottom: 1rem;
+  }
+  
+  .property-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .property-price {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  
+  .book-button {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .book-button:hover {
+    background-color: #e5e5e5;
+  }
