@@ -14,7 +14,7 @@ const LandingPage = () => {
           <a href="#">List your property</a>
           <a href="#">Log In</a>
           <a href="#">Sign Up</a>
-          <a href="#">Support</a>
+          <a href="#">Our Features</a>
           <a href="#">About Us</a>
           <button className="nav-button">Find A Place</button>
         </div>
