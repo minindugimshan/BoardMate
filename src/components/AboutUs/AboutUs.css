@@ -1,0 +1,156 @@
+.about-container {
+  min-height: 100vh;
+  background-color: #efefef;
+}
+
+.split-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  background-color: #fff;
+  padding: 2rem;
+}
+
+.content-left {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.main-title {
+  font-size: 4.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 3rem;
+  color: #000;
+}
+
+.info-box {
+  background-color: rgb(214, 228, 237);
+  border-radius: 2rem;
+  padding: 3rem;
+}
+
+.info-section {
+  margin-bottom: 2.5rem;
+}
+
+.info-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 1rem;
+}
+
+.info-section p {
+  color: #4a4a4a;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Right Section */
+.right-section {
+  flex: 1;
+  background-color: #000;
+  padding: 2rem;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+
+.content-right {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.contact-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: rgb(214, 228, 237);
+  margin-bottom: 3rem;
+}
+
+.contact-container {
+  padding: 2rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contact-icon {
+  width: 2rem;
+  height: 2rem;
+  color: rgb(214, 228, 237);
+}
+
+.contact-details h3 {
+  font-weight: 600;
+  color: rgb(214, 228, 237);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.contact-details p {
+  color: #888;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .split-layout {
+    flex-direction: column;
+  }
+
+  .right-section {
+    border-radius: 2rem 2rem 0 0;
+  }
+
+  .main-title {
+    font-size: 3.5rem;
+  }
+
+  .contact-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-box {
+    padding: 2rem;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .contact-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .contact-title {
+    font-size: 2rem;
+  }
+
+  .info-box {
+    padding: 1.5rem;
+  }
+}

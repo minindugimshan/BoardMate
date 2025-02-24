@@ -74,6 +74,7 @@ const WhatWeDoSection = () => {
         ))}
       </div>
     </div>
+    
   );
 };
 
