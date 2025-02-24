@@ -1,17 +1,17 @@
 .about-container {
-  min-height: 100vh;
+  min-height: 40vh;
   background-color: #efefef;
 }
 
 .split-layout {
   display: flex;
-  min-height: 100vh;
+  min-height: 40vh;
 }
 
 /* Left Section */
 .left-section {
   flex: 1;
-  background-color: #fff;
+  background-color: #f1f1f1;
   padding: 2rem;
 }
 
@@ -32,7 +32,7 @@
 .info-box {
   background-color: rgb(214, 228, 237);
   border-radius: 2rem;
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .info-section {
@@ -40,16 +40,18 @@
 }
 
 .info-section h2 {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #000;
+  
   margin-bottom: 1rem;
 }
 
 .info-section p {
-  color: #4a4a4a;
+  color: #141414;
   line-height: 1.7;
   font-size: 1rem;
+  font-weight: 500;
 }
 
 /* Right Section */
@@ -68,20 +70,20 @@
 }
 
 .contact-title {
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 500;
   color: rgb(214, 228, 237);
-  margin-bottom: 3rem;
+  margin-bottom: 0.5rem;
 }
 
 .contact-container {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .contact-item {
@@ -91,22 +93,66 @@
 }
 
 .contact-icon {
-  width: 2rem;
-  height: 2rem;
-  color: rgb(214, 228, 237);
+  width: 1.5rem;
+  height: 1.5rem;
+  color: skyblue;
 }
 
 .contact-details h3 {
-  font-weight: 600;
+  font-weight: 500;
   color: rgb(214, 228, 237);
   margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .contact-details p {
-  color: #888;
+  color: grey;
   line-height: 1.5;
+  font-weight: 500;
 }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.contact-form h3 {
+  color: skyblue;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+}
+
+.contact-form textarea {
+  height: 150px;
+  resize: none;
+}
+
+.contact-form button {
+  background-color: rgb(214, 228, 237);
+  color: #000;
+  font-weight: bold;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #ddd;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {
