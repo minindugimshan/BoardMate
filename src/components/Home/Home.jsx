@@ -126,7 +126,7 @@ function Home() {
 
       <div className='mostviewed-props'>
         <h2 className='mostviewed'>Most Viewed</h2>
-        <img src="https://img.freepik.com/premium-photo/home-with-blue-roof-black-roof-with-house-background_198067-832069.jpg?uid=R185375474&ga=GA1.1.1174272196.1736108309&semt=ais_hybrid_sidr" alt="" />
+        
       </div> <br /><br /><br />
        
         

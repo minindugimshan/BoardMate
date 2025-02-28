@@ -14,7 +14,7 @@
     background: rgba(254, 254, 255, 0.3);
     backdrop-filter: blur(20px); /* Applies blur */
     -webkit-backdrop-filter: blur(30px); 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
     color: rgb(0, 0, 0);
 }
 .footer-content{

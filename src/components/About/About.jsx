@@ -16,7 +16,8 @@ function About() {
                 </p>
             </div>
 
-            <img className='about-img' src="https://img.freepik.com/free-photo/young-friends-hostel_52683-121734.jpg?t=st=1738409876~exp=1738413476~hmac=227e53e5922b0f60f42a626954f62ef22da51b0ded01c781b5ee261cea67c344&w=900" alt="" />
+            {/* <img className='about-img' src="https://img.freepik.com/free-photo/young-friends-hostel_52683-121734.jpg?t=st=1738409876~exp=1738413476~hmac=227e53e5922b0f60f42a626954f62ef22da51b0ded01c781b5ee261cea67c344&w=900" alt="" /> */}
+            <img className='about-img' src="https://www.goshen.edu/wp-content/uploads/sites/7/2018/06/GC.Fall_.2017.860-web.jpg" alt="" />
         </div>
 
         <h1>Our Mission</h1>
