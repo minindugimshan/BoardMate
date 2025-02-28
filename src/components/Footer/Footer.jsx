@@ -8,6 +8,9 @@ function Footer() {
     <div className='footer'>
         <div className='footer-content'>
             <h4 className='footer-h1'>BoardMate</h4>
+            <p>Your trusted platform for finding safe and <br /> 
+               comfortable student accommodation across Sri Lanka.
+            </p>
             <p className='footer-p'>BoardMate © 2025. All rights reserved.</p> <br />
 
                 <div className='payments'>

@@ -1,6 +1,11 @@
 import React from 'react'
 import './Support.css'
 
+import { Mail, Phone, MessageCircle, Text } from 'lucide-react';
+
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
+
 function Support() {
   return (
     <div className='background'>
@@ -8,8 +13,8 @@ function Support() {
           <div className='image-container'>
             <img src="/support page icon1.png" alt="" />
             <h2 className='text-overlay'>How it works
-              <span className='sub-text'> <br /> We are with you at every step of your journey!</span>
-              <span className='second-sub-text'> <br />Know how BoardMate works! </span>
+              <span className='sub-text'> <br /> We are with you at every step of your journey! <br /></span>
+              <span className='second-sub-text'>Know how BoardMate works! </span>
                 
             </h2>
           </div>
@@ -31,7 +36,7 @@ function Support() {
           <br />
 
           <div className='discover'>
-            <img src="./real-estate-searching.png" alt="" />
+            <img src="./book-now.png" alt="" />
             <div className='content'>
             <h2 className='discover-topic'>Finalize Your Place</h2>
             <p className='discover-para'>
@@ -45,7 +50,7 @@ function Support() {
         <br />
 
         <div className='discover'>
-            <img src="./real-estate-searching.png" alt="" />
+            <img src="./paperwork1.png" alt="" />
             <div className='content'>
             <h2 className='discover-topic'>Get Your Paperwork Done</h2>
             <p className='discover-para'>
@@ -58,7 +63,7 @@ function Support() {
           <br />
 
           <div className='discover'>
-            <img src="./real-estate-searching.png" alt="" />
+            <img src="./booked1.png" alt="" />
             <div className='content'>
             <h2 className='discover-topic'>Your Property Is Booked</h2>
             <p className='discover-para'>
@@ -67,7 +72,49 @@ function Support() {
             </p>
             </div>
           </div>
-          <br />
+          <br /> <br /><br />
+
+          <div className='getin-touch'>
+            <h1>Get in Touch</h1>
+            <h3>If you have any queries, feel free to reach us!</h3>
+
+            <div className='contact-cards'>
+              <div className='call-card'>
+                <div className='call'>
+                  <Phone size={40} color='skyblue' />
+                  {/* <FontAwesomeIcon icon={faPhoneVolume} className="call-icon" /> */}
+                  <p> +94 76 676 0760 </p>
+                </div>
+              </div>
+              
+              <div className='call-card'>
+                <div className='call'>
+                  <Mail size={32} color="skyblue" />
+                  <a className='mail' href="mailto:boardm8te@gmail.com">
+                    <p>Email Us</p>
+                  </a>
+                </div>
+              </div>
+
+              <div className='call-card'>
+                <div className='call'>
+                  <MessageCircle size={40} color="skyblue" />
+                  <p>Whatsapp</p>
+                </div>
+              </div>
+
+              <div className='call-card'>
+                <div className='call'>
+                  <Text size={40} color="skyblue" />
+                  <p>Chat on platform</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          
 
     </div> 
   )
