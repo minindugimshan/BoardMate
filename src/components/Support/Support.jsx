@@ -38,26 +38,26 @@ function Support() {
           <div className='discover'>
             <img src="./book-now.png" alt="" />
             <div className='content'>
-            <h2 className='discover-topic'>Finalize Your Place</h2>
-            <p className='discover-para'>
-              Book an appointment and directly contact the landlord to have a virtual tour of property. <br />
-              Once you get all the details regarding the rent, surrounding area, and other relevant information <br />
-              you want to know, finalize your property.
-            </p>
+              <h2 className='discover-topic'>Finalize Your Place</h2>
+              <p className='discover-para'>
+                Book an appointment and directly contact the landlord to have a virtual tour of property. <br />
+                Once you get all the details regarding the rent, surrounding area, and other relevant information <br />
+                you want to know, finalize your property.
+              </p>
             </div>     
           </div>
-        </div>
-        <br />
+        
+          <br />
 
-        <div className='discover'>
+          <div className='discover'>
             <img src="./paperwork1.png" alt="" />
             <div className='content'>
-            <h2 className='discover-topic'>Get Your Paperwork Done</h2>
-            <p className='discover-para'>
-              After finalizing your property with the landlord, we'll start the paperwork for you. <br />
-              Paperwork includes signing of your agreement and etc. It may involve payment for the 
-              first month (or first few months) which is the "key money" and other charges like application fees.
-            </p>
+              <h2 className='discover-topic'>Get Your Paperwork Done</h2>
+              <p className='discover-para'>
+                After finalizing your property with the landlord, we'll start the paperwork for you. <br />
+                Paperwork includes signing of your agreement and etc. It may involve payment for the 
+                first month (or first few months) which is the "key money" and other charges like application fees.
+              </p>
             </div>
           </div>
           <br />
@@ -73,46 +73,152 @@ function Support() {
             </div>
           </div>
           <br /> <br /><br />
+        </div>
 
           <div className='getin-touch'>
             <h1>Get in Touch</h1>
             <h3>If you have any queries, feel free to reach us!</h3>
 
-            <div className='contact-cards'>
-              <div className='call-card'>
-                <div className='call'>
-                  <Phone size={40} color='skyblue' />
-                  {/* <FontAwesomeIcon icon={faPhoneVolume} className="call-icon" /> */}
-                  <p> +94 76 676 0760 </p>
+            <div className='contact-cards mt-5'>
+              <div className='row'>
+                <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                  <div className='call-card'>
+                    <div className='call'>
+                      <Phone size={80} color='skyblue' />
+                      <p> +94 76 676 0760 </p>
+                    </div>
+                  </div>
                 </div>
+
+                <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                  <div className='call-card'>
+                    <div className='call'>
+                      <Mail size={80} color="skyblue" />
+                      <a className='mail' href="mailto:boardm8te@gmail.com">
+                        <p>Email Us</p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                  <div className='call-card'>
+                    <div className='call'>
+                      <MessageCircle size={80} color="skyblue" />
+                      <p>Whatsapp</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                  <div className='call-card'>
+                    <div className='call'>
+                      <Text size={80} color="skyblue" />
+                      <p>Chat on platform</p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
-              
-              <div className='call-card'>
-                <div className='call'>
-                  <Mail size={32} color="skyblue" />
-                  <a className='mail' href="mailto:boardm8te@gmail.com">
-                    <p>Email Us</p>
-                  </a>
+              <br /><br />
+          </div>
+
+
+          <div className='reviews'>
+            <div className='review-topic'>
+              <h1>See What Students Say</h1>
+              <p>The most trusted platform to book accommodation by students all over the country!</p>
+            </div>
+            <br />
+
+          <div className='container mt-5'>
+
+            <div className='row'>
+
+              <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                <div className='review-list'>
+                  <div className='review1'>
+                    <p>
+                      "Experience was amazing!! I'm going to Informatics Institute of Technology
+                      and the rent and the locations are negotiable and affordable. This platform was
+                      very effective and useful when finding the properties."
+                      <br />
+                    </p>  
+
+                    <div className='review-img'>
+                      <img src="https://img.freepik.com/free-vector/illustration-businesswoman_53876-5857.jpg?t=st=1740762864~exp=1740766464~hmac=f34a02413c897beb5794a2f0caa2c96ce5a66d55124d96d6901fb07075f09207&w=900" alt="" />
+
+                      <div className='info'>
+                        <h4>Nicoline Fernando</h4>
+                        <p>IIT</p>
+                      </div>
+                    </div>              
+                  </div>
                 </div>
               </div>
 
-              <div className='call-card'>
-                <div className='call'>
-                  <MessageCircle size={40} color="skyblue" />
-                  <p>Whatsapp</p>
+              <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                <div className='review-list'>
+                  <div className='review1'>
+                    <p>
+                    "The best service I could ask for as a Sri Lankan university student. 
+                    Awesome, excellent follow-up services that assisted me from beginning to end. 
+                    Thank you, BoardMate, for an excellent service!"
+                      <br />
+                    </p> 
+                    
+                    <div className='review-img'>
+                      <img src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5908.jpg?uid=R185375474&ga=GA1.1.16088765.1739437243&semt=ais_hybrid" alt="" />
+
+                      <div className='info'>
+                        <h4>Nehashi Peiris</h4>
+                        <p>IIT</p>
+                      </div>
+                    </div> 
+
+                  </div>
                 </div>
               </div>
 
-              <div className='call-card'>
-                <div className='call'>
-                  <Text size={40} color="skyblue" />
-                  <p>Chat on platform</p>
+              <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                <div className='review-list'>
+                  <div className='review1'>
+                    <p>
+                      I am going to study at IIT and I live far away from Colombo. 
+                      Finding an accommodation from around the university was a big challenge but 
+                      thanks to BoardMate, I was able to find a reliable place in a short time. 
+                      The best platform to find properties for university students
+                      <br />
+                    </p> 
+
+                    <div className='review-img'>
+                      <img src="https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?uid=R185375474&ga=GA1.1.16088765.1739437243&semt=ais_hybrid" alt="" />
+
+                      <div className='info'>
+                        <h4>Shehan Rajapaksha</h4>
+                        <p>IIT</p>
+                      </div>
+                    </div> 
+                    
+                  </div>
                 </div>
               </div>
 
             </div>
+            <br />
+            <br /><br />
 
+            <div className='review-button'>
+              <button>
+                See More Reviews <b className='arrow'>→</b>
+              </button>
+            </div>
+
+            </div>
+            
           </div>
+
+      </div>
 
           
 

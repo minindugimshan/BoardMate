@@ -199,6 +199,7 @@
     width: 100%;
     position: relative;
     flex-direction: column;
+    margin-bottom: 100px;
 }
 .location-slider h1{
     text-align: center;
