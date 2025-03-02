@@ -1,47 +1,32 @@
-import React, { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
+import { useState } from 'react';
 
-const LandlordProfile = () => {
+const StudentProfile = () => {
   const navigate = useNavigate();
   // This would typically come from your app state or API
-  const [landlordData, setLandlordData] = useState({
-    firstName: 'Sarah',
-    lastName: 'Johnson',
+  const [studentData, setStudentData] = useState({
+    firstName: 'John',
+    lastName: 'Smith',
     dateOfBirth: {
-      day: '20',
-      month: '05',
-      year: '1985'
+      day: '15',
+      month: '03',
+      year: '2000'
     },
-    mobile: '+94 76 123 4567',
-    email: 'sarah.johnson@example.com',
-    idVerified: true,
-    profileImage: null,
-    properties: [
-      {
-        id: 'prop001',
-        title: 'Cozy Room near University',
-        location: 'Colombo 07',
-        price: 25000,
-        isActive: true
-      },
-      {
-        id: 'prop002',
-        title: 'Spacious Apartment with WiFi',
-        location: 'Nawala',
-        price: 35000,
-        isActive: true
-      }
-    ]
+    university: 'Informatics Institute of Technology',
+    studentId: 'IIT20240001',
+    email: 'john.smith@example.com',
+    profileImage: null
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState({...landlordData});
+  const [editedData, setEditedData] = useState({...studentData});
 
   const handleEditToggle = () => {
     if (isEditing) {
       // Save the changes
-      setLandlordData({...editedData});
+      setStudentData({...editedData});
     }
     setIsEditing(!isEditing);
   };
@@ -75,7 +60,7 @@ const LandlordProfile = () => {
   };
 
   const formatDateOfBirth = () => {
-    const { day, month, year } = landlordData.dateOfBirth;
+    const { day, month, year } = studentData.dateOfBirth;
     return `${day}/${month}/${year}`;
   };
 
@@ -90,7 +75,6 @@ const LandlordProfile = () => {
         />
         <nav className="profile-nav">
           <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-          <button onClick={() => navigate('/properties')}>My Properties</button>
           <button onClick={() => navigate('/messages')}>Messages</button>
           <button onClick={() => navigate('/settings')}>Settings</button>
           <button onClick={() => navigate('/logout')}>Log Out</button>
@@ -120,21 +104,14 @@ const LandlordProfile = () => {
               </>
             ) : (
               <img 
-                src={landlordData.profileImage || "/placeholder-profile.png"} 
+                src={studentData.profileImage || "/placeholder-profile.png"} 
                 alt="Profile" 
                 className="profile-image"
               />
             )}
           </div>
-          <h2>{`${landlordData.firstName} ${landlordData.lastName}`}</h2>
-          <p className="profile-type">Landlord</p>
-          <div className="verification-badge">
-            {landlordData.idVerified ? (
-              <span className="verified">✓ ID Verified</span>
-            ) : (
-              <span className="not-verified">ID Not Verified</span>
-            )}
-          </div>
+          <h2>{`${studentData.firstName} ${studentData.lastName}`}</h2>
+          <p className="profile-type">Student</p>
           <button 
             className="edit-profile-btn"
             onClick={handleEditToggle}
@@ -144,7 +121,7 @@ const LandlordProfile = () => {
         </div>
 
         <div className="profile-details">
-          <h1>Landlord Profile</h1>
+          <h1>Student Profile</h1>
           
           <div className="profile-section">
             <h3>Personal Information</h3>
@@ -158,7 +135,7 @@ const LandlordProfile = () => {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="field-value">{landlordData.firstName}</span>
+                <span className="field-value">{studentData.firstName}</span>
               )}
             </div>
             <div className="profile-field">
@@ -171,7 +148,7 @@ const LandlordProfile = () => {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="field-value">{landlordData.lastName}</span>
+                <span className="field-value">{studentData.lastName}</span>
               )}
             </div>
             <div className="profile-field">
@@ -210,20 +187,40 @@ const LandlordProfile = () => {
           </div>
 
           <div className="profile-section">
-            <h3>Contact Information</h3>
+            <h3>University Information</h3>
             <div className="profile-field">
-              <span className="field-label">Mobile:</span>
+              <span className="field-label">University:</span>
+              {isEditing ? (
+                <select
+                  name="university"
+                  value={editedData.university}
+                  onChange={handleChange}
+                >
+                  <option value="Informatics Institute of Technology">Informatics Institute of Technology</option>
+                  <option value="University of Colombo">University of Colombo</option>
+                  <option value="University of Moratuwa">University of Moratuwa</option>
+                </select>
+              ) : (
+                <span className="field-value">{studentData.university}</span>
+              )}
+            </div>
+            <div className="profile-field">
+              <span className="field-label">Student ID:</span>
               {isEditing ? (
                 <input
-                  type="tel"
-                  name="mobile"
-                  value={editedData.mobile}
+                  type="text"
+                  name="studentId"
+                  value={editedData.studentId}
                   onChange={handleChange}
                 />
               ) : (
-                <span className="field-value">{landlordData.mobile}</span>
+                <span className="field-value">{studentData.studentId}</span>
               )}
             </div>
+          </div>
+
+          <div className="profile-section">
+            <h3>Contact Information</h3>
             <div className="profile-field">
               <span className="field-label">Email:</span>
               {isEditing ? (
@@ -234,58 +231,24 @@ const LandlordProfile = () => {
                   onChange={handleChange}
                 />
               ) : (
-                <span className="field-value">{landlordData.email}</span>
+                <span className="field-value">{studentData.email}</span>
               )}
             </div>
           </div>
 
           <div className="profile-section">
-            <h3>Properties Listed ({landlordData.properties.length})</h3>
-            <div className="properties-list">
-              {landlordData.properties.map(property => (
-                <div key={property.id} className="property-card">
-                  <h4>{property.title}</h4>
-                  <p className="property-location">{property.location}</p>
-                  <p className="property-price">LKR {property.price.toLocaleString()} per month</p>
-                  <div className="property-status">
-                    <span className={property.isActive ? "active" : "inactive"}>
-                      {property.isActive ? "Active" : "Inactive"}
-                    </span>
-                  </div>
-                  <div className="property-actions">
-                    <button onClick={() => navigate(`/properties/${property.id}`)}>
-                      View
-                    </button>
-                    <button onClick={() => navigate(`/properties/${property.id}/edit`)}>
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <div className="add-property">
-                <button onClick={() => navigate('/properties/new')}>
-                  + Add New Property
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="profile-section">
-            <h3>About Me</h3>
+            <h3>Housing Preferences</h3>
             {isEditing ? (
               <div className="profile-field">
                 <textarea
-                  name="aboutMe"
-                  placeholder="Tell potential renters about yourself"
+                  name="housingPreferences"
+                  placeholder="Describe your housing preferences (location, budget, amenities, etc.)"
                   rows="4"
                   onChange={handleChange}
-                  defaultValue={landlordData.aboutMe || ''}
                 />
               </div>
             ) : (
-              <p className="empty-section">
-                {landlordData.aboutMe || 'No information provided yet.'}
-              </p>
+              <p className="empty-section">No housing preferences specified yet.</p>
             )}
           </div>
         </div>
@@ -294,4 +257,4 @@ const LandlordProfile = () => {
   );
 };
 
-export default LandlordProfile;
+export default StudentProfile;

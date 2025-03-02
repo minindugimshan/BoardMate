@@ -1,8 +1,9 @@
 .profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-top: 20px;
+  min-height: 80vh;
+}
   
   .profile-header {
     display: flex;

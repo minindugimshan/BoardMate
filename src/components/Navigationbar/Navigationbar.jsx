@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link } from 'react-router-dom';
 import { Container, Navbar, Nav } from 'react-bootstrap'
 import './Navigationbar.css'
 import { useLocation } from 'react-router-dom'
@@ -15,9 +15,10 @@ function Navigationbar() {
 
         <Navbar.Collapse className='wholeLinks' id='collapse-navbar' >
           <nav className='links' >
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/Map">Map</Nav.Link>
-            <Nav.Link href="/Chat">Chat</Nav.Link>
+          <Link to="/" className="nav-link">Home</Link>
+          
+<Link to="/student-profile" className="nav-link">Student Profile</Link>
+<Link to="/landlord-profile" className="nav-link">Landlord Profile</Link>
             <Nav.Link href='/Support'>Support</Nav.Link>
           </nav>
 
