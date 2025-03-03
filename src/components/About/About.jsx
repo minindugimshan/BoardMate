@@ -1,6 +1,8 @@
 import React from 'react'
 import './About.css'
 
+import { Search , CloudLightning} from 'lucide-react'
+
 function About() {
   return (
     <div className='about-background'>
@@ -16,7 +18,8 @@ function About() {
                 </p>
             </div>
 
-            <img className='about-img' src="https://img.freepik.com/free-photo/young-friends-hostel_52683-121734.jpg?t=st=1738409876~exp=1738413476~hmac=227e53e5922b0f60f42a626954f62ef22da51b0ded01c781b5ee261cea67c344&w=900" alt="" />
+            {/* <img className='about-img' src="https://img.freepik.com/free-photo/young-friends-hostel_52683-121734.jpg?t=st=1738409876~exp=1738413476~hmac=227e53e5922b0f60f42a626954f62ef22da51b0ded01c781b5ee261cea67c344&w=900" alt="" /> */}
+            <img className='about-img' src="https://www.goshen.edu/wp-content/uploads/sites/7/2018/06/GC.Fall_.2017.860-web.jpg" alt="" />
         </div>
 
         <h1>Our Mission</h1>
@@ -29,7 +32,9 @@ function About() {
 
         <div className='about-boxes'>
             <div className='about-search'>
-                <img className='search-icon' src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" alt="" /> <br /><br />
+                {/* <img className='search-icon' src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" alt="" />  */}
+                <Search color='black' size={38} />
+                <br /><br />
                 <h2>Easy Search</h2> <br />
                 <p>
                     Search from a wide-selection of accommodations <br /> 
@@ -49,7 +54,8 @@ function About() {
             </div>
 
             <div className='paper'>
-                <img className='paper-icon' src="https://static.vecteezy.com/system/resources/previews/009/663/149/non_2x/thunder-icon-transparent-free-png.png" alt="" />
+                {/* <img className='paper-icon' src="https://static.vecteezy.com/system/resources/previews/009/663/149/non_2x/thunder-icon-transparent-free-png.png" alt="" /> */}
+                <CloudLightning color='black' size={35}/>
                 <br /><br />  <h2>Hassle - Free Paperwork</h2> <br />
                 <p>
                     Forget irritating paperwork. Complete your <br /> 
@@ -59,8 +65,33 @@ function About() {
             </div>
 
         </div>
-        
-        <br /><br /><br /> br
+
+        <div className='team'>
+            <div className='members'>
+                <h1>Our Team</h1>
+                <p className='members-p'>
+                BoardMate is developed by a dedicated team of students from the Informatics Institute of Technology, <br />
+                affiliated with the University of Westminster. Our diverse team brings together expertise in software 
+                development, <br /> user experience design, and student accommodation needs. <br /> We are committed to continuously 
+                improving our platform to better serve the student community.
+                </p> 
+
+                
+                {/* <h2>Dream Team Behind BoardMate</h2>
+
+                <div className='card-container'>
+                    <div className='image1'>
+                        <img src="./Nethini.jpeg" alt="" />
+                    </div>
+
+                    <div className='descrip1'>
+                        <h3>Nethini Galagama</h3>
+                    </div>
+                </div> */}
+                
+            </div>
+
+        </div>
     </div>
   )
 }
