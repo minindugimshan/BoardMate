@@ -1,6 +1,8 @@
 import React from 'react'
 import './About.css'
 
+import { Search , CloudLightning} from 'lucide-react'
+
 function About() {
   return (
     <div className='about-background'>
@@ -30,7 +32,9 @@ function About() {
 
         <div className='about-boxes'>
             <div className='about-search'>
-                <img className='search-icon' src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" alt="" /> <br /><br />
+                {/* <img className='search-icon' src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" alt="" />  */}
+                <Search color='black' size={38} />
+                <br /><br />
                 <h2>Easy Search</h2> <br />
                 <p>
                     Search from a wide-selection of accommodations <br /> 
@@ -50,7 +54,8 @@ function About() {
             </div>
 
             <div className='paper'>
-                <img className='paper-icon' src="https://static.vecteezy.com/system/resources/previews/009/663/149/non_2x/thunder-icon-transparent-free-png.png" alt="" />
+                {/* <img className='paper-icon' src="https://static.vecteezy.com/system/resources/previews/009/663/149/non_2x/thunder-icon-transparent-free-png.png" alt="" /> */}
+                <CloudLightning color='black' size={35}/>
                 <br /><br />  <h2>Hassle - Free Paperwork</h2> <br />
                 <p>
                     Forget irritating paperwork. Complete your <br /> 
@@ -60,8 +65,33 @@ function About() {
             </div>
 
         </div>
-        
-        <br /><br /><br /> br
+
+        <div className='team'>
+            <div className='members'>
+                <h1>Our Team</h1>
+                <p className='members-p'>
+                BoardMate is developed by a dedicated team of students from the Informatics Institute of Technology, <br />
+                affiliated with the University of Westminster. Our diverse team brings together expertise in software 
+                development, <br /> user experience design, and student accommodation needs. <br /> We are committed to continuously 
+                improving our platform to better serve the student community.
+                </p> 
+
+                
+                {/* <h2>Dream Team Behind BoardMate</h2>
+
+                <div className='card-container'>
+                    <div className='image1'>
+                        <img src="./Nethini.jpeg" alt="" />
+                    </div>
+
+                    <div className='descrip1'>
+                        <h3>Nethini Galagama</h3>
+                    </div>
+                </div> */}
+                
+            </div>
+
+        </div>
     </div>
   )
 }

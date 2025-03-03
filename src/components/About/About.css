@@ -1,5 +1,5 @@
 .about-background{
-    background-color: rgb(12, 12, 57);
+    background-color: white;
     min-height: 100vh;
     position: relative;
     display: flex;
@@ -8,7 +8,8 @@
     justify-content: center;
 }
 .about-background h1 {
-    color: rgb(243, 221, 177);
+    /* color: rgb(243, 221, 177); */
+    color: black;
     text-align: center;
     margin-top: 8%;
 }
@@ -27,17 +28,19 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    background-color: aliceblue;
 }
 .about-text {
     flex: 1.5;
     max-width: 60%;
-    color: white;
+    /* color: white; */
+    color: navy;
     padding-left: 30px;
     text-align: left;
     font-size: 26px;
 }
 .mission-p{
-    color: white;
+    color: navy;
     text-align: center;
     margin-top: 10px;
     font-size: 22px;
@@ -45,11 +48,13 @@
 
 
 .about-search{
-    border: 1px solid rgb(42, 66, 108);
+    /* border: 1px solid rgb(42, 66, 108); */
+    border: 1px solid aliceblue;
     padding: 20px;
-    background-color: rgb(42, 66, 108);
+    /* background-color: rgb(42, 66, 108); */
+    background-color: aliceblue;
     /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
-    color: rgb(255, 252, 252);
+    color: navy;
     border-radius: 30px;
     text-align: center;
     width: 400px;
@@ -64,22 +69,22 @@
 }
 
 .negotiation{
-    border: 1px solid rgb(42, 66, 108);
+    border: 1px solid aliceblue;
     padding: 20px;
-    background-color: rgb(42, 66, 108);
+    background-color: aliceblue;
     /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
-    color: white;
+    color: navy;
     border-radius: 30px;
     text-align: center;
     width: 400px;
     transition: transform 0.3s ease-in-out;
 }
 .paper{
-    border: 1px solid rgb(42, 66, 108);
+    border: 1px solid aliceblue;
     padding: 20px;
-    background-color: rgb(42, 66, 108);
+    background-color: aliceblue;
     /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
-    color: white;
+    color: navy;
     border-radius: 30px;
     text-align: center;
     width: 400px;
@@ -93,6 +98,20 @@
 .about-boxes{
     display: flex;
     gap: 40px;
+    margin-bottom: 90px;
+}
+
+/* Our Team CSS */
+.members-p{
+    color: navy;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 22px;
+    margin-bottom: 100px; 
+}
+
+.members h2{
+    text-align: center;
 }
 
 /* Media queries */
