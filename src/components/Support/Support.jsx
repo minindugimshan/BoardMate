@@ -1,10 +1,7 @@
 import React from 'react'
 import './Support.css'
 
-import { Mail, Phone, MessageCircle, Text } from 'lucide-react';
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons';
+import { Mail, Phone, MessageCircle, Text, Lightbulb} from 'lucide-react';
 
 function Support() {
   return (
@@ -13,9 +10,8 @@ function Support() {
           <div className='image-container'>
             <img src="/support page icon1.png" alt="" />
             <h2 className='text-overlay'>How it works
-              <span className='sub-text'> <br /> We are with you at every step of your journey! <br /></span>
-              <span className='second-sub-text'>Know how BoardMate works! </span>
-                
+              <span className='sub-text'> <br /> We are with you at every step of your journey! <br /> <br /></span>
+              <span className='second-sub-text'>Know how BoardMate works! <Lightbulb size={30} color='white' />  </span>
             </h2>
           </div>
         </div>

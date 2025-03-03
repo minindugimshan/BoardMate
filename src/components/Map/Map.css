@@ -176,6 +176,9 @@
     border-style: none;
     font-weight: 600;
 }
+.filters-button:hover{
+    background-color: skyblue;
+}
 
 /* Sliding bar CSS */
 @keyframes slide {

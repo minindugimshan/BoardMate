@@ -87,7 +87,7 @@ h5{
 
 .link {
     text-decoration: none;
-    color: rgb(96, 92, 92);
+    color: inherit;
 }
 
 .policy-links p {

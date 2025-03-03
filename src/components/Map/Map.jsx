@@ -212,6 +212,12 @@ function Map() {
                     onChange = { (event) => {
                         handleChange("location", event.target.value);
                     }}
+                    
+                    style={{
+                        backgroundColor: formInput.location ? 'skyblue' : '#c8d9e6', // Light blue when selected
+                        cursor: 'pointer'
+                    }}
+                
                 >         
                     <option value="" disabled hidden>Select Location</option>
 
@@ -234,7 +240,7 @@ function Map() {
                             type='button'
                             onClick={ () => handleRoomTypeClick('roomType',room.value) }
                             style={{
-                                backgroundColor: formInput.roomType === room.value ? 'white' : '',
+                                backgroundColor: formInput.roomType === room.value ? 'skyblue' : '',
                                 color: formInput.roomType === room.value ? 'black' : '',
                                 margin: '5px',
                               }}
@@ -276,7 +282,7 @@ function Map() {
                                     handleRoomTypeClick('bedrooms', bedroomCount)}
                                 }
                                 style={{
-                                    backgroundColor: formInput.bedrooms === bedroomCount ? ' white' : '',
+                                    backgroundColor: formInput.bedrooms === bedroomCount ? 'skyblue' : '',
                                     color: formInput.bedrooms === bedroomCount ? 'black' : '',
                                     margin: '5px',
                                 }}
@@ -303,7 +309,7 @@ function Map() {
                                     handleRoomTypeClick('bathrooms', bathroomCount)}
                                 }
                                 style={{
-                                    backgroundColor: formInput.bathrooms === bathroomCount ? 'white' : '',
+                                    backgroundColor: formInput.bathrooms === bathroomCount ? 'skyblue' : '',
                                     color: formInput.bathrooms === bathroomCount ? 'black' : '',
                                     margin: '5px',
 
