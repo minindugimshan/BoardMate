@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LandlordSignUp.css';
 
 const LandlordSignup = () => {
@@ -9,17 +9,23 @@ const LandlordSignup = () => {
     mobile: '',
     email: '',
     idPhoto: null,
+    idVerificationStatus: 'pending', // new field for ID verification status
     firstName: '',
     lastName: '',
     dateOfBirth: {
       day: '',
       month: '',
       year: ''
-    }
+    },
+    verificationCode: '', // new field for verification code
   });
   const [errors, setErrors] = useState({});
   const [rulesAgreed, setRulesAgreed] = useState(false);
-
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [verificationMethod, setVerificationMethod] = useState('email'); // 'email' or 'phone'
+  
+  // Added rules from original component
   const rules = [
     {
       title: "1. List Accurate Details",
@@ -92,28 +98,226 @@ const LandlordSignup = () => {
           errors.dateOfBirth = 'Complete date of birth is required';
         }
         break;
+      case 5:
+        if (!formData.verificationCode || formData.verificationCode.length < 4) {
+          errors.verificationCode = 'Valid verification code is required';
+        }
+        break;
       default:
         break;
     }
     return errors;
   };
 
-  const handleSubmit = () => {
-    const currentErrors = validateStep();
-    setErrors(currentErrors);
-    
-    if (Object.keys(currentErrors).length === 0) {
-      if (step < 4) {
-        setStep(step + 1);
+  // Handle ID document upload and verification
+  const handleIdUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setFormData({...formData, idPhoto: file});
+    setIsVerifying(true);
+
+    // Create form data for file upload
+    const formDataObj = new FormData();
+    formDataObj.append('idDocument', file);
+
+    try {
+      // Call backend API to process the document
+      const response = await fetch('/api/verify/document', {
+        method: 'POST',
+        body: formDataObj
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        // Auto-fill form data from the extracted information
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          firstName: result.firstName || prevFormData.firstName,
+          lastName: result.lastName || prevFormData.lastName,
+          dateOfBirth: {
+            day: result.dateOfBirth?.day || prevFormData.dateOfBirth.day,
+            month: result.dateOfBirth?.month || prevFormData.dateOfBirth.month,
+            year: result.dateOfBirth?.year || prevFormData.dateOfBirth.year
+          },
+          idVerificationStatus: result.verified ? 'verified' : 'rejected'
+        }));
       } else {
-        console.log('Form submitted:', formData);
-        // Handle final submission
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          idVerificationStatus: 'rejected'
+        }));
+        setErrors(prev => ({...prev, idVerification: result.message || 'Document verification failed'}));
       }
+    } catch (error) {
+      console.error('Error verifying document:', error);
+      setErrors(prev => ({...prev, idVerification: 'Error processing document. Please try again.'}));
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        idVerificationStatus: 'error'
+      }));
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  // Send verification code to email or phone
+  const sendVerificationCode = async () => {
+    setErrors({});
+    const methodErrors = {};
+    
+    if (verificationMethod === 'email') {
+      if (!formData.email) {
+        methodErrors.email = 'Email is required for verification';
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        methodErrors.email = 'Invalid email format';
+      }
+    } else {
+      if (!formData.mobile) {
+        methodErrors.mobile = 'Mobile number is required for verification';
+      }
+    }
+    
+    if (Object.keys(methodErrors).length > 0) {
+      setErrors(methodErrors);
+      return;
+    }
+    
+    setIsVerifying(true);
+    
+    try {
+      const response = await fetch('/api/verify/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          method: verificationMethod,
+          email: formData.email,
+          phone: formData.mobile
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setVerificationSent(true);
+      } else {
+        setErrors(prev => ({
+          ...prev, 
+          verificationSend: result.message || `Failed to send verification code to your ${verificationMethod}`
+        }));
+      }
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+      setErrors(prev => ({
+        ...prev, 
+        verificationSend: `Error sending verification code to your ${verificationMethod}`
+      }));
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  // Verify the code entered by user
+  const verifyCode = async () => {
+    setErrors({});
+    
+    if (!formData.verificationCode) {
+      setErrors({verificationCode: 'Please enter the verification code'});
+      return;
+    }
+    
+    setIsVerifying(true);
+    
+    try {
+      const response = await fetch('/api/verify/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          method: verificationMethod,
+          contact: verificationMethod === 'email' ? formData.email : formData.mobile,
+          code: formData.verificationCode
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Continue to next step or submit if all steps are complete
+        handleSubmit();
+      } else {
+        setErrors({verificationCode: result.message || 'Invalid verification code'});
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      setErrors({verificationCode: 'Error verifying code. Please try again.'});
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleSubmit = () => {
+    // For regular step navigation
+    if (step !== 5) {
+      const currentErrors = validateStep();
+      setErrors(currentErrors);
+      
+      if (Object.keys(currentErrors).length === 0) {
+        if (step === 3 && formData.idVerificationStatus === 'verified') {
+          // If ID is verified, we can skip straight to verification step
+          setStep(5);
+        } else if (step < 5) {
+          setStep(step + 1);
+        }
+      }
+    } else {
+      // For final submission
+      console.log('Form submitted:', formData);
+      // Submit form to backend
+      submitFormData();
+    }
+  };
+
+  const submitFormData = async () => {
+    try {
+      const response = await fetch('/api/landlords/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Redirect to success page or dashboard
+        window.location.href = '/landlord/dashboard';
+      } else {
+        setErrors({submission: result.message || 'Failed to submit registration'});
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrors({submission: 'Error submitting form. Please try again.'});
     }
   };
 
   const renderError = (error) => {
     return error ? <div className="error-message">{error}</div> : null;
+  };
+
+  const renderIdVerificationStatus = () => {
+    switch (formData.idVerificationStatus) {
+      case 'verified':
+        return <div className="verification-success">ID verified successfully!</div>;
+      case 'rejected':
+        return <div className="verification-error">ID verification failed. Please try another document.</div>;
+      case 'error':
+        return <div className="verification-error">Error processing document. Please try again.</div>;
+      case 'pending':
+      default:
+        return isVerifying ? 
+          <div className="verification-pending">Verifying your document...</div> : 
+          null;
+    }
   };
 
   const renderStep = () => {
@@ -190,12 +394,15 @@ const LandlordSignup = () => {
               {renderError(errors.email)}
             </div>
             <div className="input-group">
-              <p>Please upload your ID or Passport photo</p>
+              <p>Please upload your ID or Passport photo for verification</p>
               <input
                 type="file"
-                onChange={(e) => setFormData({...formData, idPhoto: e.target.files[0]})}
+                accept="image/*,.pdf"
+                onChange={handleIdUpload}
               />
+              {renderIdVerificationStatus()}
               {renderError(errors.idPhoto)}
+              {renderError(errors.idVerification)}
             </div>
           </div>
         );
@@ -222,39 +429,104 @@ const LandlordSignup = () => {
               />
               {renderError(errors.lastName)}
             </div>
-            <div className="date-inputs">
-              <input
-                type="text"
-                placeholder="DD"
-                maxLength="2"
-                value={formData.dateOfBirth.day}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  dateOfBirth: {...formData.dateOfBirth, day: e.target.value}
-                })}
-              />
-              <input
-                type="text"
-                placeholder="MM"
-                maxLength="2"
-                value={formData.dateOfBirth.month}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  dateOfBirth: {...formData.dateOfBirth, month: e.target.value}
-                })}
-              />
-              <input
-                type="text"
-                placeholder="YYYY"
-                maxLength="4"
-                value={formData.dateOfBirth.year}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  dateOfBirth: {...formData.dateOfBirth, year: e.target.value}
-                })}
-              />
+            <div className="input-group">
+              <label>Date of Birth</label>
+              <div className="date-inputs">
+                <input
+                  type="text"
+                  placeholder="DD"
+                  maxLength="2"
+                  value={formData.dateOfBirth.day}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    dateOfBirth: {...formData.dateOfBirth, day: e.target.value}
+                  })}
+                />
+                <input
+                  type="text"
+                  placeholder="MM"
+                  maxLength="2"
+                  value={formData.dateOfBirth.month}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    dateOfBirth: {...formData.dateOfBirth, month: e.target.value}
+                  })}
+                />
+                <input
+                  type="text"
+                  placeholder="YYYY"
+                  maxLength="4"
+                  value={formData.dateOfBirth.year}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    dateOfBirth: {...formData.dateOfBirth, year: e.target.value}
+                  })}
+                />
+              </div>
+              {renderError(errors.dateOfBirth)}
             </div>
-            {renderError(errors.dateOfBirth)}
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="form-section">
+            <h2>Verify Your Identity</h2>
+            <div className="verification-selection">
+              <div className="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="verificationMethod"
+                    checked={verificationMethod === 'email'}
+                    onChange={() => setVerificationMethod('email')}
+                  />
+                  <span>Email Verification</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="verificationMethod"
+                    checked={verificationMethod === 'phone'}
+                    onChange={() => setVerificationMethod('phone')}
+                  />
+                  <span>SMS Verification</span>
+                </label>
+              </div>
+            </div>
+            
+            {!verificationSent ? (
+              <div className="verification-send">
+                <p>We'll send a verification code to your {verificationMethod === 'email' ? 'email address' : 'mobile number'}</p>
+                <button 
+                  onClick={sendVerificationCode} 
+                  className="verification-button"
+                  disabled={isVerifying}
+                >
+                  {isVerifying ? 'Sending...' : 'Send Verification Code'}
+                </button>
+                {renderError(errors.verificationSend)}
+                {renderError(errors.email)}
+                {renderError(errors.mobile)}
+              </div>
+            ) : (
+              <div className="input-group verification-code-group">
+                <label>Enter the verification code sent to your {verificationMethod === 'email' ? 'email' : 'phone'}</label>
+                <input
+                  type="text"
+                  placeholder="Enter verification code"
+                  value={formData.verificationCode}
+                  onChange={(e) => setFormData({...formData, verificationCode: e.target.value})}
+                />
+                {renderError(errors.verificationCode)}
+                <button 
+                  onClick={() => setVerificationSent(false)} 
+                  className="resend-button"
+                >
+                  Resend Code
+                </button>
+              </div>
+            )}
           </div>
         );
 
@@ -266,6 +538,13 @@ const LandlordSignup = () => {
   return (
     <div className="signup-container">
       <div className="signup-form">
+        <div className="progress-tracker">
+          {[1, 2, 3, 4, 5].map((stepNumber) => (
+            <div key={stepNumber} className={`progress-step ${step >= stepNumber ? 'active' : ''}`}>
+              {stepNumber}
+            </div>
+          ))}
+        </div>
         <div className="form-content">
           {renderStep()}
         </div>
@@ -274,17 +553,36 @@ const LandlordSignup = () => {
             <button
               onClick={() => setStep(step - 1)}
               className="back-button"
+              disabled={isVerifying}
             >
               Back
             </button>
           )}
-          <button
-            onClick={handleSubmit}
-            className="next-button"
-          >
-            {step === 4 ? 'Submit' : 'Continue'}
-          </button>
+          {step < 5 ? (
+            <button
+              onClick={handleSubmit}
+              className="next-button"
+              disabled={isVerifying}
+            >
+              Continue
+            </button>
+          ) : (
+            verificationSent && (
+              <button
+                onClick={verifyCode}
+                className="next-button"
+                disabled={isVerifying}
+              >
+                {isVerifying ? 'Verifying...' : 'Submit'}
+              </button>
+            )
+          )}
         </div>
+        {errors.submission && (
+          <div className="submission-error">
+            {errors.submission}
+          </div>
+        )}
       </div>
     </div>
   );

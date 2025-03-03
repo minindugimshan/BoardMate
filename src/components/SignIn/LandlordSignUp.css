@@ -10,7 +10,9 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/landlord.bg.jpg');
   background-size: cover;
   background-position: center;
+  padding: 4rem 2rem 2rem 2rem;
   min-height: 100vh;
+  box-shadow: 0 10px 30px rgb(0, 0, 0);
 }
 
 /* Background Effect */
@@ -28,7 +30,7 @@
 .signup-form {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(15px);
-  padding: 50px 40px;
+  padding: 30px;
   border-radius: 30px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1),
               0 8px 20px rgba(0, 0, 0, 0.15),
@@ -50,14 +52,59 @@
   }
 }
 
+/* Progress Tracker */
+.progress-tracker {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 0 10px;
+}
+
+.progress-tracker::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background-color: rgba(28, 34, 55, 0.1);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.progress-step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid rgba(28, 34, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(28, 34, 55, 0.5);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active {
+  background-color: #1c2237;
+  border-color: #1c2237;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(28, 34, 55, 0.1);
+}
+
 .form-section {
   margin-bottom: 32px;
 }
 
 .form-section h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 35px;
+  margin-bottom: 24px;
+  font-size: 28px;
   background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -69,7 +116,7 @@
 .rules-container {
   max-height: 250px;
   overflow-y: auto;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   padding-right: 16px;
   scrollbar-width: thin;
   scrollbar-color: #1c2237 rgba(28, 34, 55, 0.08);
@@ -223,7 +270,7 @@
   gap: 16px;
 }
 
-.back-button, .next-button {
+.back-button, .next-button, .verification-button {
   padding: 16px 24px;
   border-radius: 16px;
   font-size: 1.1rem;
@@ -238,12 +285,12 @@
   border: none;
 }
 
-.back-button:hover {
+.back-button:hover:not(:disabled) {
   background: rgba(28, 34, 55, 0.12);
   transform: translateY(-2px);
 }
 
-.next-button {
+.next-button, .verification-button {
   background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
   color: white;
   border: none;
@@ -251,14 +298,19 @@
   box-shadow: 0 4px 12px rgba(28, 34, 55, 0.2);
 }
 
-.next-button:hover {
+.next-button:hover:not(:disabled), .verification-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(28, 34, 55, 0.3);
 }
 
-.next-button:active {
+.next-button:active:not(:disabled), .verification-button:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(28, 34, 55, 0.2);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 input[type="file"] {
@@ -275,35 +327,9 @@ input[type="file"]:hover {
   border-color: rgba(28, 34, 55, 0.2);
 }
 
-@media (max-width: 480px) {
-  .signup-form {
-    padding: 40px 24px;
-  }
-
-  .form-section h2 {
-    font-size: 2.2rem;
-  }
-
-  .input-group input {
-    padding: 14px 16px;
-  }
-
-  .date-inputs {
-    flex-wrap: wrap;
-  }
-
-  .date-inputs input {
-    width: 30%;
-    padding: 12px;
-  }
-
-  .button-group {
-    flex-direction: column;
-  }
-
-  .back-button, .next-button {
-    width: 100%;
-    padding: 14px 20px;
-    font-size: 1rem;
-  }
+/* New verification related styles */
+.verification-success {
+  margin: 20px 0;
+  color: green;
+  text-align: center;
 }
