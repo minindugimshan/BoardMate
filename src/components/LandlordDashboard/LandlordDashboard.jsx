@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Building2, Users, Eye, Star, TrendingUp, Plus } from 'lucide-react';
 import './LandlordDashboard.css';
+import NewProperty from './NewProperty/NewProperty';
 
 const LandlordDashboard = () => {
+  const [showNewPropertyForm, setShowNewPropertyForm] = useState(false);
+  
   // Sample data - replace with actual data from your backend
-  const [properties] = useState([
+  const [properties, setProperties] = useState([
     {
       id: 1,
       image: "/thumbnail1.jpg",
@@ -43,6 +46,28 @@ const LandlordDashboard = () => {
     { title: "Avg. Rating", value: "4.5", icon: <Star /> }
   ];
 
+  const handleAddProperty = (newProperty) => {
+    // Create a new property object with id and default values
+    const propertyToAdd = {
+      id: properties.length + 1,
+      title: newProperty.title,
+      location: newProperty.location,
+      price: `${newProperty.price} LKR`,
+      views: 0,
+      inquiries: 0,
+      rating: 0,
+      status: "Active",
+      // If we have an image URL from the form (in a real app this would come from a file upload service)
+      image: newProperty.images.length > 0 ? URL.createObjectURL(newProperty.images[0]) : "/placeholder.jpg"
+    };
+    
+    // Add the new property to the properties array
+    setProperties([...properties, propertyToAdd]);
+    
+    // Close the form
+    setShowNewPropertyForm(false);
+  };
+
   return (
     <div className="dashboard-container">
         <div className="dashboard-header">
@@ -50,7 +75,10 @@ const LandlordDashboard = () => {
             <h1>Welcome Back!</h1>
             <p>Manage your properties and track their performance all in one place</p>
         </div>
-        <button className="add-property-btn">
+        <button 
+          className="add-property-btn"
+          onClick={() => setShowNewPropertyForm(true)}
+        >
             <Plus size={20} />
             Add New Property
         </button>
@@ -112,6 +140,13 @@ const LandlordDashboard = () => {
           </div>
         </div>
       </div>
+
+      {showNewPropertyForm && (
+        <NewProperty 
+          onClose={() => setShowNewPropertyForm(false)}
+          onSubmit={handleAddProperty}
+        />
+      )}
     </div>
   );
 };
