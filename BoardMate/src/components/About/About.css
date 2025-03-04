@@ -1,0 +1,90 @@
+.about-background{
+    background-color: rgb(12, 12, 57);
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.about-background h1 {
+    color: rgb(243, 221, 177);
+    text-align: center;
+    margin-top: 8%;
+}
+.about-img{
+    max-width: 50%;
+    opacity: 1;
+    border-radius: 250px 0px 0px 0px;
+    flex: 1;
+}
+.about-content{
+    margin-top: 15px;
+    box-shadow: 10px 8px 30px rgba(195, 190, 190, 0.8);
+    padding: 20px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.about-text {
+    flex: 1.5;
+    max-width: 60%;
+    color: white;
+    padding-left: 30px;
+    text-align: left;
+    font-size: 26px;
+}
+.mission-p{
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 22px;
+}
+
+
+.about-search{
+    border: 1px solid rgb(42, 66, 108);
+    padding: 20px;
+    background-color: rgb(42, 66, 108);
+    /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
+    color: rgb(255, 252, 252);
+    border-radius: 30px;
+    text-align: center;
+    width: 400px;
+    height: 250px;
+}
+.search-icon{
+    height: 40px;
+}
+.paper-icon{
+    height: 50px;
+}
+
+.negotiation{
+    border: 1px solid rgb(42, 66, 108);
+    padding: 20px;
+    background-color: rgb(42, 66, 108);
+    /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
+    color: white;
+    border-radius: 30px;
+    text-align: center;
+    width: 400px;
+}
+.paper{
+    border: 1px solid rgb(42, 66, 108);
+    padding: 20px;
+    background-color: rgb(42, 66, 108);
+    /* box-shadow: 5px 5px 10px rgba(238, 240, 248, 0.8); */
+    color: white;
+    border-radius: 30px;
+    text-align: center;
+    width: 400px;
+}
+.about-boxes{
+    display: flex;
+    gap: 40px;
+}
+
+
