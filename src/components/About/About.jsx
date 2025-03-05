@@ -76,20 +76,85 @@ function About() {
                 improving our platform to better serve the student community.
                 </p> 
 
-                
-                {/* <h2>Dream Team Behind BoardMate</h2>
-
-                <div className='card-container'>
-                    <div className='image1'>
-                        <img src="./Nethini.jpeg" alt="" />
+                <div className='wrapper'>
+                    <div className='title'>
+                        <h4>Meet The Dream Team Behind This Platform</h4>
                     </div>
 
-                    <div className='descrip1'>
-                        <h3>Nethini Galagama</h3>
+                    <div className='card-container'>
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Nethini.jpeg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Nethini Galagama</h5>
+                            </div>
+                        </div>
+
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Suhanya.jpeg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Suhanya Kuruneru</h5>
+                            </div>
+                        </div>
+
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Hasindi.jpg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Hasindi Thiranya</h5>
+                            </div>
+                        </div>
+
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Minindu.jpeg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Minindu Gimshan</h5>
+                            </div>
+                        </div>
+
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Ravishka.jpeg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Ravishka Dulshan</h5>
+                            </div>
+                        </div>
+
+                        <div className='card'>
+
+                            <div className='image1'>
+                                <img src="./Pasindu.jpeg" alt="" />
+                            </div>
+
+                            <div className='content'>
+                                <h5>Pasindu Theekshana</h5>
+                            </div>
+                        </div>
+
                     </div>
-                </div> */}
+
+                </div>
                 
             </div>
+            <br /> <br /><br /><br />
+
 
         </div>
     </div>
