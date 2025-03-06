@@ -24,6 +24,42 @@ const PropertyDetails = () => {
     );
   };
 
+  // Function to create a Google Calendar event URL
+  const createGoogleCalendarEvent = () => {
+    if (!property) return '';
+    
+    // Format dates for Google Calendar
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Set default start time to tomorrow at 10:00 AM
+    const startTime = new Date(tomorrow);
+    startTime.setHours(10, 0, 0, 0);
+    
+    // End time is 30 minutes after start time
+    const endTime = new Date(startTime);
+    endTime.setMinutes(endTime.getMinutes() + 30);
+    
+    // Format dates for Google Calendar URL
+    const formatDate = (date) => {
+      return date.toISOString().replace(/-|:|\.\d+/g, '');
+    };
+    
+    const startTimeFormatted = formatDate(startTime);
+    const endTimeFormatted = formatDate(endTime);
+    
+    // Create event details
+    const eventTitle = `Property Tour: ${property.name}`;
+    const eventLocation = property.address;
+    const eventDetails = `Tour of ${property.type} property.\n\nProperty details:\n- ${property.totalBeds} beds\n- ${property.totalRooms} rooms\n- Contact: ${property.contactNumber}`;
+    
+    // Construct Google Calendar URL
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startTimeFormatted}/${endTimeFormatted}&details=${encodeURIComponent(eventDetails)}&location=${encodeURIComponent(eventLocation)}&sprop=&sprop=name:`;
+    
+    return googleCalendarUrl;
+  };
+
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   // Helper function to get amenity icons
@@ -66,10 +102,15 @@ const PropertyDetails = () => {
         </div>
 
         <div className="booking-section">
-          <button className="book-tour-btn">
+          <a 
+            href={createGoogleCalendarEvent()} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="book-tour-btn"
+          >
             <Calendar size={20} />
-            Book a virtual tour
-          </button>
+            Book a tour
+          </a>
           <div className="rating-container">
             <Star className="star" size={20} />
             <span>{property.rating}</span>
