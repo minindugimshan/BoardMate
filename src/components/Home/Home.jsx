@@ -78,8 +78,23 @@ function Home() {
           >
             <option value="" disabled hidden>Location</option>
             <option value="Colombo">Colombo</option>
-            <option value="Dehiwala">Dehiwala-Mount Lavinia</option>
-            <option value="Nugegoda">Nugegoda</option>   
+            <option value="Dehiwala">Dehiwala</option>
+            <option value="Nugegoda">Nugegoda</option>
+            <option value="Boralesgamuwa">Boralesgamuwa</option>   
+            <option value="Mount Lavinia">Mount Lavinia</option>
+            <option value="Kirulapana">Kirulapana</option>
+            <option value="Colombo 06">Colombo 06</option>
+            <option value="Colombo 05">Colombo 05</option>
+            <option value="Colombo 04">Colombo 04</option>
+            <option value="Wellawatte">Wellawatte</option>
+            <option value="Bambalapitiya">Bambalapitiya</option>
+            <option value="Kollupitiya">Kollupitiya</option>
+            <option value="Rathmalana">Rathmalana</option>
+            <option value="Pepiliyana">Pepiliyana</option>
+            <option value="Zoyzapura">Zoyzapura</option>
+            <option value="Katubedda">Katubedda</option>
+            <option value="Kalubowila">Kalubowila</option>
+            <option value="Wijerama">Wijerama</option>
           </select>
 
           <select 
