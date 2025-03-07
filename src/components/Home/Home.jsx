@@ -115,11 +115,14 @@ function Home() {
             onChange={handleChange}
             >
               <option value="" disabled hidden>Price Range PCM</option>
-              <option value="5,000">5,000-10,000 LKR</option>
-              <option value="10,000">10,000-20,000 LKR</option>
-              <option value="20,000">20,000-30,000 LKR</option>
-              <option value="30,000">30,000-40,000 LKR</option>
-              <option value="40,000">40,000-50,000 LKR</option>
+              <option value="5,000">9,000-14,000 LKR</option>
+              <option value="10,000">14,000-19,000 LKR</option>
+              <option value="20,000">19,000-24,000 LKR</option>
+              <option value="30,000">24,000-29,000 LKR</option>
+              <option value="40,000">29,000-34,000 LKR</option>
+              <option value="40,000">34,000-39,000 LKR</option>
+              <option value="40,000">39,000-44,000 LKR</option>
+              <option value="40,000">44,000-50,000 LKR</option>
           </select>
 
           <select 
