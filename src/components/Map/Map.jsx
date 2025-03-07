@@ -282,7 +282,7 @@ function Map() {
 
                 <label htmlFor="amenities" className='locLabel'>Amenities</label> <br />
                 <div className='amenitiesContainer'>
-                    {["Furniture", "Wi-Fi", "Kitchen", "Parking Space","Fridge","Study Desk"].map((amenitiesList) => {
+                    {["Furniture", "Wi-Fi", "Kitchen", "Parking Space","Fridge","Study Desk","Ceiling Fan"].map((amenitiesList) => {
                         return(
                             <div className='amenities-item'>
 
