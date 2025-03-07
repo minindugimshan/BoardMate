@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './Home.css'
 import {TypeAnimation} from "react-type-animation"
+import { propertyData } from '../../data/propertyData';
 
 function Home() {
-
+  const navigate = useNavigate();
   const [searchInput , setSearchInput] = useState({
     university : '',
     location : '',
@@ -13,21 +15,24 @@ function Home() {
   });
 
   const handleChange = (e) => {
-    const {name , value} = e.target;
-
-    setSearchInput ( (prev) => {
-      const updated = {
-        ...prev,
-        [name] : value,
-      }
-      return updated
-    }
-  )
-  }
+    const { name, value } = e.target;
+    setSearchInput(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSearch = (e) => {
      e.preventDefault();
+     const queryParams = new URLSearchParams(searchInput);
+     navigate(`/search?${queryParams.toString()}`);
   }
+
+  const handlePropertyClick = (propertyId) => {
+    navigate(`/property/${propertyId}`);
+  };
+
+
   // Testing the home
 
   return (
@@ -144,6 +149,27 @@ function Home() {
 
       <div className='mostviewed-props'>
         <h2 className='mostviewed'>Most Viewed</h2>
+
+        <div className='property-grid'>
+          {propertyData.map(property => (
+            <div 
+              key={property.id} 
+              className='property-card'
+              onClick={() => handlePropertyClick(property.id)}
+            >
+              <img src={property.images[0]} alt={property.name} />
+              <div className='property-info'>
+                <h3>{property.name}</h3>
+                <p className='location'>{property.location}</p>
+                <p className='price'>LKR {property.price} / month</p>
+                <div className='rating'>
+                  <span>★ {property.rating}</span>
+                  <span className='total-users'>({property.totalUsers} users)</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
         
       </div> <br /><br /><br />
        
