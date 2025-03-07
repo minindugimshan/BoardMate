@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
@@ -13,53 +14,7 @@ const markerIcon = new L.icon({
     popupAnchor: [1,-34],
 });
 
-// const extractLatLng = (mapUrl) => {
-//     if (!mapUrl || typeof mapUrl !== "string") {
-//         console.error("Invalid map URL:", mapUrl);
-//         return null;
-//     }
 
-//     // Corrected regex to extract both latitude (3d) and longitude (2d)
-//     const regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
-//     const match = mapUrl.match(regex);
-
-//     if (match) {
-//         const extracted = { lat: parseFloat(match[2]), lng: parseFloat(match[1]) };
-//         console.log("Extracted coordinates:", extracted); // Debugging line
-//         return extracted;
-//         // return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; // Order: lat, lng
-//     }
-
-//     console.error("Coordinates not found in URL:", mapUrl);
-//     return null;
-// };
-
-
-
-// const extractLatLng = (mapUrl) => {
-//     if (!mapUrl || typeof mapUrl !== "string") {
-//         console.error("Invalid map URL:", mapUrl);
-//         return null;
-//     }
-
-//     // First try the standard pattern
-//     let regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
-//     let match = mapUrl.match(regex);
-
-//     // If the first pattern doesn't match, try another structure
-//     if (!match) {
-//         regex = /!3d([-+]?\d*\.\d+)!2d([-+]?\d*\.\d+)/;
-//         match = mapUrl.match(regex);
-//     }
-
-//     if (match) {
-//         console.log("Extracted coordinates:", { lat: parseFloat(match[2]), lng: parseFloat(match[1]) });
-//         return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; 
-//     }
-
-//     console.error("Coordinates not found in URL:", mapUrl);
-//     return null;
-// };
 
 const extractLatLng = (mapUrl) => {
     if (!mapUrl || typeof mapUrl !== "string") {
@@ -95,6 +50,7 @@ const extractLatLng = (mapUrl) => {
 
 
 function Map() {
+    const navigate = useNavigate();
 
     const [filteredProperties , setFilteredProperties] = useState(propertyData);
 
@@ -372,6 +328,18 @@ function Map() {
                                 Type : {property.type} <br />
                                 Location : {property.location} <br />
                                 Price: {property.price} LKR <br />
+
+                                <button 
+                                    onClick={() => navigate(`/property/${property.id}`)}
+                                    style={{
+                                        backgroundColor: 'skyblue',
+                                        border: 'none',
+                                        padding: '5px 10px',
+                                        cursor: 'pointer',
+                                        marginTop: '10px'
+                                    }}>
+                                    View Details
+                                </button>
                             </Popup>
                         
                 
