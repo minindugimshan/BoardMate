@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi } from 'lucide-react';
+import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key } from 'lucide-react';
 import { propertyData } from '../../data/propertyData';
 import { useState } from 'react';
 import './PropertyDetails.css';
@@ -60,6 +60,15 @@ const PropertyDetails = () => {
     return googleCalendarUrl;
   };
 
+  // Function to handle booking property
+  const handleBookProperty = () => {
+    // This function would typically navigate to a booking form or payment page
+    alert(`Initiating booking process for ${property.name}. You will be redirected to the payment page.`);
+    // Placeholder for actual booking functionality
+    // In a real application, you might use:
+    // navigate('/booking-form', { state: { propertyId: property.id } });
+  };
+
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   // Helper function to get amenity icons
@@ -101,7 +110,7 @@ const PropertyDetails = () => {
           </div>
         </div>
 
-        <div className="booking-section">
+       
           <a 
             href={createGoogleCalendarEvent()} 
             target="_blank" 
@@ -111,6 +120,16 @@ const PropertyDetails = () => {
             <Calendar size={20} />
             Book a tour
           </a>
+
+          <div className="booking-section">
+          <button 
+            className="book-property-btn"
+            onClick={handleBookProperty}
+          >
+            <Key size={20} />
+            Book Property
+          </button>
+          
           <div className="rating-container">
             <Star className="star" size={20} />
             <span>{property.rating}</span>

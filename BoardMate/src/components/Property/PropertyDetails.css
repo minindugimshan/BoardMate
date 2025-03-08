@@ -337,7 +337,7 @@
   align-items: center;
 }
 
-.book-tour-btn {
+.book-tour-btn, .book-property-btn {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -352,7 +352,14 @@
   transition: all 0.3s ease;
 }
 
+
 .book-tour-btn:hover {
+  background: #2F4156;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-property-btn:hover {
   background: #2F4156;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
