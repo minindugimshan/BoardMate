@@ -215,7 +215,7 @@ function Map() {
                         type="range" 
                         className='budget'
                         min='9000'
-                        max='50000'
+                        max='151000'
                         step='1000'
                         value={formInput.monthlyBudget}
                         onChange={ (e) => handleChange("monthlyBudget", e.target.value) }

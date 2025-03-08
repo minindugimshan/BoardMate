@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
 import './Payments.css'
 import { propertyData } from '../../data/propertyData'
-import { Currency } from 'lucide-react';
+import { MapPin } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
-function Payments({property}) {
+function Payments() {
+    const {id} = useParams();
+    const propertyId = parseInt(id);
+    const property = propertyData.find(p => p.id === propertyId);
 
     const [isRedirecting , setIsRedirecting] = useState(false);
+
+    if (!property){
+        return <div className='text-center mt-5'>Property Not Found</div>
+    }
 
     const handleBookNow = () => {
         // starting the redirecting process
         setIsRedirecting(true);
-        initiatePayment(propertyData);
+        initiatePayment(property);
     };
 
     const initiatePayment = (property) => {
@@ -36,10 +44,14 @@ function Payments({property}) {
 
 
   return (
-    <div>
-        <h2>Book Your Property: {propertyData.name}</h2>
-        <h4>Price: {propertyData.price} </h4>
-        <button onClick={handleBookNow}>Proceed to pay</button>
+    <div className='payment-details container d-flex justify-content-center align-items-center min-vh-100'>
+        <div className='card shadow p-4 text center w-75 m-md-50'>
+            <h2 className='mb-3'>Booking Details: <br /><br /> {property.name}</h2>
+            <h4 className='text-primary'>Price: {property.price} </h4>
+            <h4>Location: <MapPin size={24} color='red' /> {property.location} </h4>
+            <button className='btn btn-primary mt-3 w-100' onClick={handleBookNow}>Proceed to pay</button>
+        </div>
+    
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi } from 'lucide-react';
 import { propertyData } from '../../data/propertyData';
 import { useState } from 'react';
@@ -70,6 +70,13 @@ const PropertyDetails = () => {
     if (facilityLower.includes('wifi') || facilityLower.includes('internet')) return <Wifi size={24} />;
     return <Home size={24} />;
   };
+
+  // navigating to the payments page
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    navigate(`/property/${id}/payments`);
+  }
 
   return (
     <div className="property-details-container">
@@ -176,6 +183,9 @@ const PropertyDetails = () => {
           <div className="no-image">No images available</div>
         )}
       </div>
+
+      {/* Newly added */}
+      <button onClick={handleBookNow}>Book Now</button>
     </div>
   );
 };

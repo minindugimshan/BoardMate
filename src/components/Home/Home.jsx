@@ -125,9 +125,9 @@ function Home() {
               <option value="20,000">19,000-24,000 LKR</option>
               <option value="30,000">24,000-29,000 LKR</option>
               <option value="40,000">29,000-34,000 LKR</option>
-              <option value="40,000">34,000-39,000 LKR</option>
-              <option value="40,000">39,000-44,000 LKR</option>
-              <option value="40,000">44,000-50,000 LKR</option>
+              <option value="50,000">34,000-39,000 LKR</option>
+              <option value="60,000">39,000-44,000 LKR</option>
+              <option value="70,000">44,000-50,000 LKR</option>
           </select>
 
           <select 
@@ -137,10 +137,10 @@ function Home() {
             onChange={handleChange}
           >
             <option value=""disabled hidden>Room/House Type</option>
-            <option value="shared">Shared House</option>
             <option value="male">Single Room</option>
             <option value="female">Double Room</option>
             <option value="other">Shared Room</option>
+            <option value="shared">Annex</option>
           </select>
 
           <button className='searchButton' onClick={handleSearch}> ⌕ </button>

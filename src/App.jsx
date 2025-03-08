@@ -9,6 +9,7 @@ import About from './components/About/About'
 import Support from './components/Support/Support'
 import PropertyDetails from './components/Property/PropertyDetails'
 import SearchResults from './components/Property/SearchResults'
+import Payments from './components/Payments/Payments'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/Support' element={<Support />} ></Route>
         <Route path='/property/:id' element={<PropertyDetails />} /> 
         <Route path='/search' element={<SearchResults />} />
+        <Route path='property/:id/payments' element={<Payments />} />
       </Routes>
       <Footer />
     </>
