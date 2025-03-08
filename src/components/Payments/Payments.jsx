@@ -1,10 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Payments.css'
 import { propertyData } from '../../data/propertyData'
 import { MapPin } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 function Payments() {
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://sandbox.payhere.lk/payhere.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
     const {id} = useParams();
     const propertyId = parseInt(id);
     const property = propertyData.find(p => p.id === propertyId);
@@ -27,7 +39,7 @@ function Payments() {
             merchant_id: "1229745",
             return_url: "http://localhost:5173/payment-success",
             cancel_url: "http://localhost:5173/payment-cancel",
-            notify_url: "http://localhost:5173/payment-notify",
+            notify_url: "",
             order_id: `order_${Date.now()}`,
             items: property.name,
             amount: property.price,
@@ -40,6 +52,11 @@ function Payments() {
             city: "Colombo",
             country: "Sri Lanka",
         };
+
+        console.log("Merchant ID: ", payment.merchant_id);
+        console.log("Amount: ", payment.amount);
+        console.log("Order ID: ", payment.order_id);
+        
 
         payhere.onCompleted = function(orderId) {
             console.log("Payment completed. OrderID: ", orderId);
@@ -56,18 +73,15 @@ function Payments() {
             alert("Payment failed. Please try again,")
         };
 
-        // opening payhere
+        console.log("Attempting to start PayHere payment with:", payment);
+
         payhere.startPayment(payment);
 
         
-        // const payHereURL = `https://sandbox.payhere.lk/pay/checkout?${new URLSearchParams(paymentData).toString()}`;
-        // window.location.href = payHereURL;
+        
     };
 
-    // if (isRedirecting) {
-    //     return <p>Redirecting to the Payments Page.....</p>
-    // }
-
+    
 
   return (
     <div className='container d-flex justify-content-center align-items-center min-vh-100'>

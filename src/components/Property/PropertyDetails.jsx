@@ -60,6 +60,20 @@ const PropertyDetails = () => {
     return googleCalendarUrl;
   };
 
+  // navigating to the payments page
+  const navigate = useNavigate();
+
+  // Function to handle booking property
+  const handleBookProperty = () => {
+    // This function would typically navigate to a booking form or payment page
+    // 
+    navigate(`/property/${id}/payments`);
+    // Placeholder for actual booking functionality
+    // In a real application, you might use:
+    // navigate('/booking-form', { state: { propertyId: property.id } });
+  };
+
+
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   // Helper function to get amenity icons
@@ -71,13 +85,6 @@ const PropertyDetails = () => {
     return <Home size={24} />;
   };
 
-  // Newly Added
-  // navigating to the payments page
-  const navigate = useNavigate();
-
-  const handleBookNow = () => {
-    navigate(`/property/${id}/payments`);
-  }
 
   return (
     <div className="property-details-container">
@@ -119,6 +126,7 @@ const PropertyDetails = () => {
             <Calendar size={20} />
             Book a tour
           </a>
+
           <div className="rating-container">
             <Star className="star" size={20} />
             <span>{property.rating}</span>
@@ -162,7 +170,7 @@ const PropertyDetails = () => {
         )}
 
         {/* Newly added */}
-        <button className='book-now' onClick={handleBookNow}>Book Now</button>
+        <button className='book-now' onClick={handleBookProperty}>Book Now</button>
       </div>
 
       <div className="property-image-section">
