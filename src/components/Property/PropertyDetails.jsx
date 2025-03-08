@@ -71,6 +71,7 @@ const PropertyDetails = () => {
     return <Home size={24} />;
   };
 
+  // Newly Added
   // navigating to the payments page
   const navigate = useNavigate();
 
@@ -159,6 +160,9 @@ const PropertyDetails = () => {
             ></iframe>
           </div>
         )}
+
+        {/* Newly added */}
+        <button className='book-now' onClick={handleBookNow}>Book Now</button>
       </div>
 
       <div className="property-image-section">
@@ -184,8 +188,6 @@ const PropertyDetails = () => {
         )}
       </div>
 
-      {/* Newly added */}
-      <button onClick={handleBookNow}>Book Now</button>
     </div>
   );
 };

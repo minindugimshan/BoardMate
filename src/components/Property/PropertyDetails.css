@@ -532,3 +532,12 @@
     margin-left: 0;
   }
 }
+
+/* Newly Added */
+.book-now{
+  margin-top: 50px;
+  padding: 10px;
+  width: fit-content;
+  background-color: skyblue;
+  border: none;
+}

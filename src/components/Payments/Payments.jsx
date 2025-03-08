@@ -22,7 +22,8 @@ function Payments() {
     };
 
     const initiatePayment = (property) => {
-        const paymentData = {
+        const payment = {
+            sandbox: true,
             merchant_id: "1229745",
             return_url: "http://localhost:5173/payment-success",
             cancel_url: "http://localhost:5173/payment-cancel",
@@ -31,25 +32,51 @@ function Payments() {
             items: property.name,
             amount: property.price,
             currency: "LKR",
+            first_name: "Test",
+            last_name: "User",
+            email: "test@example.com",
+            phone: "0123456789",
+            address: "Colombo",
+            city: "Colombo",
+            country: "Sri Lanka",
         };
 
-        // redirecting the user to PayHere payment page with all the payment data
-        const payHereURL = `https://sandbox.payhere.lk/pay/checkout?${new URLSearchParams(paymentData).toString()}`;
-        window.location.href = payHereURL;
+        payhere.onCompleted = function(orderId) {
+            console.log("Payment completed. OrderID: ", orderId);
+            window.location.href = `/payment-success`;
+        };
+
+        payhere.onDismissed = function() {
+            console.log("Payment dismissed bu user ");
+            window.location.href = `/payment-cancel`;
+        };
+
+        payhere.onError = function(error) {
+            console.log("Error occurred: " , error);
+            alert("Payment failed. Please try again,")
+        };
+
+        // opening payhere
+        payhere.startPayment(payment);
+
+        
+        // const payHereURL = `https://sandbox.payhere.lk/pay/checkout?${new URLSearchParams(paymentData).toString()}`;
+        // window.location.href = payHereURL;
     };
 
-    if (isRedirecting) {
-        return <p>Redirecting to the Payments Page.....</p>
-    }
+    // if (isRedirecting) {
+    //     return <p>Redirecting to the Payments Page.....</p>
+    // }
 
 
   return (
-    <div className='payment-details container d-flex justify-content-center align-items-center min-vh-100'>
-        <div className='card shadow p-4 text center w-75 m-md-50'>
-            <h2 className='mb-3'>Booking Details: <br /><br /> {property.name}</h2>
-            <h4 className='text-primary'>Price: {property.price} </h4>
+    <div className='container d-flex justify-content-center align-items-center min-vh-100'>
+        <div className='card shadow p-4 text center w-75 m-md-50' id='payments-container'>
+            <h2 className='mb-3'>Booking Details: <br /><br /></h2>
+            <h2 className='prop-name'>{property.name}</h2>
+            <h4>Price: {property.price} LKR </h4>
             <h4>Location: <MapPin size={24} color='red' /> {property.location} </h4>
-            <button className='btn btn-primary mt-3 w-100' onClick={handleBookNow}>Proceed to pay</button>
+            <button className='btn mt-3 w-50' onClick={handleBookNow}>Proceed to pay</button>
         </div>
     
     </div>
