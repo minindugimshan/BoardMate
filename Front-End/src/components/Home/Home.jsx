@@ -79,10 +79,67 @@ function Home() {
             <option value="Colombo">Colombo</option>
             <option value="Dehiwala">Dehiwala-Mount Lavinia</option>
             <option value="Nugegoda">Nugegoda</option>
-            {/* Add other locations */}
+            <option value="" disabled hidden>Location</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Dehiwala">Dehiwala</option>
+            <option value="Nugegoda">Nugegoda</option>
+            <option value="Boralesgamuwa">Boralesgamuwa</option>   
+            <option value="Mount Lavinia">Mount Lavinia</option>
+            <option value="Kirulapana">Kirulapana</option>
+            <option value="Colombo 06">Colombo 06</option>
+            <option value="Colombo 05">Colombo 05</option>
+            <option value="Colombo 04">Colombo 04</option>
+            <option value="Wellawatte">Wellawatte</option>
+            <option value="Bambalapitiya">Bambalapitiya</option>
+            <option value="Kollupitiya">Kollupitiya</option>
+            <option value="Rathmalana">Rathmalana</option>
+            <option value="Pepiliyana">Pepiliyana</option>
+            <option value="Zoyzapura">Zoyzapura</option>
+            <option value="Katubedda">Katubedda</option>
+            <option value="Kalubowila">Kalubowila</option>
+            <option value="Wijerama">Wijerama</option>
           </select>
 
-          {/* Other select inputs remain the same */}
+          <select 
+            name="gender" 
+            id="gender"
+            value={searchInput.gender}
+            onChange={handleChange}
+          >
+            <option value=""disabled hidden>Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <select 
+            name="priceRange"
+            id="priceRange"
+            value={searchInput.priceRange}
+            onChange={handleChange}
+            >
+              <option value="" disabled hidden>Price Range PCM</option>
+              <option value="5,000">9,000-14,000 LKR</option>
+              <option value="10,000">14,000-19,000 LKR</option>
+              <option value="20,000">19,000-24,000 LKR</option>
+              <option value="30,000">24,000-29,000 LKR</option>
+              <option value="40,000">29,000-34,000 LKR</option>
+              <option value="50,000">34,000-39,000 LKR</option>
+              <option value="60,000">39,000-44,000 LKR</option>
+              <option value="70,000">44,000-50,000 LKR</option>
+          </select>
+
+          <select 
+            name="roomType" 
+            id="roomType"
+            value={searchInput.roomType}
+            onChange={handleChange}
+          >
+            <option value=""disabled hidden>Room/House Type</option>
+            <option value="male">Single Room</option>
+            <option value="female">Double Room</option>
+            <option value="other">Shared Room</option>
+            <option value="shared">Annex</option>
+          </select>
 
           <button className='searchButton' onClick={handleSearch}>⌕</button>
         </div>
