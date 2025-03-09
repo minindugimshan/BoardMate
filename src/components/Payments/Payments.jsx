@@ -33,53 +33,125 @@ function Payments() {
         initiatePayment(property);
     };
 
-    const initiatePayment = (property) => {
-        const payment = {
-            sandbox: true,
-            merchant_id: "1229745",
-            return_url: "http://localhost:5173/payment-success",
-            cancel_url: "http://localhost:5173/payment-cancel",
-            notify_url: "",
-            order_id: `order_${Date.now()}`,
-            items: property.name,
-            amount: property.price,
-            currency: "LKR",
-            first_name: "Test",
-            last_name: "User",
-            email: "test@example.com",
-            phone: "0123456789",
-            address: "Colombo",
-            city: "Colombo",
-            country: "Sri Lanka",
-        };
+    const initiatePayment = async (property) => {
+        const orderId = `order_${Date.now()}`;
+        const amount = property.price.toString();
+        const currency = "LKR";
 
-        console.log("Merchant ID: ", payment.merchant_id);
-        console.log("Amount: ", payment.amount);
-        console.log("Order ID: ", payment.order_id);
-        
+        try {
+            // 🔥 Fetch the hash from the backend
+            const response = await fetch("http://localhost:8080/api/payment/generate-hash", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    orderId: orderId,
+                    amount: amount,
+                    currency: currency
+                })
+            });
 
-        payhere.onCompleted = function(orderId) {
-            console.log("Payment completed. OrderID: ", orderId);
-            window.location.href = `/payment-success`;
-        };
+            const hash = await response.text();
 
-        payhere.onDismissed = function() {
-            console.log("Payment dismissed bu user ");
-            window.location.href = `/payment-cancel`;
-        };
+            if (!hash) {
+                throw new Error("Failed to generate hash");
+            }
 
-        payhere.onError = function(error) {
-            console.log("Error occurred: " , error);
-            alert("Payment failed. Please try again,")
-        };
+            // 🔥 Proceed with payment now that we have the hash
+            const payment = {
+                sandbox: true,
+                merchant_id: "1229745",  // Your PayHere Merchant ID
+                return_url: "http://localhost:5173/payment-success",
+                cancel_url: "http://localhost:5173/payment-cancel",
+                notify_url: "http://localhost:8080/api/payment/notify",
+                order_id: orderId,
+                items: property.name,
+                amount: amount,
+                currency: currency,
+                hash: hash,  // 🔥 Use generated hash from backend
+                first_name: "Test",
+                last_name: "User",
+                email: "test@example.com",
+                phone: "0123456789",
+                address: "Colombo",
+                city: "Colombo",
+                country: "Sri Lanka"
+            };
 
-        console.log("Attempting to start PayHere payment with:", payment);
+            console.log("Starting PayHere payment with:", payment);
 
-        payhere.startPayment(payment);
+            payhere.onCompleted = function(orderId) {
+                console.log("Payment completed. OrderID: ", orderId);
+                window.location.href = `/payment-success`;
+            };
 
-        
-        
+            payhere.onDismissed = function() {
+                console.log("Payment dismissed by user");
+                window.location.href = `/payment-cancel`;
+            };
+
+            payhere.onError = function(error) {
+                console.log("Error occurred: ", error);
+                alert("Payment failed. Please try again.");
+            };
+
+            payhere.startPayment(payment);
+
+        } catch (error) {
+            console.error("Payment initiation error:", error);
+            alert("Error initiating payment.");
+        }
     };
+
+    // const initiatePayment = (property) => {
+    //     const payment = {
+    //         sandbox: true,
+    //         merchant_id: "1229745",
+    //         return_url: "http://localhost:5173/payment-success",
+    //         cancel_url: "http://localhost:5173/payment-cancel",
+    //         notify_url: "http://localhost:8080/api/payment/notify",
+    //         order_id: `order_${Date.now()}`,
+    //         items: property.name,
+    //         amount: property.price,
+    //         currency: "LKR",
+    //         first_name: "Test",
+    //         last_name: "User",
+    //         email: "test@example.com",
+    //         phone: "0123456789",
+    //         address: "Colombo",
+    //         city: "Colombo",
+    //         country: "Sri Lanka",
+    //         hash: hash
+    //     };
+
+    //     console.log("Merchant ID: ", payment.merchant_id);
+    //     console.log("Amount: ", payment.amount);
+    //     console.log("Order ID: ", payment.order_id);
+        
+
+    //     payhere.onCompleted = function(orderId) {
+    //         console.log("Payment completed. OrderID: ", orderId);
+    //         window.location.href = `/payment-success`;
+    //     };
+
+    //     payhere.onDismissed = function() {
+    //         console.log("Payment dismissed bu user ");
+    //         window.location.href = `/payment-cancel`;
+    //     };
+
+    //     payhere.onError = function(error) {
+    //         console.log("Error occurred: " , error);
+    //         alert("Payment failed. Please try again,")
+    //     };
+
+    //     console.log("Attempting to start PayHere payment with:", payment);
+
+    //     payhere.startPayment(payment);
+
+        
+        
+    // };
 
     
 
