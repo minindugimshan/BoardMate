@@ -10,6 +10,8 @@ import Support from './components/Support/Support'
 import PropertyDetails from './components/Property/PropertyDetails'
 import SearchResults from './components/Property/SearchResults'
 import Payments from './components/Payments/Payments'
+import PaymentSuccess from './components/Payments/PaymentSuccess'
+import PaymentCancel from './components/Payments/PaymentCancel'
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
         <Route path='/property/:id' element={<PropertyDetails />} /> 
         <Route path='/search' element={<SearchResults />} />
         <Route path='property/:id/payments' element={<Payments />} />
+        <Route path='/payment-success' element={<PaymentSuccess />}></Route>
+        <Route path='/payment-cancel' element={<PaymentCancel />} />
       </Routes>
       <Footer />
     </>
