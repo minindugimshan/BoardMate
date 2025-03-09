@@ -1,9 +1,14 @@
-import React from 'react'
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom"; 
+
 import { Container, Navbar, Nav } from 'react-bootstrap'
+import StudentProfile from '../Profile/StudentProfile'; 
 import './Navigationbar.css'
 import { useLocation } from 'react-router-dom'
 
 function Navigationbar() {
+  const [showProfile, setShowProfile] = useState(false);
+  const navigate = useNavigate();
   return (
     <Navbar className='Navbar' expand='lg' >
       <Container>
@@ -21,9 +26,18 @@ function Navigationbar() {
             <Nav.Link href='/Support'>Support</Nav.Link>
           </nav>
 
+             {/* Profile Container */}
           <div className='profileContainer'>
-            <img className='profile' src="https://static.vecteezy.com/system/resources/thumbnails/006/017/592/small/ui-profile-icon-vector.jpg" alt="profile" />
+            <img 
+              className='profile' 
+              src="https://static.vecteezy.com/system/resources/thumbnails/006/017/592/small/ui-profile-icon-vector.jpg" 
+              alt="profile" 
+              onClick={() => setShowProfile(!showProfile)} // Toggle profile
+            />
+            {showProfile && <StudentProfile />} {/* Ensure valid JSX expression */}
           </div>
+
+      
           
         </Navbar.Collapse>
 

@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer'
 import About from './components/About/About'
 import PropertyDetails from './components/Property/PropertyDetails'
 import SearchResults from './components/Property/SearchResults'
+import StudentProfile from './components/Profile/StudentProfile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/property/:id' element={<PropertyDetails />} /> 
         <Route path='/search' element={<SearchResults />} />
+        <Route path='/profile' element={<StudentProfile />} /> 
       </Routes>
       <Footer />
     </>
