@@ -111,30 +111,30 @@ const PropertyDetails = () => {
         </div>
 
        
-          <a 
-            href={createGoogleCalendarEvent()} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="book-tour-btn"
-          >
-            <Calendar size={20} />
-            Book a tour
-          </a>
+        <div className="booking-section">
+      <a 
+        href={createGoogleCalendarEvent()} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="book-tour-btn"
+      >
+        <Calendar size={20} />
+        Book a tour
+      </a>
 
-          <div className="booking-section">
-          <button 
-            className="book-property-btn"
-            onClick={handleBookProperty}
-          >
-            <Key size={20} />
-            Book Property
-          </button>
-          
-          <div className="rating-container">
-            <Star className="star" size={20} />
-            <span>{property.rating}</span>
-          </div>
-        </div>
+      <button 
+        className="book-property-btn"
+        onClick={handleBookProperty}
+      >
+        <Key size={20} />
+        Book Property
+      </button>
+    </div>
+
+    <div className="rating-container">
+      <Star className="star" size={20} />
+      <span>{property.rating}</span>
+    </div>
 
         <div className="property-description">
           <h2>Description</h2>
