@@ -48,8 +48,10 @@ function Footer() {
                 <Link to="/about">
                     <p>About Us</p>
                 </Link>
+                <Link to="/TC">
                 <p>T&C</p>
 
+                </Link>
                 <Link to="/">
                     <p>Home</p>
                 </Link>
