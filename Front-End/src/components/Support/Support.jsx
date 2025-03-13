@@ -15,7 +15,24 @@ function Support() {
             </h2>
           </div>
         </div>
-        
+
+        <div className='cards'>
+          <div className='discover'>
+            <img src="./real-estate-searching.png" alt="" />
+            <div className='content'>
+              <h2 className='discover-topic'>Discover</h2>
+              <p className='discover-para'>
+                Discover from a range of properties provided on our website.
+                Choose your home according to your needs. <br />
+                If you are not satisfied with the listings given on our website, <br />
+                we will find properties according to your preferences.
+              </p>
+            </div>
+          </div>
+          <br />
+
+        </div>
+
     </div>
   )
 }
