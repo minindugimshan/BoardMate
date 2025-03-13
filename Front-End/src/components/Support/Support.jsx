@@ -44,7 +44,18 @@ function Support() {
           </div>
           <br />
 
-          
+          <div className='discover'>
+            <img src="./paperwork1.png" alt="" />
+            <div className='content'>
+              <h2 className='discover-topic'>Get Your Paperwork Done</h2>
+              <p className='discover-para'>
+                After finalizing your property with the landlord, we'll start the paperwork for you. <br />
+                Paperwork includes signing of your agreement and etc. It may involve payment for the 
+                first month (or first few months) which is the "key money" and other charges like application fees.
+              </p>
+            </div>
+          </div>
+          <br />
 
 
 
