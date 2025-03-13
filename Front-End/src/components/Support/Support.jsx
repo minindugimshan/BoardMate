@@ -57,8 +57,66 @@ function Support() {
           </div>
           <br />
 
+          <div className='discover'>
+            <img src="./booked1.png" alt="" />
+            <div className='content'>
+              <h2 className='discover-topic'>Your Property Is Booked</h2>
+              <p className='discover-para'>
+                Your property is successfully booked. <br />
+                Now you can sit back prepare for your move out!
+              </p>
+            </div>
+          </div>
+          <br /><br /><br />
+        </div>
 
+        <div className='getin-touch'>
+          <h1>Get in Touch</h1>
+          <h3>If you have any queries, feel free to reach us!</h3>
 
+          <div className='contact-cards mt-5'>
+            <div className='row'>
+              <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                <div className='call-card'>
+                  <div className='call'>
+                    <Phone size={80} color='skyblue' />
+                    <p> +94 76 676 0760 </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                <div className='call-card'>
+                  <div className='call'>
+                    <Mail size={80} color='skyblue' />
+                    <a className='mail' href="mailto:boardm8te@gmail.com">
+                        <p>Email Us</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                <div className='call-card'>
+                  <div className='call'>
+                    <MessageCircle size={80} color="skyblue" />
+                    <p>Whatsapp</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className='col-12 col-sm-6 col-md-3 mb-4'>
+                <div className='call-card'>
+                  <div className='call'>
+                    <Text size={80} color="skyblue" />
+                    <p>Chat on platform</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <br /><br />
+          </div>      
         </div>
 
     </div>
