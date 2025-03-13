@@ -1,0 +1,40 @@
+.background{
+    position: relative;
+    min-height: auto;
+    /* background-color: rgb(12, 12, 57); */
+    background-color: white;
+    z-index: 0;
+    overflow-x: hidden;
+}
+.supportBackground img{
+   width: 100%;
+   height: auto;
+   display: block;
+   object-fit: cover;
+}
+.image-container{
+    position: relative;
+    display: inline-block;
+}
+.text-overlay{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+.sub-text{
+    font-size: 30px;
+    font-weight: normal;
+}
+.second-sub-text{
+    font-size: 20px;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    margin-top: 10px;
+    padding: 12px !important;
+    border-radius: 10px;
+}

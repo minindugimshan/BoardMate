@@ -12,6 +12,7 @@ import StudentProfile from './components/Profile/StudentProfile';
 import Payments from './components/Payments/Payments'
 import PaymentSuccess from './components/Payments/PaymentSuccess'
 import PaymentCancel from './components/Payments/PaymentCancel'
+import Support from './components/Support/Support'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/Map' element={<Map />} />
         <Route path='/about' element={<About />} />
+        <Route path='/Support' element={<Support />} ></Route>
         <Route path='/property/:id' element={<PropertyDetails />} /> 
         <Route path='/search' element={<SearchResults />} />
         <Route path='/profile' element={<StudentProfile />} /> 
