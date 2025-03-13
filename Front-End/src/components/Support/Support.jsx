@@ -193,7 +193,14 @@ function Support() {
                   </div>
 
                 </div>
-                <br /><br /><br />
+                <br />
+                <br /><br />
+
+                <div className='review-button'>
+                  <button>
+                    See More Reviews <b className='arrow'>→</b>
+                  </button>
+                </div>
 
 
               </div>
