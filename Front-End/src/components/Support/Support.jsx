@@ -31,6 +31,23 @@ function Support() {
           </div>
           <br />
 
+          <div className='discover'>
+            <img src="./book-now.png" alt="" />
+            <div className='content'>
+              <h2 className='discover-topic'>Finalize Your Place</h2>
+              <p className='discover-para'>
+                Book an appointment and directly contact the landlord to have a virtual tour of property. <br />
+                Once you get all the details regarding the rent, surrounding area, and other relevant information <br />
+                you want to know, finalize your property.
+              </p>
+            </div>
+          </div>
+          <br />
+
+          
+
+
+
         </div>
 
     </div>
