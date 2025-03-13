@@ -113,10 +113,93 @@ function Support() {
                   </div>
                 </div>
               </div>
-
             </div>
             <br /><br />
-          </div>      
+          </div> 
+
+          <div className='reviews'>
+            <div className='review-topic'>
+              <h1>See What Students Say</h1>
+              <p>The most trusted platform to book accommodation by students all over the country!</p>
+            </div>
+            <br />
+
+            <div className='container mt-5'>
+              <div className='row'>
+                <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                  <div className='review-list'>
+                    <div className='review1'>
+                      <p>
+                        "Experience was amazing!! I'm going to Informatics Institute of Technology
+                        and the rent and the locations are negotiable and affordable. This platform was
+                        very effective and useful when finding the properties."
+                        <br />
+                      </p>
+
+                      <div className='review-img'>
+                        <img src="https://img.freepik.com/free-vector/illustration-businesswoman_53876-5857.jpg?t=st=1740762864~exp=1740766464~hmac=f34a02413c897beb5794a2f0caa2c96ce5a66d55124d96d6901fb07075f09207&w=900" alt="" />
+                          <div className='info'>
+                            <h4>Nicoline Fernando</h4>
+                            <p>IIT</p>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                  <div className='review-list'>
+                    <div className='review1'>
+                      <p>
+                        "The best service I could ask for as a Sri Lankan university student. 
+                        Awesome, excellent follow-up services that assisted me from beginning to end. 
+                        Thank you, BoardMate, for an excellent service!"
+                        <br />
+                      </p>
+
+                      <div className='review-img'>
+                        <img src="https://img.freepik.com/free-vector/illustration-businesswoman_53876-5857.jpg?t=st=1740762864~exp=1740766464~hmac=f34a02413c897beb5794a2f0caa2c96ce5a66d55124d96d6901fb07075f09207&w=900" alt="" />
+                          <div className='info'>
+                            <h4>Nehashi Peiris</h4>
+                            <p>IIT</p>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                  <div className='review-list'>
+                    <div className='review1'>
+                      <p>
+                        "I am going to study at IIT and I live far away from Colombo. 
+                        Finding an accommodation from around the university was a big challenge but 
+                        thanks to BoardMate, I was able to find a reliable place in a short time. 
+                        The best platform to find properties for university students"
+                        <br />
+                      </p>
+
+                      <div className='review-img'>
+                        <img src="https://img.freepik.com/free-vector/illustration-businesswoman_53876-5857.jpg?t=st=1740762864~exp=1740766464~hmac=f34a02413c897beb5794a2f0caa2c96ce5a66d55124d96d6901fb07075f09207&w=900" alt="" />
+                          <div className='info'>
+                            <h4>Shehan Rajapaksha</h4>
+                            <p>IIT</p>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <br /><br /><br />
+
+
+              </div>
+            </div>
+          </div> 
+
         </div>
 
     </div>
