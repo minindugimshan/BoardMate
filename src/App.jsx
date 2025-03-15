@@ -49,7 +49,7 @@ function App() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-section">
-              <h3>About RoomMate</h3>
+              <h3>BoardMate</h3>
               <p>Finding your perfect accommodation made simple and secure.</p>
             </div>
             <div className="footer-section">

@@ -20,7 +20,7 @@ body {
 
 /* Navbar styles */
 .navbar {
-  background-color: rgb(12, 12, 57);
+  background-color: white;
   padding: 12px 20px;
   display: flex;
   justify-content: space-between;
@@ -58,7 +58,8 @@ body {
 .nav-link {
   border-radius: 50px;
   padding: 8px 12px;
-  color: #0c0c39;
+  color: black;
+  font-weight: ;
   text-decoration: none;
   display: flex;
   align-items: center;
