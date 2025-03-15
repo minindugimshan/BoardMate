@@ -65,6 +65,11 @@ const LandlordSignup = () => {
     }
   ];
 
+  // Add the missing renderError function
+  const renderError = (error) => {
+    return error ? <div className="error-message">{error}</div> : null;
+  };
+
   const validateStep = () => {
     const errors = {};
     
@@ -279,30 +284,57 @@ const LandlordSignup = () => {
   };
 
   const submitFormData = async () => {
+    const userData = {
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      mobile: formData.mobile,
+      dateOfBirthDay: formData.dateOfBirth.day,
+      dateOfBirthMonth: formData.dateOfBirth.month,
+      dateOfBirthYear: formData.dateOfBirth.year
+    };
+  
+    console.log("Sending Data:", userData); // ✅ Logs data before sending
+  
     try {
-      const response = await fetch('/api/landlords/signup', {
+      const response = await fetch ('http://localhost:8080/api/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // This sends cookies if any are needed
+        body: JSON.stringify({
+          email: 'user@example.com',
+          password: 'password',
+          firstName: 'John',
+          lastName: 'Doe',
+          mobile: '1234567890',
+          dateOfBirthDay: '01',
+          dateOfBirthMonth: '01',
+          dateOfBirthYear: '1990'
+        })
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  
       const result = await response.json();
-      
-      if (result.success) {
-        // Redirect to success page or dashboard
+      console.log("Response from backend:", result); // ✅ Logs backend response
+  
+      if (response.ok) {
+        alert('Registration successful!');
         window.location.href = '/landlord/dashboard';
       } else {
-        setErrors({submission: result.message || 'Failed to submit registration'});
+        setErrors({ submission: result.message || 'Failed to submit registration' });
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      setErrors({submission: 'Error submitting form. Please try again.'});
+      setErrors({ submission: 'Error submitting form. Please try again.' });
     }
   };
-
-  const renderError = (error) => {
-    return error ? <div className="error-message">{error}</div> : null;
-  };
+  
+  
 
   const renderIdVerificationStatus = () => {
     switch (formData.idVerificationStatus) {
