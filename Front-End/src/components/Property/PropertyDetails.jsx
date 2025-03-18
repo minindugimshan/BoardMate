@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key } from 'lucide-react';
+import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key, Bath } from 'lucide-react';
 import { propertyData } from '../../data/propertyData';
 import { useState } from 'react';
 import './PropertyDetails.css';
@@ -24,19 +24,26 @@ const PropertyDetails = () => {
   };
 
   const createGoogleCalendarEvent = () => {
+
+    // Format dates for Google Calendar
     const today = new Date();
     const tomorrow = new Date(today);
+
+    // Set default start time to tomorrow at 10:00 AM
     tomorrow.setDate(tomorrow.getDate() + 1);
     const startTime = new Date(tomorrow);
     startTime.setHours(10, 0, 0, 0);
+
+     // End time is 30 minutes after start time
     const endTime = new Date(startTime);
     endTime.setMinutes(endTime.getMinutes() + 30);
 
+    // Format dates for Google Calendar URL
     const formatDate = date => date.toISOString().replace(/-|:|\.\d+/g, '');
     const startTimeFormatted = formatDate(startTime);
     const endTimeFormatted = formatDate(endTime);
 
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Property Tour: ${property.name}`)}&dates=${startTimeFormatted}/${endTimeFormatted}&details=${encodeURIComponent(`Tour of ${property.type} property.\n\nProperty details:\n- ${property.totalBeds} beds\n- ${property.totalRooms} rooms\n- Contact: ${property.contactNumber}`)}&location=${encodeURIComponent(property.address)}`;
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Property Tour: ${property.name}`)}&dates=${startTimeFormatted}/${endTimeFormatted}&details=${encodeURIComponent(`Tour of ${property.type} property.\n\nProperty details:\n- ${property.totalBeds} beds\n- ${property.totalRooms} rooms\n- ${property.totalBathrooms} bathrooms\n- Contact: ${property.contactNumber}`)}&location=${encodeURIComponent(property.address)}`;
   };
 
   const handleBookProperty = () => {
@@ -61,6 +68,7 @@ const PropertyDetails = () => {
         <div className="property-quick-info">
           <div className="info-item"><Bed size={24} /><span>{property.totalBeds} beds</span></div>
           <div className="info-item"><Home size={24} /><span>{property.totalRooms} rooms</span></div>
+          <div className="info-item"><Bath size={24} /><span>{property.totalBathrooms} bathrooms</span></div> 
           <div className="info-item"><Phone size={24} /><span>{property.contactNumber}</span></div>
         </div>
 

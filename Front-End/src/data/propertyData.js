@@ -12,6 +12,7 @@ export const propertyData = [
     address: "9/F1, Hilda Mahal, Hilda mawatha, Dehiwala",
     contactNumber: "773475655",
     totalRooms: 6,
+    totalBathrooms: 3,
     totalBeds: 10,
     availableBeds: 5,
     facilities: [
@@ -52,6 +53,7 @@ export const propertyData = [
     address: "9B, 2/3, Hilda mahal, Hilda mawatha, Dehiwala",
     contactNumber: "773475655",
     totalRooms: 3,
+    totalBathrooms: 3,
     totalBeds: 5,
     availableBeds: 5,
     facilities: [
@@ -91,6 +93,7 @@ export const propertyData = [
     address: "Dehiwala",
     contactNumber: "714448380",
     totalRooms: 3,
+    totalBathrooms: 3,
     totalBeds: 3,
     availableBeds: 3,
     facilities: [],  // No specific facilities mentioned
@@ -110,6 +113,7 @@ export const propertyData = [
     address: "35/9, Subodharama road, Dehiwala",
     contactNumber: "773475655",
     totalRooms: 6,
+    totalBathrooms: 3,
     totalBeds: 6,
     availableBeds: 6,
     facilities: [
@@ -138,6 +142,7 @@ export const propertyData = [
     address: "Charles place, Dehiwala",
     contactNumber: "741703288",
     totalRooms: 2,
+    totalBathrooms: 3,
     totalBeds: 1,
     availableBeds: 1,
     facilities: [
@@ -169,6 +174,7 @@ export const propertyData = [
     address: "No 9, Samagi Mawatha, Kawdana Road, Dehiwala",
     contactNumber: "775837719",
     totalRooms: 4,
+    totalBathrooms: 2,
     totalBeds: 4,
     availableBeds: 4,
     facilities: [
@@ -196,6 +202,7 @@ export const propertyData = [
     address: "262/2 Galwihara Rd, Dehiwala",
     contactNumber: "710493515",
     totalRooms: 3,
+    totalBathrooms: 3,
     totalBeds: 3,
     availableBeds: 0,
     facilities: [
