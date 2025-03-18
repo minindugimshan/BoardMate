@@ -62,6 +62,9 @@ public class PropertyController {
 //            @RequestParam("title") String title,
 //            @RequestParam("location") String location,
 //            @RequestParam("price") Double price,
+//            @RequestParam("bedrooms") Integer bedrooms,
+//            @RequestParam("bathrooms") Integer bathrooms,
+//            @RequestParam("rooms") Integer rooms,
 //            @RequestParam("file") MultipartFile file
 //    ) {
 //        // Upload the file and get the image URL
@@ -72,6 +75,9 @@ public class PropertyController {
 //        property.setTitle(title);
 //        property.setLocation(location);
 //        property.setPrice(price);
+//        property.setBedrooms(bedrooms);
+//        property.setBathrooms(bathrooms);
+//        property.setRooms(rooms);
 //        property.setImageUrl(imageUrl);
 //
 //        // Save the property

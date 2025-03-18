@@ -22,6 +22,7 @@ public class Property {
     private String type;
     private Integer bedrooms;
     private Integer bathrooms;
+    private Integer rooms;
     private Double area;
     private String description;
 
