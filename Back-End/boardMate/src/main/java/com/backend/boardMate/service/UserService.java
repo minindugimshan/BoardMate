@@ -1,7 +1,7 @@
-package com.landlord.demo.service;
+package com.backend.boardMate.service;
 
-import com.landlord.demo.model.User;
-import com.landlord.demo.repository.UserRepository;
+import com.backend.boardMate.model.User;
+import com.backend.boardMate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
