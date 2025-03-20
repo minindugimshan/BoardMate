@@ -41,7 +41,19 @@ function Payments() {
             <div className='payhere-popup-overlay'>
                 <div className='payhere-popup fade-in'>
                     <h2 className='payhere title'>Payhere Payment</h2>
+                    <h4> {property.name} </h4>
+                    <p className='payhere-amount'>Total: <strong> {property.price} </strong> </p>
                 </div>
+
+                <div className='payment-methods'>
+                    <p>Select PAyment Method: </p>
+                    <button className='payhere-method btn'>💳 Credit/Debit Cards</button>
+                    <button className='payhere-method btn'>🏦 Bank Transfer</button>
+                </div>
+
+                <button className='payhere-pay-btn'>Pay Now</button>
+
+                <button className='payhere-close-btn' onClick={handleClosePopUp}>Cancel</button>
 
             </div>
         )}
