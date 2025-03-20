@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { propertyData } from '../../data/propertyData'
 import { MapPin } from 'lucide-react';
+import './Payments.css'
 
 function Payments() {
 
@@ -33,7 +34,6 @@ function Payments() {
             <button className='btn mt-3 w-50 btn-primary' onClick={handleProceedToPay}>
                 Proceed To Pay
             </button>
-
         </div>
 
     </div>

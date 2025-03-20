@@ -2,6 +2,12 @@
 #payments-container{
     background: linear-gradient(to bottom, #e5ecfb, white);
     border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
 }
 #payments-container h4{
     color: navy;
@@ -11,6 +17,11 @@
     background-color: skyblue;
     justify-content: center;
     text-align: center;
+    border: none;
+    width: 50%;
+    padding: 10px 0;
+    display: inline-block;
+    margin-top: 50px !important;
 }
 .btn:hover{
     background-color: rgb(200, 217, 230);
