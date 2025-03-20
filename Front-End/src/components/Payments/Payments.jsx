@@ -125,6 +125,18 @@ function Payments() {
     }
   };
 
+  // function to verify bank slip using Tesseract.js
+
+  const verifyBankSlip = async() => {
+    if(!image) {
+      alert("Please upload an image to verify")
+      return
+    }
+
+    setIsVerifying(true)
+    setVerificationResult(null)
+  }
+
   const handleImageVerification = () => {
     if (!isImageUploaded) {
       alert("Please upload an image to verify.");
