@@ -79,7 +79,6 @@ function App() {
             <Route path='/payment-success' element={<PaymentSuccess />} />
             <Route path='/payment-cancel' element={<PaymentCancel />} />
           </Routes>
-          <Footer />
         </>
       )}
     </>

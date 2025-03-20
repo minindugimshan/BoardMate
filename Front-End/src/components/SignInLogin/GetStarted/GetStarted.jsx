@@ -1,4 +1,3 @@
-// GetStarted.jsx
 import { useNavigate } from 'react-router-dom';
 import './GetStarted.css';
 
@@ -42,6 +41,14 @@ const GetStarted = () => {
               onClick={() => navigate('/landlord-login')}
             >
               Login as Landlord
+            </button>
+          </div>
+          <div className="parent-login-container">
+            <button 
+              className="login-option-button parent-login-button"
+              onClick={() => navigate('/parent-login')}
+            >
+              Login as Parent
             </button>
           </div>
         </div>
