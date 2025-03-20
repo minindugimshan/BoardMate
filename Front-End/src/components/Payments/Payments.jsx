@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { propertyData } from "../../data/propertyData"
 import { MapPin } from "lucide-react"
@@ -13,6 +13,7 @@ function Payments() {
   const [paymentStep, setPaymentStep] = useState('paymentMethod'); // or 'cardDetails'
   const [selectedMethod, setSelectedMethod] = useState(null)
   const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false);
+  const [orderId, setOrderId] = useState('')
 
   if (!property) {
     return <div className="text-container mt-5">Property Not Found</div>
@@ -86,6 +87,16 @@ function Payments() {
     "Internet Banking": [{ id: "bank", name: "Internet Banking", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
   }
 
+  // generating a unique order id for properties
+
+  const generateOrderId = () => {
+    const uniqueOrderId = `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+    setOrderId(uniqueOrderId)
+  }
+
+  useEffect(() => {
+    generateOrderId();
+  }, []);
 
 
   return (
@@ -114,7 +125,7 @@ function Payments() {
                 </div>
                 <div className="payhere-merchant-info">
                   <div className="merchant-name">{property.name}</div>
-                  <div className="order-id">S00013-1</div>
+                  <div className="order-id">Order ID: {orderId} </div>
                   <div className="amount">Rs. {property.price}</div>
                 </div>
 
