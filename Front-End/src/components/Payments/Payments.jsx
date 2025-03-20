@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { propertyData } from '../../data/propertyData'
+import { MapPin } from 'lucide-react';
 
 function Payments() {
 
@@ -23,7 +24,12 @@ function Payments() {
   return (
     <div className='container d-flex justify-content-center align-items-center min-vh-100'>
         <div className='card shadow p-4 text-center w-75' id='payments-container'>
-            
+            <h2 className='mb-3'>Your Booking Details Are As Follows: </h2>
+            <h2 className='prop-name'> {property.name} </h2>
+            <h4>Price: {property.price} </h4>
+            <h4>
+                location: <MapPin size={24} color='red' /> {property.location}
+            </h4>
 
         </div>
 
