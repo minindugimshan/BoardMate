@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { propertyData } from "../../data/propertyData"
-import { MapPin } from "lucide-react"
+import { MapPin, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
+import Tesseract from "tesseract.js"
 import "./Payments.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -16,6 +17,7 @@ function Payments() {
   const [orderId, setOrderId] = useState('')
   const [image, setImage] = useState(null)
   const [isImageUploaded, setIsImageUploaded] = useState(false)
+
 
   if (!property) {
     return <div className="text-container mt-5">Property Not Found</div>
@@ -78,7 +80,6 @@ function Payments() {
     }
   };
 
-
   // New function to handle image upload
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -95,10 +96,7 @@ function Payments() {
     }
     // In Here, you can add logic to verify the image if necessary
     alert("Image uploaded successfully for verification.");
-    setPaymentStep('paymentSuccess'); // Move to payment success
   };
-
-
 
   // Payment methods data with icons
   const paymentMethods = {
@@ -239,21 +237,6 @@ function Payments() {
                         Submit Payment
                       </button>
                     </div>
-                  </div>
-                )}
-
-                {paymentStep === 'uploadBankImage' && (
-                  <div className="upload-image-section">
-                    <h4>Upload Bank Transfer Proof</h4>
-                    <input
-                      type="file"
-                      onChange={handleImageUpload}
-                      accept="image/*"
-                    />
-                    {image && <img src={image} alt="Bank Transfer Proof" className="uploaded-image" />}
-                    <button className="btn btn-success" onClick={handleImageVerification} disabled={!image}>
-                      Verify Image
-                    </button>
                   </div>
                 )}
 
