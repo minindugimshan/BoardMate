@@ -4,8 +4,6 @@ import { propertyData } from "../../data/propertyData"
 import { MapPin } from "lucide-react"
 import "./Payments.css"
 import "bootstrap/dist/css/bootstrap.min.css"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; 
 
 function Payments() {
   const { id } = useParams()
@@ -26,9 +24,28 @@ function Payments() {
     setIsPopupOpen(false)
   }
 
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+  });
+
   const handleMethodSelect = (methodId) => {
-    setSelectedMethod(methodId)
-  }
+    setSelectedMethod(methodId);
+    setCardDetails({
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+    });
+  };
+
+  const handleCardDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
 
   // Payment methods data with icons
   const paymentMethods = {
@@ -45,6 +62,8 @@ function Payments() {
     ],
     "Internet Banking": [{ id: "bank", name: "Internet Banking", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
   }
+
+
 
   return (
     <div className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}>
@@ -102,6 +121,48 @@ function Payments() {
                     </div>
                   </div>
                 ))}
+
+                {/* Show card details form for Visa/MasterCard */}
+                {(selectedMethod === "visa" || selectedMethod === "mastercard") && (
+                  <div className="card-details-form">
+                    <div className="form-group">
+                      <label htmlFor="cardNumber">Card Number</label>
+                      <input
+                        type="text"
+                        id="cardNumber"
+                        name="cardNumber"
+                        value={cardDetails.cardNumber}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="Enter your card number"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="expiryDate">Expiration Date</label>
+                      <input
+                        type="text"
+                        id="expiryDate"
+                        name="expiryDate"
+                        value={cardDetails.expiryDate}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="MM/YY"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="cvv">CVV</label>
+                      <input
+                        type="text"
+                        id="cvv"
+                        name="cvv"
+                        value={cardDetails.cvv}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="Enter your CVV"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="payhere-actions mt-4">
                   <button
