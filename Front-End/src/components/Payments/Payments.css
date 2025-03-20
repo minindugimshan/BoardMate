@@ -260,3 +260,27 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.success-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.success-icon img {
+  height: 50px;
+  width: auto;;
+}
+.success-message{
+  text-align: center;
+}
+.payment-success {
+  display: flex;
+  flex-direction: column;  /* Stack the elements vertically */
+  justify-content: center;
+  align-items: center;
+  text-align: center;  /* Center the text horizontally */
+}
+
+.payment-success .btn {
+  margin-top: 20px; /* Optional: adds spacing above the button */
+}

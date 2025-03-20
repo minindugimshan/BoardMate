@@ -59,8 +59,8 @@ function Payments() {
       alert('Please fill all the fields');
       return;
     }
-    setPaymentSuccess(true);
     setPaymentStep('paymentSuccess')
+    setPaymentSuccess(true);
   };
 
 
@@ -204,11 +204,11 @@ function Payments() {
 
                 {paymentStep === 'paymentSuccess' && (
                   <div className="payment-success">
-                    <div className="success-icon" style={{ color: 'green', fontSize: '50px' }}>
-                      &#10004; {/* Green tick symbol */}
+                    <div className="success-icon">
+                      <img src="https://www.pngall.com/wp-content/uploads/9/Green-Tick-No-Background.png" alt="" />
                     </div>
                     <h3>Payment Successful!</h3>
-                    <p>Your payment has been processed successfully.</p>
+                    <p className="success-message">Your payment has been processed successfully.</p>
                     <button onClick={handleClosePopUp} className="btn btn-primary">
                       Close
                     </button>
