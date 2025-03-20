@@ -10,39 +10,17 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig {
-//
-//
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(HttpMethod.PUT, "/api/properties/**").permitAll() // Allow PUT requests
-//                        .anyRequest().permitAll()
-//                )
-//                .csrf(csrf -> csrf.disable());
-//        return http.build();
-//    }
-//}
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
+                .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/properties/**").permitAll() // Allow public access to read properties
-                        .requestMatchers(HttpMethod.PUT, "/api/properties/**").authenticated() // Require authentication for updates
-                        .anyRequest().authenticated() // Secure all other endpoints
+                        .anyRequest().permitAll() // Allow all requests without authentication
                 )
-                .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(withDefaults()); // Use HTTP Basic Authentication (or OAuth2, JWT, etc.)
-        return http.build();
+                .build();
     }
 }
