@@ -17,6 +17,8 @@ function Payments() {
   const [orderId, setOrderId] = useState('')
   const [image, setImage] = useState(null)
   const [isImageUploaded, setIsImageUploaded] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
+  const [verificationResult, setVerificationResult] = useState(false)
 
 
   if (!property) {
