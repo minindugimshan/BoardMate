@@ -69,6 +69,14 @@ function Payments() {
       expiryDate: '',
       cvv: '',
     });
+    setVerificationResult(null)
+    setVerificationDetails({
+      bankName: false,
+      date: false,
+      amount: false,
+      accountNumber: false,
+      isSlip: false
+    })
   };
 
   const handleCardDetailsChange = (e) => {
