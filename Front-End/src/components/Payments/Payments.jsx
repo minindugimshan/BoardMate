@@ -12,6 +12,14 @@ function Payments() {
     if(!property){
         return <div className='text-container mt-5'>Property Not Found</div>
     }
+
+    const handleProceedToPay = () => {
+        setIsPopupOpen(true);
+    }
+
+    const handleClosePopUp = () => {
+        setIsPopupOpen(false);
+    }
   return (
     <div>
 
