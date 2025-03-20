@@ -60,6 +60,7 @@ function Payments() {
       return;
     }
     setPaymentSuccess(true);
+    setPaymentStep('paymentSuccess')
   };
 
 
@@ -120,7 +121,6 @@ function Payments() {
                 <button className="close-btn" onClick={handleClosePopUp}>
                   X
                 </button>
-
               </div>
 
               {/* Body */}
@@ -199,6 +199,19 @@ function Payments() {
                         Submit Payment
                       </button>
                     </div>
+                  </div>
+                )}
+
+                {paymentStep === 'paymentSuccess' && (
+                  <div className="payment-success">
+                    <div className="success-icon" style={{ color: 'green', fontSize: '50px' }}>
+                      &#10004; {/* Green tick symbol */}
+                    </div>
+                    <h3>Payment Successful!</h3>
+                    <p>Your payment has been processed successfully.</p>
+                    <button onClick={handleClosePopUp} className="btn btn-primary">
+                      Close
+                    </button>
                   </div>
                 )}
 
