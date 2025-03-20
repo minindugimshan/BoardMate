@@ -1,11 +1,9 @@
 package com.backend.boardMate.repository;
 
-
-import com.backend.boardMate.entity.Property;
+import com.backend.boardMate.entity.VirtualTour;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface PropertyRepository extends JpaRepository<Property, Long> {
+public interface VirtualTourRepository extends JpaRepository<VirtualTour, Long> {
 }
