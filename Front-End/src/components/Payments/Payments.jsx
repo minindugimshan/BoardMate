@@ -36,12 +36,19 @@ function Payments() {
 
   const handleProceedToPay = () => {
     setIsPopupOpen(true)
+
   }
 
   const handleClosePopUp = () => {
     setIsPopupOpen(false)
     setVerificationResult(null)
-    setVerificationD
+    setVerificationDetails({
+      bankName: false,
+      date: false,
+      amount: false,
+      accountNumber: false,
+      isSlip: false
+    })
   }
 
   const [cardDetails, setCardDetails] = useState({
