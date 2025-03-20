@@ -30,6 +30,9 @@ function Payments() {
             <h4>
                 location: <MapPin size={24} color='red' /> {property.location}
             </h4>
+            <button className='btn mt-3 w-50 btn-primary' onClick={handleProceedToPay}>
+                Proceed To Pay
+            </button>
 
         </div>
 
