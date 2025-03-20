@@ -251,7 +251,7 @@ function Payments() {
                       accept="image/*"
                     />
                     {image && <img src={image} alt="Bank Transfer Proof" className="uploaded-image" />}
-                    <button className="btn btn-success" onClick={handleImageVerification}>
+                    <button className="btn btn-success" onClick={handleImageVerification} disabled={!image}>
                       Verify Image
                     </button>
                   </div>
