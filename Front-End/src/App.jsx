@@ -17,6 +17,7 @@ import LandlordLogin from './components/SignInLogin/LogIn/LandlordLogIn.jsx';
 import LandlordSignup from './components/SignInLogin/SignIn/LandlordSignUp';
 import UniversitySignIn from './components/SignInLogin/SignIn/UniversitySignIn';
 import EmailPasswordSignIn from './components/SignInLogin/SignIn/EmailPasswordSignIn';
+import ParentLogin from './components/SignInLogin/ParentLogin/ParentLogin.jsx';
 
 import Home from './components/Home/Home';
 import Navigationbar from './components/Navigationbar/Navigationbar';
@@ -66,6 +67,7 @@ function App() {
             <Route path="/landlord-login" element={<LandlordLogin />} />
             <Route path="/university-signin" element={<UniversitySignIn />} />
             <Route path="/email-signin" element={<EmailPasswordSignIn />} />
+            <Route path="/parent-login" element={<ParentLogin />} />
             
             {/* Main app routes */}
             <Route path='/home' element={<Home />} />
