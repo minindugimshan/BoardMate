@@ -47,6 +47,12 @@ function Payments() {
     }));
   };
 
+  const handlePayNowClick = () => {
+    if (selectedMethod === 'visa' || selectedMethod === 'mastercard') {
+      setIsCardDetailsVisible(true); // Show card details when Visa or MasterCard is selected
+    }
+  };
+
   // Payment methods data with icons
   const paymentMethods = {
     "Credit/Debit Card": [
@@ -123,7 +129,7 @@ function Payments() {
                 ))}
 
                 {/* Show card details form for Visa/MasterCard */}
-                {(selectedMethod === "visa" || selectedMethod === "mastercard") && (
+                {isCardDetailsVisible && (selectedMethod === 'visa' || selectedMethod === 'mastercard') && (
                   <div className="card-details-form">
                     <div className="form-group">
                       <label htmlFor="cardNumber">Card Number</label>
