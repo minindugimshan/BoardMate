@@ -10,7 +10,9 @@ function Payments() {
   const propertyId = Number.parseInt(id)
   const property = propertyData.find((p) => p.id === propertyId)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [paymentStep, setPaymentStep] = useState('paymentMethod'); // or 'cardDetails'
   const [selectedMethod, setSelectedMethod] = useState(null)
+  const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false);
 
   if (!property) {
     return <div className="text-container mt-5">Property Not Found</div>
@@ -30,6 +32,9 @@ function Payments() {
     cvv: '',
   });
 
+  // New state to track payment success
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const handleMethodSelect = (methodId) => {
     setSelectedMethod(methodId);
     setCardDetails({
@@ -47,9 +52,20 @@ function Payments() {
     }));
   };
 
+  // Function to handle the card details form submission
+  const handleCardDetailsSubmit = () => {
+    // Validation before submission
+    if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
+      alert('Please fill all the fields');
+      return;
+    }
+    setPaymentSuccess(true);
+  };
+
+
   const handlePayNowClick = () => {
     if (selectedMethod === 'visa' || selectedMethod === 'mastercard') {
-      setIsCardDetailsVisible(true); // Show card details when Visa or MasterCard is selected
+      setPaymentStep('cardDetails'); // Go to the card details page
     }
   };
 
@@ -109,27 +125,34 @@ function Payments() {
 
               {/* Body */}
               <div className="payhere-body">
-                <div className="payment-method-title">SELECT A PAYMENT METHOD</div>
+                {paymentStep === 'paymentMethod' && (
+                  <>
+                    <div className="payment-method-title">SELECT A PAYMENT METHOD</div>
 
-                {Object.entries(paymentMethods).map(([category, methods]) => (
-                  <div key={category} className="payment-category">
-                    <div className="category-title">{category}</div>
-                    <div className="payment-methods-row">
-                      {methods.map((method) => (
-                        <div
-                          key={method.id}
-                          className={`payment-method-item ${selectedMethod === method.id ? "selected" : ""}`}
-                          onClick={() => handleMethodSelect(method.id)}
-                        >
-                          <img src={method.icon || "/placeholder.svg"} alt={method.name} className="payment-icon" />
+                    {Object.entries(paymentMethods).map(([category, methods]) => (
+                      <div key={category} className="payment-category">
+                        <div className="category-title">{category}</div>
+                        <div className="payment-methods-row">
+                          {methods.map((method) => (
+                            <div
+                              key={method.id}
+                              className={`payment-method-item ${selectedMethod === method.id ? "selected" : ""}`}
+                              onClick={() => handleMethodSelect(method.id)}
+                            >
+                              <img
+                                src={method.icon || "/placeholder.svg"}
+                                alt={method.name}
+                                className="payment-icon"
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                      </div>
+                    ))}
+                  </>
+                )}
 
-                {/* Show card details form for Visa/MasterCard */}
-                {isCardDetailsVisible && (selectedMethod === 'visa' || selectedMethod === 'mastercard') && (
+                {paymentStep === 'cardDetails' && (
                   <div className="card-details-form">
                     <div className="form-group">
                       <label htmlFor="cardNumber">Card Number</label>
@@ -167,21 +190,28 @@ function Payments() {
                         placeholder="Enter your CVV"
                       />
                     </div>
+
+                    <div className="payhere-actions mt-4">
+                      <button
+                        className="btn btn-success payhere-pay-btn"
+                        onClick={handleCardDetailsSubmit}
+                      >
+                        Submit Payment
+                      </button>
+                    </div>
                   </div>
                 )}
 
                 <div className="payhere-actions mt-4">
-                  <button
-                    className="btn btn-success payhere-pay-btn"
-                    disabled={!selectedMethod}
-                    onClick={() => {
-                      if (selectedMethod) {
-                        
-                      }
-                    }}
-                  >
-                    Pay Now
-                  </button>
+                  {paymentStep === 'paymentMethod' && (
+                    <button
+                      className="btn btn-success payhere-pay-btn"
+                      disabled={!selectedMethod}
+                      onClick={handlePayNowClick}
+                    >
+                      Pay Now
+                    </button>
+                  )}
                 </div>
               </div>
 
