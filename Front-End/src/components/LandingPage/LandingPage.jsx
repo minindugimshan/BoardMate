@@ -2,7 +2,7 @@ import React from 'react';
 import { Search, MapPin, Building, DollarSign, Shield, Clock, Tag} from 'lucide-react';
 import './style.css';
 
-const LandingPage = () => {
+const LandingPage = (props) => {
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -31,7 +31,7 @@ const LandingPage = () => {
         <div className="hero-content">
           <h1>Finding Student Housing <br />Made Easy</h1>
           <p>Discover and book safe, university-verified housing for students near top campuses and cities across Sri Lanka</p>
-          <button className="cta-button" onClick={() => scrollToSection('find-place')}>Get Started</button>
+          <button className="cta-button" onClick={props.onGetStarted}>Get Started</button>
 
           {/* Feature Icons Section */}
           <div className="feature-icons">

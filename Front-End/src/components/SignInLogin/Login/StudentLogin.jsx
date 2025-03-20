@@ -49,7 +49,7 @@ const StudentSignIn = () => {
               required
             />
           </div>
-          <button type="submit" className="signin-button">Login</button>
+          <button type="submit" className="signin-button" onClick={() => navigate('/home')} >Login</button>
         </form>
         <div className="additional-options">
           <p>Don't have an account? <span onClick={() => navigate('/student-signin')}>Sign Up</span></p>          <p>Forgot password? <span onClick={() => navigate('/forgot-password')}>Reset</span></p>

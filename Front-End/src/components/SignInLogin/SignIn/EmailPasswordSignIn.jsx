@@ -105,7 +105,7 @@ const EmailPasswordSignIn = () => {
             )}
           </div>
 
-          <button type="submit" className="signin-button">Continue</button>
+          <button type="submit" className="signin-button" onClick={() => navigate('/home')}>Continue</button>
         </form>
 
         <div className="additional-options">
