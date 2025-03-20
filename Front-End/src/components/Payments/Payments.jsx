@@ -150,14 +150,14 @@ function Payments() {
       console.log("Extracted text:", text)
 
       // Check for common bank slip elements
-      const hasBankName = /bank|hsbc|commercial|Sampath|peoples|boc|hnb|dfcc|cargills|seylan|nations trust/i.test(text)
+      const hasBankName = /Bank|HSBC|Commercial|Sampath|Peoples|BOC|HNB|DFCC|Cargills|Seylan|Nations Trust/i.test(text)
       const hasDate =
         /\d{1,2}[/\-.]\d{1,2}[/\-.]\d{2,4}|\d{1,2}(?:st|nd|rd|th)?\s(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(
           text,
         )
-      const hasAmount = /amount|rs\.?|lkr|Total|sum|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
-      const hasAccountNumber = /acc(?:ount)?\s*(?:no|number|#)?[\s:.]?\s*\d+/i.test(text)
-      const isLikelySlip = /receipt|transaction|payment|Deposit|transfer|slip|reference|ref|confirmation/i.test(text)
+      const hasAmount = /amount|rs\.?|Rs.|Total|sum|Cash|Coins|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
+      const hasAccountNumber = /acc(?:ount)?\s*(?:No|number|#)?[\s:.]?\s*\d+/i.test(text)
+      const isLikelySlip = /receipt|Computer Validation|Signature|Depositor|Name|Transaction|Payment|Deposit|Transfer|Slip|reference|ref|Confirmation/i.test(text)
 
       // Update verification details
       const details = {
@@ -181,7 +181,7 @@ function Payments() {
         score: Math.round(verificationScore * 100),
         message: passes
           ? "Verification successful! This appears to be a valid bank slip."
-          : "Verification failed. This doesn't appear to be a valid bank slip or is missing key information.",
+          : "Verification failed. This doesn't appear to be a valid bank slip or is missing key information. Please Add a valid image again!",
       })
 
       // If verification passes, allow proceeding to success
@@ -350,6 +350,84 @@ function Payments() {
                         Submit Payment
                       </button>
                     </div>
+                  </div>
+                )}
+
+
+                {paymentStep === "uploadBankImage" && (
+                  <div className="upload-image-section">
+                    <h4>Upload Bank Transfer Proof</h4>
+                    <p className="text-muted">Please upload a clear image of your bank slip or transfer confirmation</p>
+
+                    <input type="file" onChange={handleImageUpload} accept="image/*" className="form-control mb-3" />
+
+                    {image && (
+                      <div className="uploaded-image-container mb-3">
+                        <img
+                          src={image || "/placeholder.svg"}
+                          alt="Bank Transfer Proof"
+                          className="uploaded-image img-fluid"
+                          style={{ maxHeight: "200px" }}
+                        />
+                      </div>
+                    )}
+
+                    {isVerifying && (
+                      <div className="verification-loading text-center mb-3">
+                        <Loader2 className="animate-spin h-6 w-6 mx-auto mb-2" />
+                        <p>Verifying your bank slip...</p>
+                      </div>
+                    )}
+
+                    {verificationResult && (
+                      <div
+                        className={`verification-result mb-3 p-3 rounded ${verificationResult.passes ? "bg-success bg-opacity-10" : "bg-danger bg-opacity-10"}`}
+                      >
+                        <div className="d-flex align-items-center mb-2">
+                          {verificationResult.passes ? (
+                            <CheckCircle className="text-success me-2" />
+                          ) : (
+                            <AlertCircle className="text-danger me-2" />
+                          )}
+                          <h5 className="mb-0">
+                            {verificationResult.passes ? "Verification Successful" : "Verification Failed"}
+                          </h5>
+                        </div>
+                        <p>{verificationResult.message}</p>
+                        <div className="verification-details">
+                          <p className="mb-1">Verification Score: {verificationResult.score}%</p>
+                          <div className="verification-checks">
+                            <div
+                              className={`check-item ${verificationDetails.bankName ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.bankName ? "✓" : "✗"} Bank name detected
+                            </div>
+                            <div className={`check-item ${verificationDetails.date ? "text-success" : "text-danger"}`}>
+                              {verificationDetails.date ? "✓" : "✗"} Date detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.amount ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.amount ? "✓" : "✗"} Amount detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.accountNumber ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.accountNumber ? "✓" : "✗"} Account number detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.isSlip ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.isSlip ? "✓" : "✗"} Appears to be a bank slip
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <button className="btn btn-primary" onClick={verifyBankSlip} disabled={!image || isVerifying}>
+                      {isVerifying ? "Verifying..." : "Verify Bank Slip"}
+                    </button>
                   </div>
                 )}
 
