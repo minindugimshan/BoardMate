@@ -14,6 +14,8 @@ function Payments() {
   const [selectedMethod, setSelectedMethod] = useState(null)
   const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false);
   const [orderId, setOrderId] = useState('')
+  const [image, setImage] = useState(null)
+  const [isImageUploaded, setIsImageUploaded] = useState(false)
 
   if (!property) {
     return <div className="text-container mt-5">Property Not Found</div>
@@ -38,6 +40,8 @@ function Payments() {
 
   const handleMethodSelect = (methodId) => {
     setSelectedMethod(methodId);
+    setImage(null);
+    setIsImageUploaded(false);
     setCardDetails({
       cardNumber: '',
       expiryDate: '',
@@ -69,7 +73,32 @@ function Payments() {
     if (selectedMethod === 'visa' || selectedMethod === 'mastercard') {
       setPaymentStep('cardDetails'); // Go to the card details page
     }
+    else if (selectedMethod === 'bank') {
+      setPaymentStep('uploadBankImage');
+    }
   };
+
+
+  // New function to handle image upload
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file)); // Preview image
+      setIsImageUploaded(true); // Mark image as uploaded
+    }
+  };
+
+  const handleImageVerification = () => {
+    if (!isImageUploaded) {
+      alert("Please upload an image to verify.");
+      return;
+    }
+    // Here, you can add logic to verify the image if necessary
+    alert("Image uploaded successfully for verification.");
+    setPaymentStep('paymentSuccess'); // Move to payment success
+  };
+
+
 
   // Payment methods data with icons
   const paymentMethods = {
@@ -84,7 +113,7 @@ function Payments() {
       { id: "mcash", name: "mCash", icon: "https://play-lh.googleusercontent.com/vJsVOZbuNfKbLshcBmxIQaisdkI_8isieqkXhtxuqnr-PKnc53v-8GwdzgaI53P8_lA" },
       { id: "frimi", name: "FriMi", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ys1jHPlXUOGwBhVXQQIwYt5VgmQmteZDCA&s" },
     ],
-    "Internet Banking": [{ id: "bank", name: "Internet Banking", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
+    "Bank Transfer": [{ id: "bank", name: "Bank Transfer", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
   }
 
   // generating a unique order id for properties
