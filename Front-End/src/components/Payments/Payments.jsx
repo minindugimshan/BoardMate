@@ -25,12 +25,23 @@ function Payments() {
     return <div className="text-container mt-5">Property Not Found</div>
   }
 
+  // Verifying the image
+  const [verificationDetails, setVerificationDetails] = useState({
+    bankName: false,
+    date: false,
+    amount: false,
+    accountNumber: false,
+    isSlip: false
+  })
+
   const handleProceedToPay = () => {
     setIsPopupOpen(true)
   }
 
   const handleClosePopUp = () => {
     setIsPopupOpen(false)
+    setVerificationResult(null)
+    setVerificationD
   }
 
   const [cardDetails, setCardDetails] = useState({
