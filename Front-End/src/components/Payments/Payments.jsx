@@ -21,7 +21,11 @@ function Payments() {
         setIsPopupOpen(false);
     }
   return (
-    <div>
+    <div className='container d-flex justify-content-center align-items-center min-vh-100'>
+        <div className='card shadow p-4 text-center w-75' id='payments-container'>
+            
+
+        </div>
 
     </div>
   )
