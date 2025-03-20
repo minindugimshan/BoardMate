@@ -242,6 +242,21 @@ function Payments() {
                   </div>
                 )}
 
+                {paymentStep === 'uploadBankImage' && (
+                  <div className="upload-image-section">
+                    <h4>Upload Bank Transfer Proof</h4>
+                    <input
+                      type="file"
+                      onChange={handleImageUpload}
+                      accept="image/*"
+                    />
+                    {image && <img src={image} alt="Bank Transfer Proof" className="uploaded-image" />}
+                    <button className="btn btn-success" onClick={handleImageVerification}>
+                      Verify Image
+                    </button>
+                  </div>
+                )}
+
                 {paymentStep === 'paymentSuccess' && (
                   <div className="payment-success">
                     <div className="success-icon">
