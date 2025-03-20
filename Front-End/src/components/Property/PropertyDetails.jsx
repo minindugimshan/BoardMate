@@ -1,15 +1,36 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key } from 'lucide-react';
 import { propertyData } from '../../data/propertyData';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './PropertyDetails.css';
+import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
+import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = parseInt(id);
   const property = propertyData.find(p => p.id === propertyId);
   const [currentImage, setCurrentImage] = useState(0);
+  const [reviews, setReviews] = useState([]); // State to store reviews
   const navigate = useNavigate();
+
+  // Fetch reviews from the backend (Spring Boot)
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reviews');
+        }
+        const data = await response.json();
+        setReviews(data);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
+    fetchReviews();
+  }, [propertyId]);
 
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
@@ -41,6 +62,28 @@ const PropertyDetails = () => {
 
   const handleBookProperty = () => {
     navigate(`/property/${id}/payments`);
+  };
+
+  // Handle review submission
+  const handleReviewSubmit = async (review) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(review),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+
+      const newReview = await response.json();
+      setReviews([...reviews, newReview]); // Add the new review to the list
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
   };
 
   return (
@@ -97,6 +140,13 @@ const PropertyDetails = () => {
             <iframe src={property.map} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Property Location"></iframe>
           </div>
         )}
+
+        {/* Review and Rating Section */}
+        <div className="review-section">
+          <h2>Reviews</h2>
+          <ReviewForm onSubmit={handleReviewSubmit} />
+          <ReviewList reviews={reviews} />
+        </div>
       </div>
 
       <div className="property-image-section">
@@ -116,3 +166,5 @@ const PropertyDetails = () => {
 };
 
 export default PropertyDetails;
+
+
