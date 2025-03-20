@@ -90,7 +90,7 @@ function Payments() {
   // generating a unique order id for properties
 
   const generateOrderId = () => {
-    const uniqueOrderId = `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+    const uniqueOrderId = `order_${Date.now()}`
     setOrderId(uniqueOrderId)
   }
 
