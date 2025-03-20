@@ -93,7 +93,7 @@ function Payments() {
       alert("Please upload an image to verify.");
       return;
     }
-    // Here, you can add logic to verify the image if necessary
+    // In Here, you can add logic to verify the image if necessary
     alert("Image uploaded successfully for verification.");
     setPaymentStep('paymentSuccess'); // Move to payment success
   };
