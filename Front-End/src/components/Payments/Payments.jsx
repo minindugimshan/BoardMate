@@ -113,7 +113,15 @@ function Payments() {
     const file = event.target.files[0];
     if (file) {
       setImage(URL.createObjectURL(file)); // Preview image
-      setIsImageUploaded(true); // Mark image as uploaded
+      setIsImageUploaded(true);
+      setVerificationResult(null) // Mark image as uploaded
+      setVerificationDetails({
+        bankName: false,
+        date: false,
+        amount: false,
+        accountNumber: false,
+        isSlip: false
+      })
     }
   };
 
