@@ -1,6 +1,6 @@
-package com.landlord.demo.repository;
+package com.backend.boardMate.repository;
 
-import com.landlord.demo.model.User;
+import com.backend.boardMate.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.landlord.demo.config;
+package com.backend.boardMate.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

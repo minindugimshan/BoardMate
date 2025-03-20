@@ -1,8 +1,8 @@
-package com.landlord.demo.controller;
+package com.backend.boardMate.controller;
 
-import com.landlord.demo.model.User;
-import com.landlord.demo.service.UserService;
-import com.landlord.demo.service.VerificationService;
+import com.backend.boardMate.model.User;
+import com.backend.boardMate.service.UserService;
+import com.backend.boardMate.service.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
