@@ -70,7 +70,6 @@ const ParentLogin = () => {
           <button type="submit" className="signin-button">Access Student Account</button>
         </form>
         <div className="additional-options">
-          <p>Need help? <span onClick={() => navigate('/contact-support')}>Contact Support</span></p>
           <p>Are you a student? <span onClick={() => navigate('/student-login')}>Student Login</span></p>
           <p>Are you a landlord? <span onClick={() => navigate('/landlord-login')}>Landlord Login</span></p>
         </div>

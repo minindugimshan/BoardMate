@@ -37,8 +37,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 40%, rgba(76, 149, 108, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 70% 60%, rgba(44, 110, 73, 0.15) 0%, transparent 50%);
+    /* Updated to blue tones */
+    background: radial-gradient(circle at 30% 40%, rgba(32, 84, 147, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 70% 60%, rgba(25, 60, 112, 0.15) 0%, transparent 50%);
     animation: gradientShift 15s ease infinite alternate;
     pointer-events: none;
   }
@@ -106,12 +107,12 @@
     }
   }
   
-  /* Title styling */
+  /* Title styling - Updated to match LandlordSignUp */
   .signin-content-box h1 {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 32px;
-    background: linear-gradient(135deg, #1e5631 0%, #4c956c 100%);
+    margin-bottom: 24px;
+    font-size: 28px;
+    background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -129,7 +130,7 @@
     bottom: -8px;
     width: 60px;
     height: 3px;
-    background: linear-gradient(135deg, #2c6e49 0%, #4c956c 100%);
+    background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
     transform: translateX(-50%) scaleX(0.8);
     border-radius: 4px;
     transition: transform 0.3s ease;
@@ -152,74 +153,77 @@
     gap: 6px;
     position: relative;
     transition: transform 0.2s ease;
+    margin-bottom: 20px;
   }
   
   .form-group:focus-within {
     transform: translateY(-2px);
   }
   
+  /* Updated label to match LandlordSignUp */
   .form-group label {
-    font-size: 0.9rem;
-    color: #2c6e49;
+    font-size: 0.95rem;
+    color: #1c2237;
     font-weight: 600;
     margin-left: 4px;
     transition: color 0.2s ease;
   }
   
   .form-group:focus-within label {
-    color: #1a4c2e;
+    color: #1c2237;
   }
   
+  /* Updated input to match LandlordSignUp */
   .form-group input {
-    padding: 12px 16px;
-    border: 2px solid rgba(44, 110, 73, 0.12);
-    border-radius: 12px;
-    font-size: 0.95rem;
+    padding: 16px 20px;
+    border: 2px solid rgba(28, 34, 55, 0.08);
+    border-radius: 16px;
+    font-size: 1rem;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
   }
   
   .form-group input:hover {
-    border-color: rgba(44, 110, 73, 0.35);
-    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(28, 34, 55, 0.2);
   }
   
   .form-group input:focus {
     outline: none;
-    border-color: #2c6e49;
-    box-shadow: 0 0 0 3px rgba(44, 110, 73, 0.15);
-    background: rgba(255, 255, 255, 1);
+    border-color: #1c2237;
+    box-shadow: 0 0 0 4px rgba(28, 34, 55, 0.1);
+    background: rgb(9, 3, 63);
+    color: white;
   }
   
-  /* Select Input Styling */
+  /* Select Input Styling - Updated to match LandlordSignUp */
   .select-input {
-    padding: 12px 16px;
-    border: 2px solid rgba(44, 110, 73, 0.12);
-    border-radius: 12px;
-    font-size: 0.95rem;
+    padding: 16px 20px;
+    border: 2px solid rgba(28, 34, 55, 0.08);
+    border-radius: 16px;
+    font-size: 1rem;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
     color: #333;
     width: 100%;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232c6e49' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231c2237' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
     background-size: 14px;
   }
   
   .select-input:hover {
-    border-color: rgba(44, 110, 73, 0.35);
-    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(28, 34, 55, 0.2);
   }
   
   .select-input:focus {
     outline: none;
-    border-color: #2c6e49;
-    box-shadow: 0 0 0 3px rgba(44, 110, 73, 0.15);
-    background-color: #ffffff;
+    border-color: #1c2237;
+    box-shadow: 0 0 0 4px rgba(28, 34, 55, 0.1);
+    background: rgb(9, 3, 63);
+    color: white;
   }
   
   .select-input option {
@@ -228,22 +232,22 @@
     padding: 8px;
   }
   
-  /* Button styling */
+  /* Button styling - Updated to match LandlordSignUp */
   .signin-button {
-    background: linear-gradient(135deg, #2c6e49 0%, #4c956c 100%);
+    background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
     color: white;
-    padding: 12px 20px;
+    padding: 16px 24px;
     border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 16px;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    margin-top: 10px;
-    box-shadow: 0 4px 15px rgba(44, 110, 73, 0.25), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    margin-top: 32px;
+    box-shadow: 0 4px 12px rgba(28, 34, 55, 0.2);
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   
   .signin-button::before {
@@ -260,23 +264,26 @@
     transition: left 0.7s ease;
   }
   
-  .signin-button:hover {
+  .signin-button:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(44, 110, 73, 0.35), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, #1e5631 0%, #3d7d58 100%);
+    box-shadow: 0 6px 20px rgba(28, 34, 55, 0.3);
   }
   
   .signin-button:hover::before {
     left: 100%;
   }
   
-  .signin-button:active {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(44, 110, 73, 0.3);
+  .signin-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(28, 34, 55, 0.2);
   }
   
-  /* Additional Options */
+  .signin-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Additional Options - Updated to match LandlordSignUp font */
   .additional-options {
     margin-top: 20px;
     text-align: center;
@@ -288,12 +295,12 @@
   .additional-options p {
     margin: 0;
     color: #4a5568;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     transition: color 0.2s ease;
   }
   
   .additional-options span {
-    color: #2c6e49;
+    color: #1c2237;
     cursor: pointer;
     font-weight: 600;
     text-decoration: none;
@@ -309,13 +316,13 @@
     height: 1px;
     bottom: -1px;
     left: 0;
-    background: linear-gradient(135deg, #2c6e49 0%, #4c956c 100%);
+    background: linear-gradient(135deg, #1c2237 0%, #2a3349 100%);
     transform: scaleX(0);
     transition: transform 0.3s ease;
   }
   
   .additional-options span:hover {
-    color: #1a4c2e;
+    color: #1c2237;
   }
   
   .additional-options span:hover::after {
