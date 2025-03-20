@@ -23,7 +23,7 @@ function Payments() {
         setIsPopupOpen(false);
     }
   return (
-    <div className='container d-flex justify-content-center align-items-center min-vh-100'>
+    <div className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}>
         <div className='card shadow p-4 text-center w-75' id='payments-container'>
             <h2 className='mb-3'>Your Booking Details Are As Follows: </h2>
             <h2 className='prop-name'> {property.name} </h2>
@@ -46,7 +46,7 @@ function Payments() {
                 </div>
 
                 <div className='payment-methods'>
-                    <p>Select PAyment Method: </p>
+                    <p>Select Payment Method: </p>
                     <button className='payhere-method btn'>💳 Credit/Debit Cards</button>
                     <button className='payhere-method btn'>🏦 Bank Transfer</button>
                 </div>

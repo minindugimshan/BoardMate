@@ -29,3 +29,24 @@
 .prop-name{
     color: navy;
 }
+
+/* payment pop up */
+.blur-background{
+    background: rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+.fade-in {
+    animation: fade-iin 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
