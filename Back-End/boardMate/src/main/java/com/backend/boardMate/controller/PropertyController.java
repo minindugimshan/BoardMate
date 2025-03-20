@@ -37,10 +37,12 @@ public class PropertyController {
         return propertyService.updateProperty(id, property);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProperty(@PathVariable Long id) {
-        propertyService.deleteProperty(id);
+    @DeleteMapping("/{id}")  // DELETE request for specific property ID
+    public String deleteProperty(@PathVariable Long id) {
+        // Your service call to delete the property
+        return "Property with ID " + id + " deleted successfully.";
     }
+
     @PostMapping(consumes = "multipart/form-data")
     public String uploadProperty(
             @RequestPart("file") MultipartFile file,  // Handles file upload
