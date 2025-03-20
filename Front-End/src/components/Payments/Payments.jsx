@@ -36,6 +36,16 @@ function Payments() {
             </button>
         </div>
 
+        {/* Payment pop up section */}
+        {isPopupOpen && (
+            <div className='payhere-popup-overlay'>
+                <div className='payhere-popup fade-in'>
+                    <h2 className='payhere title'>Payhere Payment</h2>
+                </div>
+
+            </div>
+        )}
+
     </div>
   )
 }
