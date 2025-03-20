@@ -125,18 +125,16 @@ function Payments() {
     }
   };
 
-  // function to verify bank slip using Tesseract.js
-
-  const verifyBankSlip = async() => {
-    if(!image) {
-      alert("Please upload an image to verify")
+  const verifyBankSlip = async () => {
+    if (!image) {
+      alert("Please upload an image to verify.")
       return
     }
 
     setIsVerifying(true)
     setVerificationResult(null)
 
-    try{
+    try {
       // Perform OCR on the uploaded image
       const result = await Tesseract.recognize(
         image,
@@ -147,6 +145,60 @@ function Payments() {
           },
         },
       )
+
+      const text = result.data.text.toLowerCase()
+      console.log("Extracted text:", text)
+
+      // Check for common bank slip elements
+      const hasBankName = /bank|hsbc|commercial|Sampath|peoples|boc|hnb|dfcc|cargills|seylan|nations trust/i.test(text)
+      const hasDate =
+        /\d{1,2}[/\-.]\d{1,2}[/\-.]\d{2,4}|\d{1,2}(?:st|nd|rd|th)?\s(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(
+          text,
+        )
+      const hasAmount = /amount|rs\.?|lkr|Total|sum|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
+      const hasAccountNumber = /acc(?:ount)?\s*(?:no|number|#)?[\s:.]?\s*\d+/i.test(text)
+      const isLikelySlip = /receipt|transaction|payment|Deposit|transfer|slip|reference|ref|confirmation/i.test(text)
+
+      // Update verification details
+      const details = {
+        bankName: hasBankName,
+        date: hasDate,
+        amount: hasAmount,
+        accountNumber: hasAccountNumber,
+        isSlip: isLikelySlip,
+      }
+
+      setVerificationDetails(details)
+
+      // Calculate verification score (simple percentage)
+      const verificationScore = Object.values(details).filter(Boolean).length / Object.values(details).length
+
+      // Determine if it passes verification (e.g., if more than 60% of checks pass)
+      const passes = verificationScore >= 0.6
+
+      setVerificationResult({
+        passes,
+        score: Math.round(verificationScore * 100),
+        message: passes
+          ? "Verification successful! This appears to be a valid bank slip."
+          : "Verification failed. This doesn't appear to be a valid bank slip or is missing key information.",
+      })
+
+      // If verification passes, allow proceeding to success
+      if (passes) {
+        setTimeout(() => {
+          setPaymentStep("paymentSuccess")
+        }, 2000)
+      }
+    } catch (error) {
+      console.error("Error during OCR:", error)
+      setVerificationResult({
+        passes: false,
+        score: 0,
+        message: "Error during verification. Please try again with a clearer image.",
+      })
+    } finally {
+      setIsVerifying(false)
     }
   }
 
