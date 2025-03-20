@@ -1,109 +1,117 @@
 import React, { useState } from 'react';
-import { X, Upload, Building, MapPin, DollarSign, Home, Users, BedDouble, Bath, SquareCode, Map, Link } from 'lucide-react';
+import { X, Upload, Building, MapPin, DollarSign, Home, Users, BedDouble, Bath, SquareCode, Map, Link, Phone, University } from 'lucide-react';
 import './NewProperty.css';
-import GoogleMapComponent from './GoogleMapComponent.jsx'; // Import the new component
+import GoogleMapComponent from './GoogleMapComponent.jsx';
 
 const NewProperty = ({ onClose, onSubmit }) => {
   const [propertyData, setPropertyData] = useState({
     title: '',
     location: '',
     mapLink: '',
-    coordinates: null, // New field to store lat/lng
+    coordinates: null,
     price: '',
     type: 'Apartment',
     bedrooms: 1,
     bathrooms: 1,
+    rooms: 1,
     area: '',
     description: '',
     amenities: [],
-    images: []
+    images: [], // Store multiple images here
+    contactNumber: '', // New field: Contact Number
+    address: '', // New field: Address
+    university: '', // New field: Nearest University
   });
 
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState([]); // Store image preview URLs
   const [showMapModal, setShowMapModal] = useState(false);
 
   const propertyTypes = ['Apartment', 'House', 'Room', 'Annex', 'Villa', 'Commercial'];
   const amenitiesList = ['WiFi', 'AC', 'Parking', 'Furnished', 'Security', 'Hot Water', 'Kitchen', 'Balcony', 'Garden'];
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPropertyData(prev => ({ ...prev, [name]: value }));
+    setPropertyData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle number input changes
   const handleNumberChange = (e) => {
     const { name, value } = e.target;
-    setPropertyData(prev => ({ ...prev, [name]: parseInt(value) || 0 }));
+    setPropertyData((prev) => ({ ...prev, [name]: parseInt(value) || 0 }));
   };
 
+  // Handle amenity selection
   const handleAmenityChange = (amenity) => {
-    setPropertyData(prev => {
+    setPropertyData((prev) => {
       const newAmenities = prev.amenities.includes(amenity)
-        ? prev.amenities.filter(a => a !== amenity)
+        ? prev.amenities.filter((a) => a !== amenity)
         : [...prev.amenities, amenity];
-      
       return { ...prev, amenities: newAmenities };
     });
   };
 
+  // Handle image uploads
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    
-    // Create URL for preview
-    if (files.length > 0) {
-      const url = URL.createObjectURL(files[0]);
-      setImagePreview(url);
+
+    // Limit the number of images to 10
+    if (files.length + propertyData.images.length > 10) {
+      alert('You can upload a maximum of 10 images.');
+      return;
     }
-    
-    // In a real app, you'd upload these to a server
-    // For this demo we'll just store the file objects
-    setPropertyData(prev => ({
+
+    // Create URLs for previews
+    const newImagePreviews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prev) => [...prev, ...newImagePreviews]);
+
+    // Update the state with the new images
+    setPropertyData((prev) => ({
       ...prev,
-      images: files
+      images: [...prev.images, ...files],
     }));
   };
 
-  const handleOpenMap = () => {
-    setShowMapModal(true);
+  // Remove an image from the preview and state
+  const removeImage = (index) => {
+    const newImages = [...propertyData.images];
+    const newPreviews = [...imagePreviews];
+
+    newImages.splice(index, 1);
+    newPreviews.splice(index, 1);
+
+    setPropertyData((prev) => ({ ...prev, images: newImages }));
+    setImagePreviews(newPreviews);
   };
 
-  const handleCloseMap = () => {
-    setShowMapModal(false);
-  };
-
-  const handleSetLocation = (locationData) => {
-    // Using the data from Google Maps
-    setPropertyData(prev => ({
-      ...prev,
-      location: locationData.address || 'Selected from map',
-      coordinates: {
-        lat: locationData.lat,
-        lng: locationData.lng
-      }
-    }));
-    setShowMapModal(false);
-  };
-
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(propertyData);
   };
 
-  // Generate a Google Maps link based on coordinates
-  const generateGoogleMapsLink = () => {
-    if (propertyData.coordinates) {
-      const { lat, lng } = propertyData.coordinates;
-      return `https://www.google.com/maps?q=${lat},${lng}`;
-    }
-    return '';
+  // Handle opening the map modal
+  const handleOpenMap = () => {
+    setShowMapModal(true);
   };
 
-  // Automatically update the mapLink when coordinates change
-  React.useEffect(() => {
-    if (propertyData.coordinates && !propertyData.mapLink) {
-      const mapLink = generateGoogleMapsLink();
-      setPropertyData(prev => ({ ...prev, mapLink }));
-    }
-  }, [propertyData.coordinates]);
+  // Handle closing the map modal
+  const handleCloseMap = () => {
+    setShowMapModal(false);
+  };
+
+  // Handle setting the location from the map
+  const handleSetLocation = (locationData) => {
+    setPropertyData((prev) => ({
+      ...prev,
+      location: locationData.address || 'Selected from map',
+      coordinates: {
+        lat: locationData.lat,
+        lng: locationData.lng,
+      },
+    }));
+    setShowMapModal(false);
+  };
 
   return (
     <div className="new-property-overlay">
@@ -149,8 +157,8 @@ const NewProperty = ({ onClose, onSubmit }) => {
                     placeholder="e.g. Colombo, Kandy"
                     required
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="map-button"
                     onClick={handleOpenMap}
                   >
@@ -158,7 +166,7 @@ const NewProperty = ({ onClose, onSubmit }) => {
                     Set on Map
                   </button>
                 </div>
-                
+
                 <div className="map-link-container">
                   <label htmlFor="mapLink" className="map-link-label">
                     <Link size={16} />
@@ -173,13 +181,62 @@ const NewProperty = ({ onClose, onSubmit }) => {
                     placeholder="Paste Google Maps link here"
                   />
                 </div>
-                
+
                 {propertyData.coordinates && (
                   <div className="map-pin-indicator">
                     <MapPin size={16} />
                     Location pinned on map
                   </div>
                 )}
+              </div>
+
+              {/* New Fields: Contact Number, Address, Nearest University */}
+              <div className="form-group">
+                <label htmlFor="contactNumber">
+                  <Phone size={18} />
+                  Contact Number*
+                </label>
+                <input
+                  type="text"
+                  id="contactNumber"
+                  name="contactNumber"
+                  value={propertyData.contactNumber}
+                  onChange={handleChange}
+                  placeholder="e.g. +94 77 123 4567"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="address">
+                  <MapPin size={18} />
+                  Address*
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={propertyData.address}
+                  onChange={handleChange}
+                  placeholder="e.g. 123 Main Street, Colombo"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="university">
+                  <University size={18} />
+                  Nearest University*
+                </label>
+                <input
+                  type="text"
+                  id="university"
+                  name="university"
+                  value={propertyData.university}
+                  onChange={handleChange}
+                  placeholder="e.g. University of Colombo"
+                  required
+                />
               </div>
 
               <div className="form-row">
@@ -210,7 +267,7 @@ const NewProperty = ({ onClose, onSubmit }) => {
                     value={propertyData.type}
                     onChange={handleChange}
                   >
-                    {propertyTypes.map(type => (
+                    {propertyTypes.map((type) => (
                       <option key={type} value={type}>{type}</option>
                     ))}
                   </select>
@@ -249,6 +306,21 @@ const NewProperty = ({ onClose, onSubmit }) => {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor="rooms">
+                    <Users size={18} />
+                    Rooms
+                  </label>
+                  <input
+                    type="number"
+                    id="rooms"
+                    name="rooms"
+                    value={propertyData.rooms}
+                    onChange={handleNumberChange}
+                    min="0"
+                  />
+                </div>
+
+                <div className="form-group">
                   <label htmlFor="area">
                     <SquareCode size={18} />
                     Area (sqft)
@@ -281,7 +353,7 @@ const NewProperty = ({ onClose, onSubmit }) => {
               <div className="form-group">
                 <label>
                   <Upload size={18} />
-                  Upload Images
+                  Upload Images (Max 10)
                 </label>
                 <div className="image-upload-container">
                   <input
@@ -299,11 +371,22 @@ const NewProperty = ({ onClose, onSubmit }) => {
                       <span>Select Files</span>
                     </div>
                   </label>
-                  {imagePreview && (
-                    <div className="image-preview">
-                      <img src={imagePreview} alt="Preview" />
+                </div>
+
+                {/* Display image previews */}
+                <div className="image-previews-container">
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index} className="image-preview">
+                      <img src={preview} alt={`Preview ${index + 1}`} />
+                      <button
+                        type="button"
+                        className="remove-image-btn"
+                        onClick={() => removeImage(index)}
+                      >
+                        <X size={16} />
+                      </button>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
 
@@ -313,7 +396,7 @@ const NewProperty = ({ onClose, onSubmit }) => {
                   Amenities
                 </label>
                 <div className="amenities-grid">
-                  {amenitiesList.map(amenity => (
+                  {amenitiesList.map((amenity) => (
                     <div
                       key={amenity}
                       className={`amenity-chip ${propertyData.amenities.includes(amenity) ? 'selected' : ''}`}
@@ -343,15 +426,14 @@ const NewProperty = ({ onClose, onSubmit }) => {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="map-container">
-              {/* Actual Google Maps component */}
-              <GoogleMapComponent 
+              <GoogleMapComponent
                 onSelectLocation={handleSetLocation}
                 initialLocation={propertyData.coordinates}
               />
             </div>
-            
+
             <div className="map-modal-footer">
               <button type="button" className="cancel-btn" onClick={handleCloseMap}>Cancel</button>
             </div>
