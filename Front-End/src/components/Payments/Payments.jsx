@@ -135,6 +135,19 @@ function Payments() {
 
     setIsVerifying(true)
     setVerificationResult(null)
+
+    try{
+      // Perform OCR on the uploaded image
+      const result = await Tesseract.recognize(
+        image,
+        "eng", // English language
+        {
+          logger: (info) => {
+            console.log(info)
+          },
+        },
+      )
+    }
   }
 
   const handleImageVerification = () => {
