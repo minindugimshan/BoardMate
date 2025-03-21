@@ -1,170 +1,477 @@
-import React, { useState, useEffect } from 'react'
-import './Payments.css'
-import { propertyData } from '../../data/propertyData'
-import { MapPin } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { propertyData } from "../../data/propertyData"
+import { MapPin, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
+import Tesseract from "tesseract.js"
+import "./Payments.css"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 function Payments() {
+  const { id } = useParams()
+  const propertyId = Number.parseInt(id)
+  const property = propertyData.find((p) => p.id === propertyId)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [paymentStep, setPaymentStep] = useState('paymentMethod'); // or 'cardDetails'
+  const [selectedMethod, setSelectedMethod] = useState(null)
+  const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false);
+  const [orderId, setOrderId] = useState('')
+  const [image, setImage] = useState(null)
+  const [isImageUploaded, setIsImageUploaded] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
+  const [verificationResult, setVerificationResult] = useState(false)
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://sandbox.payhere.lk/payhere.js";
-        script.async = true;
-        document.body.appendChild(script);
 
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, []);
+  if (!property) {
+    return <div className="text-container mt-5">Property Not Found</div>
+  }
 
-    const {id} = useParams();
-    const propertyId = parseInt(id);
-    const property = propertyData.find(p => p.id === propertyId);
+  // Verifying the image
+  const [verificationDetails, setVerificationDetails] = useState({
+    bankName: false,
+    date: false,
+    amount: false,
+    accountNumber: false,
+    isSlip: false
+  })
 
-    const [isRedirecting , setIsRedirecting] = useState(false);
+  const handleProceedToPay = () => {
+    setIsPopupOpen(true)
 
-    if (!property){
-        return <div className='text-center mt-5'>Property Not Found</div>
+  }
+
+  const handleClosePopUp = () => {
+    setIsPopupOpen(false)
+    setVerificationResult(null)
+    setVerificationDetails({
+      bankName: false,
+      date: false,
+      amount: false,
+      accountNumber: false,
+      isSlip: false
+    })
+  }
+
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+  });
+
+  // New state to track payment success
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  const handleMethodSelect = (methodId) => {
+    setSelectedMethod(methodId);
+    setImage(null);
+    setIsImageUploaded(false);
+    setCardDetails({
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+    });
+    setVerificationResult(null)
+    setVerificationDetails({
+      bankName: false,
+      date: false,
+      amount: false,
+      accountNumber: false,
+      isSlip: false
+    })
+  };
+
+  const handleCardDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  // Function to handle the card details form submission
+  const handleCardDetailsSubmit = () => {
+    // Validation before submission
+    if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
+      alert('Please fill all the fields');
+      return;
+    }
+    setPaymentStep('paymentSuccess')
+    setPaymentSuccess(true);
+  };
+
+
+  const handlePayNowClick = () => {
+    if (selectedMethod === 'visa' || selectedMethod === 'mastercard') {
+      setPaymentStep('cardDetails'); // Go to the card details page
+    }
+    else if (selectedMethod === 'bank') {
+      setPaymentStep('uploadBankImage');
+    }
+  };
+
+  // New function to handle image upload
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file)); // Preview image
+      setIsImageUploaded(true);
+      setVerificationResult(null) // Mark image as uploaded
+      setVerificationDetails({
+        bankName: false,
+        date: false,
+        amount: false,
+        accountNumber: false,
+        isSlip: false
+      })
+    }
+  };
+
+  const verifyBankSlip = async () => {
+    if (!image) {
+      alert("Please upload an image to verify.")
+      return
     }
 
-    const handleBookNow = () => {
-        // starting the redirecting process
-        setIsRedirecting(true);
-        initiatePayment(property);
-    };
+    setIsVerifying(true)
+    setVerificationResult(null)
 
-    const initiatePayment = async (property) => {
-        const orderId = `order_${Date.now()}`;
-        const amount = property.price.toString();
-        const currency = "LKR";
+    try {
+      // Perform OCR on the uploaded image
+      const result = await Tesseract.recognize(
+        image,
+        "eng", // English language
+        {
+          logger: (info) => {
+            console.log(info)
+          },
+        },
+      )
 
-        try {
-            // 🔥 Fetch the hash from the backend
-            const response = await fetch("http://localhost:8080/api/payment/generate-hash", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: new URLSearchParams({
-                    orderId: orderId,
-                    amount: amount,
-                    currency: currency
-                })
-            });
+      const text = result.data.text.toLowerCase()
+      console.log("Extracted text:", text)
 
-            const hash = await response.text();
+      // Check for common bank slip elements
+      const hasBankName = /Bank|HSBC|Commercial|Sampath|Peoples|BOC|HNB|DFCC|Cargills|Seylan|Nations Trust/i.test(text)
+      const hasDate =
+        /\d{1,2}[/\-.]\d{1,2}[/\-.]\d{2,4}|\d{1,2}(?:st|nd|rd|th)?\s(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(
+          text,
+        )
+      const hasAmount = /amount|rs\.?|Rs.|Total|sum|Cash|Coins|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
+      const hasAccountNumber = /acc(?:ount)?\s*(?:No|number|#)?[\s:.]?\s*\d+/i.test(text)
+      const isLikelySlip = /receipt|Computer Validation|Signature|Depositor|Name|Transaction|Payment|Deposit|Transfer|Slip|reference|ref|Confirmation/i.test(text)
 
-            if (!hash) {
-                throw new Error("Failed to generate hash");
-            }
+      // Update verification details
+      const details = {
+        bankName: hasBankName,
+        date: hasDate,
+        amount: hasAmount,
+        accountNumber: hasAccountNumber,
+        isSlip: isLikelySlip,
+      }
 
-            // 🔥 Proceed with payment now that we have the hash
-            const payment = {
-                sandbox: true,
-                merchant_id: "1229745",  // Your PayHere Merchant ID
-                return_url: "http://localhost:5173/payment-success",
-                cancel_url: "http://localhost:5173/payment-cancel",
-                notify_url: "http://localhost:8080/api/payment/notify",
-                order_id: orderId,
-                items: property.name,
-                amount: amount,
-                currency: currency,
-                hash: hash,  // 🔥 Use generated hash from backend
-                first_name: "Test",
-                last_name: "User",
-                email: "test@example.com",
-                phone: "0123456789",
-                address: "Colombo",
-                city: "Colombo",
-                country: "Sri Lanka"
-            };
+      setVerificationDetails(details)
 
-            console.log("Starting PayHere payment with:", payment);
+      // Calculate verification score (simple percentage)
+      const verificationScore = Object.values(details).filter(Boolean).length / Object.values(details).length
 
-            payhere.onCompleted = function(orderId) {
-                console.log("Payment completed. OrderID: ", orderId);
-                window.location.href = `/payment-success`;
-            };
+      // Determine if it passes verification (e.g., if more than 60% of checks pass)
+      const passes = verificationScore >= 0.6
 
-            payhere.onDismissed = function() {
-                console.log("Payment dismissed by user");
-                window.location.href = `/payment-cancel`;
-            };
+      setVerificationResult({
+        passes,
+        score: Math.round(verificationScore * 100),
+        message: passes
+          ? "Verification successful! This appears to be a valid bank slip."
+          : "Verification failed. This doesn't appear to be a valid bank slip or is missing key information. Please Add a valid image again!",
+      })
 
-            payhere.onError = function(error) {
-                console.log("Error occurred: ", error);
-                alert("Payment failed. Please try again.");
-            };
+      // If verification passes, allow proceeding to success
+      if (passes) {
+        setTimeout(() => {
+          setPaymentStep("paymentSuccess")
+        }, 2000)
+      }
+    } catch (error) {
+      console.error("Error during OCR:", error)
+      setVerificationResult({
+        passes: false,
+        score: 0,
+        message: "Error during verification. Please try again with a clearer image.",
+      })
+    } finally {
+      setIsVerifying(false)
+    }
+  }
 
-            payhere.startPayment(payment);
+  const handleImageVerification = () => {
+    if (!isImageUploaded) {
+      alert("Please upload an image to verify.");
+      return;
+    }
+    // In Here, you can add logic to verify the image if necessary
+    alert("Image uploaded successfully for verification.");
+  };
 
-        } catch (error) {
-            console.error("Payment initiation error:", error);
-            alert("Error initiating payment.");
-        }
-    };
+  // Payment methods data with icons
+  const paymentMethods = {
+    "Credit/Debit Card": [
+        { id: "visa", name: "Visa", icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1200px-Visa_2021.svg.png" },
+        { id: "mastercard", name: "Mastercard", icon: 'https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-No-Background.png' },
+        { id: "amex", name: "American Express", icon: 'https://www.citypng.com/public/uploads/preview/hd-amex-american-express-logo-png-701751694708970jttzjjyo6e.png' },
+      ],
+    "Mobile Wallet": [
+      { id: "genie", name: "Genie", icon: "https://www.genie.lk/wp-content/uploads/2021/03/genie-logo.png" },
+      { id: "ezcash", name: "Ez Cash", icon: "https://yt3.googleusercontent.com/eJyvaQmKtG_F-8JC6qJLIjcfHzyIwD0O5bOnmfZP0ed2XjbCiPJfPHPqL9FGlbvw7942CBar=s900-c-k-c0x00ffffff-no-rj" },
+      { id: "mcash", name: "mCash", icon: "https://play-lh.googleusercontent.com/vJsVOZbuNfKbLshcBmxIQaisdkI_8isieqkXhtxuqnr-PKnc53v-8GwdzgaI53P8_lA" },
+      { id: "frimi", name: "FriMi", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ys1jHPlXUOGwBhVXQQIwYt5VgmQmteZDCA&s" },
+    ],
+    "Bank Transfer": [{ id: "bank", name: "Bank Transfer", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
+  }
 
-    // const initiatePayment = (property) => {
-    //     const payment = {
-    //         sandbox: true,
-    //         merchant_id: "1229745",
-    //         return_url: "http://localhost:5173/payment-success",
-    //         cancel_url: "http://localhost:5173/payment-cancel",
-    //         notify_url: "http://localhost:8080/api/payment/notify",
-    //         order_id: `order_${Date.now()}`,
-    //         items: property.name,
-    //         amount: property.price,
-    //         currency: "LKR",
-    //         first_name: "Test",
-    //         last_name: "User",
-    //         email: "test@example.com",
-    //         phone: "0123456789",
-    //         address: "Colombo",
-    //         city: "Colombo",
-    //         country: "Sri Lanka",
-    //         hash: hash
-    //     };
+  // generating a unique order id for properties
 
-    //     console.log("Merchant ID: ", payment.merchant_id);
-    //     console.log("Amount: ", payment.amount);
-    //     console.log("Order ID: ", payment.order_id);
-        
+  const generateOrderId = () => {
+    const uniqueOrderId = `order_${Date.now()}`
+    setOrderId(uniqueOrderId)
+  }
 
-    //     payhere.onCompleted = function(orderId) {
-    //         console.log("Payment completed. OrderID: ", orderId);
-    //         window.location.href = `/payment-success`;
-    //     };
+  useEffect(() => {
+    generateOrderId();
+  }, []);
 
-    //     payhere.onDismissed = function() {
-    //         console.log("Payment dismissed bu user ");
-    //         window.location.href = `/payment-cancel`;
-    //     };
-
-    //     payhere.onError = function(error) {
-    //         console.log("Error occurred: " , error);
-    //         alert("Payment failed. Please try again,")
-    //     };
-
-    //     console.log("Attempting to start PayHere payment with:", payment);
-
-    //     payhere.startPayment(payment);
-
-        
-        
-    // };
-
-    
 
   return (
-    <div className='container d-flex justify-content-center align-items-center min-vh-100'>
-        <div className='card shadow p-4 text center w-75 m-md-50' id='payments-container'>
-            <h2 className='mb-3'>Booking Details: <br /><br /></h2>
-            <h2 className='prop-name'>{property.name}</h2>
-            <h4>Price: {property.price} LKR </h4>
-            <h4>Location: <MapPin size={24} color='red' /> {property.location} </h4>
-            <button className='btn mt-3 w-50' onClick={handleBookNow}>Proceed to pay</button>
+    <div className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}>
+      <div className="card shadow p-4 text-center w-75" id="payments-container">
+        <h2 className="mb-3">Your Booking Details Are As Follows: </h2>
+        <h2 className="prop-name"> {property.name} </h2>
+        <h4>Price: {property.price} </h4>
+        <h4>
+          location: <MapPin size={24} color="red" /> {property.location}
+        </h4>
+        <button className="btn mt-3 w-50 btn-primary" onClick={handleProceedToPay}>
+          Proceed To Pay
+        </button>
+      </div>
+
+      {/* PayHere Payment Popup */}
+      {isPopupOpen && (
+        <div className="payhere-popup-overlay">
+          <div className="payhere-popup-container">
+            <div className="payhere-popup">
+              {/* Header */}
+              <div className="payhere-header">
+                <div className="payhere-logo-wrapper">
+                  <img src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png" alt="PayHere" className="payhere-logo" />
+                </div>
+                <div className="payhere-merchant-info">
+                  <div className="merchant-name">{property.name}</div>
+                  <div className="order-id">Order ID: {orderId} </div>
+                  <div className="amount">Rs. {property.price}</div>
+                </div>
+
+                <button className="close-btn" onClick={handleClosePopUp}>
+                  X
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="payhere-body">
+                {paymentStep === 'paymentMethod' && (
+                  <>
+                    <div className="payment-method-title">SELECT A PAYMENT METHOD</div>
+
+                    {Object.entries(paymentMethods).map(([category, methods]) => (
+                      <div key={category} className="payment-category">
+                        <div className="category-title">{category}</div>
+                        <div className="payment-methods-row">
+                          {methods.map((method) => (
+                            <div
+                              key={method.id}
+                              className={`payment-method-item ${selectedMethod === method.id ? "selected" : ""}`}
+                              onClick={() => handleMethodSelect(method.id)}
+                            >
+                              <img
+                                src={method.icon || "/placeholder.svg"}
+                                alt={method.name}
+                                className="payment-icon"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {paymentStep === 'cardDetails' && (
+                  <div className="card-details-form">
+                    <div className="form-group">
+                      <label htmlFor="cardNumber">Card Number</label>
+                      <input
+                        type="text"
+                        id="cardNumber"
+                        name="cardNumber"
+                        value={cardDetails.cardNumber}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="Enter your card number"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="expiryDate">Expiration Date</label>
+                      <input
+                        type="text"
+                        id="expiryDate"
+                        name="expiryDate"
+                        value={cardDetails.expiryDate}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="MM/YY"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="cvv">CVV</label>
+                      <input
+                        type="text"
+                        id="cvv"
+                        name="cvv"
+                        value={cardDetails.cvv}
+                        onChange={handleCardDetailsChange}
+                        required
+                        placeholder="Enter your CVV"
+                      />
+                    </div>
+
+                    <div className="payhere-actions mt-4">
+                      <button
+                        className="btn btn-success payhere-pay-btn"
+                        onClick={handleCardDetailsSubmit}
+                      >
+                        Submit Payment
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+
+                {paymentStep === "uploadBankImage" && (
+                  <div className="upload-image-section">
+                    <h4>Upload Bank Transfer Proof</h4>
+                    <p className="text-muted">Please upload a clear image of your bank slip or transfer confirmation</p>
+
+                    <input type="file" onChange={handleImageUpload} accept="image/*" className="form-control mb-3" />
+
+                    {image && (
+                      <div className="uploaded-image-container mb-3">
+                        <img
+                          src={image || "/placeholder.svg"}
+                          alt="Bank Transfer Proof"
+                          className="uploaded-image img-fluid"
+                          style={{ maxHeight: "200px" }}
+                        />
+                      </div>
+                    )}
+
+                    {isVerifying && (
+                      <div className="verification-loading text-center mb-3">
+                        <Loader2 className="animate-spin h-6 w-6 mx-auto mb-2" />
+                        <p>Verifying your bank slip...</p>
+                      </div>
+                    )}
+
+                    {verificationResult && (
+                      <div
+                        className={`verification-result mb-3 p-3 rounded ${verificationResult.passes ? "bg-success bg-opacity-10" : "bg-danger bg-opacity-10"}`}
+                      >
+                        <div className="d-flex align-items-center mb-2">
+                          {verificationResult.passes ? (
+                            <CheckCircle className="text-success me-2" />
+                          ) : (
+                            <AlertCircle className="text-danger me-2" />
+                          )}
+                          <h5 className="mb-0">
+                            {verificationResult.passes ? "Verification Successful" : "Verification Failed"}
+                          </h5>
+                        </div>
+                        <p>{verificationResult.message}</p>
+                        <div className="verification-details">
+                          <p className="mb-1">Verification Score: {verificationResult.score}%</p>
+                          <div className="verification-checks">
+                            <div
+                              className={`check-item ${verificationDetails.bankName ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.bankName ? "✓" : "✗"} Bank name detected
+                            </div>
+                            <div className={`check-item ${verificationDetails.date ? "text-success" : "text-danger"}`}>
+                              {verificationDetails.date ? "✓" : "✗"} Date detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.amount ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.amount ? "✓" : "✗"} Amount detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.accountNumber ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.accountNumber ? "✓" : "✗"} Account number detected
+                            </div>
+                            <div
+                              className={`check-item ${verificationDetails.isSlip ? "text-success" : "text-danger"}`}
+                            >
+                              {verificationDetails.isSlip ? "✓" : "✗"} Appears to be a bank slip
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <button className="btn btn-primary" onClick={verifyBankSlip} disabled={!image || isVerifying}>
+                      {isVerifying ? "Verifying..." : "Verify Bank Slip"}
+                    </button>
+                  </div>
+                )}
+
+                {paymentStep === 'paymentSuccess' && (
+                  <div className="payment-success">
+                    <div className="success-icon">
+                      <img src="https://www.pngall.com/wp-content/uploads/9/Green-Tick-No-Background.png" alt="" />
+                    </div>
+                    <h3>Payment Successful!</h3>
+                    <p className="success-message">Your payment has been processed successfully.</p>
+                    <button onClick={handleClosePopUp} className="btn btn-primary">
+                      Close
+                    </button>
+                  </div>
+                )}
+
+                <div className="payhere-actions mt-4">
+                  {paymentStep === 'paymentMethod' && (
+                    <button
+                      className="btn btn-success payhere-pay-btn"
+                      disabled={!selectedMethod}
+                      onClick={handlePayNowClick}
+                    >
+                      Pay Now
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="payhere-footer">
+                <div className="secured-by">
+                  <span>Secured by</span>
+                  <img src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png" alt="PayHere" className="payhere-footer-logo" />
+                </div>
+                <div className="central-bank-text">Central Bank approved Secure Payment Gateway Service</div>
+              </div>
+              <br /><br />
+            </div>
+          </div>
+          
         </div>
-    
+      )}
+      
     </div>
   )
 }
