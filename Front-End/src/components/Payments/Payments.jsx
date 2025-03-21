@@ -80,12 +80,53 @@ function Payments() {
   };
 
   const handleCardDetailsChange = (e) => {
-    const { name, value } = e.target;
-    setCardDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-  };
+    const { name, value } = e.target
+
+    // Validation logic based on field name
+    if (name === "cardNumber") {
+      // Only allow numbers and limit to 16 digits
+      const sanitizedValue = value.replace(/[^0-9]/g, "").slice(0, 16)
+
+      // Format with spaces every 4 digits for better readability (optional)
+      const formattedValue = sanitizedValue.replace(/(\d{4})(?=\d)/g, "$1 ").trim()
+
+      setCardDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: formattedValue,
+      }))
+    } else if (name === "expiryDate") {
+      // Format as MM/YY and validate
+      let sanitizedValue = value.replace(/[^0-9]/g, "").slice(0, 4)
+
+      if (sanitizedValue.length > 2) {
+        // Format as MM/YY
+        sanitizedValue = sanitizedValue.slice(0, 2) + "/" + sanitizedValue.slice(2)
+      }
+
+      // Validate month is between 01-12
+      if (sanitizedValue.length >= 2) {
+        const month = Number.parseInt(sanitizedValue.slice(0, 2))
+        if (month > 12) {
+          sanitizedValue = "12" + sanitizedValue.slice(2)
+        } else if (month === 0) {
+          sanitizedValue = "01" + sanitizedValue.slice(2)
+        }
+      }
+
+      setCardDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: sanitizedValue,
+      }))
+    } else if (name === "cvv") {
+      // Only allow numbers and limit to 3-4 digits
+      const sanitizedValue = value.replace(/[^0-9]/g, "").slice(0, 4)
+
+      setCardDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: sanitizedValue,
+      }))
+    }
+  }
 
   // Function to handle the card details form submission
   const handleCardDetailsSubmit = () => {
@@ -93,6 +134,31 @@ function Payments() {
     if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
       alert('Please fill all the fields');
       return;
+    }
+
+    if (!cardDetails.cardNumber || cardDetails.cardNumber.replace(/\s/g, "").length < 13) {
+      alert("Please enter a valid card number")
+      return
+    }
+
+    if (!cardDetails.expiryDate || !cardDetails.expiryDate.includes("/")) {
+      alert("Please enter a valid expiry date in MM/YY format")
+      return
+    }
+
+    // Validate expiry date is not in the past
+    const [month, year] = cardDetails.expiryDate.split("/")
+    const expiryDate = new Date(2000 + Number.parseInt(year), Number.parseInt(month) - 1)
+    const currentDate = new Date()
+
+    if (expiryDate < currentDate) {
+      alert("The card has expired. Please use a valid card.")
+      return
+    }
+
+    if (!cardDetails.cvv || cardDetails.cvv.length < 3) {
+      alert("Please enter a valid CVV")
+      return
     }
     setPaymentStep('paymentSuccess')
     setPaymentSuccess(true);

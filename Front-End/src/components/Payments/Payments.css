@@ -284,3 +284,52 @@
 .payment-success .btn {
   margin-top: 20px; /* Optional: adds spacing above the button */
 }
+
+
+/* Card details form styling */
+.card-details-form .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .card-details-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .card-details-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Change color when input is focused */
+  .card-details-form input:focus {
+    border-color: #0d6efd; /* Bootstrap primary color */
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Bootstrap focus shadow */
+    outline: none;
+  }
+  
+  /* Add a highlight effect for active input */
+  .card-details-form input:focus-visible {
+    border-color: #0d6efd;
+    outline: none;
+  }
+  
+  /* Optional: Add different colors for different fields */
+  .card-details-form #cardNumber:focus {
+    background-color: white !important;
+    color: black;
+  }
+  
+  .card-details-form #expiryDate:focus {
+    background-color: white !important;
+    color: black;
+  }
+  
+  .card-details-form #cvv:focus {
+    background-color: white !important;
+    color: black;
+  }
