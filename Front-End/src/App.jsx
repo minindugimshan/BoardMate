@@ -56,7 +56,7 @@ function App() {
         <LandingPageFlow />
       ) : (
         <>
-         
+        <Navigationbar />
           <Routes>
             {/* Authentication routes */}
             <Route path="/get-started" element={<GetStarted />} />
