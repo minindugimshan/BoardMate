@@ -1,0 +1,18 @@
+#payments-container{
+    background: linear-gradient(to bottom, #e5ecfb, white);
+    border: none;
+}
+#payments-container h4{
+    color: navy;
+}
+.btn{
+    background-color: skyblue;
+    justify-content: center;
+    text-align: center;
+}
+.btn:hover{
+    background-color:rgb(200, 217, 230) ;
+}
+.prop-name{
+    color: navy;
+}
