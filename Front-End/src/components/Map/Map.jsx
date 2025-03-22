@@ -1,29 +1,92 @@
 import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import "leaflet/dist/leaflet.css";
+import L from 'leaflet';
+import { propertyData } from '../../data/propertyData';
 import './Map.css'
 
+// Marker icon
+const markerIcon = new L.icon({
+    iconUrl: "/marker.png",
+    iconSize: [30,30],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+});
+
+
+
+const extractLatLng = (mapUrl) => {
+    if (!mapUrl || typeof mapUrl !== "string") {
+        console.error("Invalid map URL:", mapUrl);
+        return null;
+    }
+
+    // Match standard coordinates (!2d and !3d)
+    let regex = /!2d([-+]?\d*\.\d+)!3d([-+]?\d*\.\d+)/;
+    let match = mapUrl.match(regex);
+
+    // If no match, check for encoded format (!2z)
+    if (!match) {
+        regex = /!2z([^!]+)/;
+        match = mapUrl.match(regex);
+
+        if (match) {
+            const decoded = match[1].replace(/N|E/g, "").split(" ");
+            if (decoded.length === 2) {
+                return { lat: parseFloat(decoded[0]), lng: parseFloat(decoded[1]) };
+            }
+        }
+    }
+
+    if (match) {
+        return { lat: parseFloat(match[2]), lng: parseFloat(match[1]) }; // lat, lng
+    }
+
+    console.error("Coordinates not found in URL:", mapUrl);
+    return null;
+};
+
+
+
 function Map() {
+    const navigate = useNavigate();
+
+    const [filteredProperties , setFilteredProperties] = useState(propertyData);
 
     const [formInput, setFormInput] = useState({
         location : '',
         roomType : '',
-        monthlyBudget : 5000,
+        monthlyBudget : 9000,
         bedrooms : '',
         bathrooms : '',
         amenities : [],
     });
 
+
     const locations = [
         {value : 'Colombo' , label: 'Colombo'},
-        {value : 'Dehiwala-Mount Lavinia' , label: 'Dehiwala-Mount Lavinia'},
-        {value : 'Kotte' , label: 'Kotte'},
-        {value : 'Moratuwa' , label: 'Moratuwa'},
-        {value : 'Kesbewa' , label: 'Kesbewa'},
+        {value : 'Dehiwala' , label: 'Dehiwala'},
         {value : 'Nugegoda' , label: 'Nugegoda'},
-        {value : 'Homagama' , label: 'Homagama'},
-        {value : 'Kaduwela' , label: 'Kaduwela'},
-        {value : 'Maharagama' , label: 'Maharagama'},
+        {value : 'Boralesgamuwa' , label: 'Boralesgamuwa'},
+        {value : 'Mount Lavinia' , label: 'Mount Lavinia'},
+        {value : 'Kirulapana' , label : 'Kirulapana'},
+        {value : 'Colombo 06' , label : 'Colombo 06'},
+        {value : 'Colombo 05' , label : 'Colombo 05'},
+        {value : 'Colombo 04' , label : 'Colombo 04'},
+        {value : 'Wellawatte' , label : 'Wellawatte'},
+        // {value : 'Mt. Lavinia' , label : 'Mt. Lavinia'},
+        {value : 'Bambalapitiya' , label : 'Bambalapitiya'},
+        {value : 'Kollupitiya' , label : 'Kollupitiya'},
+        {value : 'Rathmalana' , label : 'Rathmalana'},
+        {value : 'Pepiliyana' , label : 'Pepiliyana'},
+        {value : 'Zoyzapura' , label : 'Zoyzapura'},
+        {value : 'Katubedda' , label : 'Katubedda'},
+        {value : 'Kalubowila' , label : 'Kalubowila'},
+        {value : 'Wijerama' , label : 'Wijerama'},
 
     ];
+
 
     const roomTypes = [
         {value: 'single' , label:'Single Room'},
@@ -66,10 +129,38 @@ function Map() {
         })
     };
 
+    const handleFilter = (event) =>{
+        event.preventDefault();
+
+        const results = propertyData.filter((property) => {
+            return(
+                (!formInput.location ||
+                property.location.toLowerCase().includes(formInput.location.toLowerCase())) &&
+                (property.price <= Number(formInput.monthlyBudget))
+            );
+        }
+    );
+    setFilteredProperties(results)
+    }
+    // const handleFilter = (event) =>{
+    //     event.preventDefault();
+
+        
+
+    //     const results = propertyData.filter((property) => {
+    //         return(
+    //             (formInput.location ? property.location.toLowerCase() === formInput.location.toLowerCase() : true) &&
+    //             (property.price <= Number(formInput.monthlyBudget))
+    //         );
+    //     }
+    // );
+    // setFilteredProperties(results)
+    // }
+
   return (
     <div className='mapBackground'>
         <div className='container-form-map'>
-            <form action="" className='mapForm'>
+            <form action="" className='mapForm' onSubmit={handleFilter}>
                 <label htmlFor="location" className='locLabel'>Location</label> <br />
                 <select 
                     name="location" 
@@ -77,6 +168,12 @@ function Map() {
                     onChange = { (event) => {
                         handleChange("location", event.target.value);
                     }}
+                    
+                    style={{
+                        backgroundColor: formInput.location ? 'skyblue' : '#c8d9e6', // Light blue when selected
+                        cursor: 'pointer'
+                    }}
+                
                 >         
                     <option value="" disabled hidden>Select Location</option>
 
@@ -99,7 +196,7 @@ function Map() {
                             type='button'
                             onClick={ () => handleRoomTypeClick('roomType',room.value) }
                             style={{
-                                backgroundColor: formInput.roomType === room.value ? 'white' : '',
+                                backgroundColor: formInput.roomType === room.value ? 'skyblue' : '',
                                 color: formInput.roomType === room.value ? 'black' : '',
                                 margin: '5px',
                               }}
@@ -117,9 +214,9 @@ function Map() {
                     <input 
                         type="range" 
                         className='budget'
-                        min='5000'
-                        max='50000'
-                        step='2000'
+                        min='9000'
+                        max='151000'
+                        step='1000'
                         value={formInput.monthlyBudget}
                         onChange={ (e) => handleChange("monthlyBudget", e.target.value) }
                     />
@@ -141,7 +238,7 @@ function Map() {
                                     handleRoomTypeClick('bedrooms', bedroomCount)}
                                 }
                                 style={{
-                                    backgroundColor: formInput.bedrooms === bedroomCount ? ' white' : '',
+                                    backgroundColor: formInput.bedrooms === bedroomCount ? 'skyblue' : '',
                                     color: formInput.bedrooms === bedroomCount ? 'black' : '',
                                     margin: '5px',
                                 }}
@@ -168,7 +265,7 @@ function Map() {
                                     handleRoomTypeClick('bathrooms', bathroomCount)}
                                 }
                                 style={{
-                                    backgroundColor: formInput.bathrooms === bathroomCount ? 'white' : '',
+                                    backgroundColor: formInput.bathrooms === bathroomCount ? 'skyblue' : '',
                                     color: formInput.bathrooms === bathroomCount ? 'black' : '',
                                     margin: '5px',
 
@@ -185,7 +282,7 @@ function Map() {
 
                 <label htmlFor="amenities" className='locLabel'>Amenities</label> <br />
                 <div className='amenitiesContainer'>
-                    {["Furniture", "Wi-Fi", "Kitchen", "Parking Space","Fridge","Study Desk"].map((amenitiesList) => {
+                    {["Furniture", "Wi-Fi", "Kitchen", "Parking Space","Fridge","Study Desk","Ceiling Fan"].map((amenitiesList) => {
                         return(
                             <div className='amenities-item'>
 
@@ -209,23 +306,54 @@ function Map() {
                     )}
                 </div> <br /><br />
 
-                <button className='filters-button'>Apply Filters</button>
+                <button className='filters-button' type="submit">Apply Filters</button>
 
             </form>
 
-            <div class="mapouter">
-                <div class="gmap_canvas">
-                    <iframe 
-                        className="gmap_iframe" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        marginheight="0" marginwidth="0" 
-                        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=colombo district&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-                    </iframe>
-                </div>
-            </div>
+            <MapContainer center={[6.9271, 79.8612]} zoom={12} style={{ height: "500px", width: "100%" }}>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
 
+                {/* Render properties dynamically */}
+                {filteredProperties.map((property) => {
+                const coordinates = extractLatLng(property.map);
+                if (!coordinates) return null;
+                return (
+                    <Marker key={property.id} position={[coordinates.lat, coordinates.lng]} icon={markerIcon}>
+                        
+                            <Popup>
+                                <b>{property.name}</b> <br /> <br />
+                                Type : {property.type} <br />
+                                Location : {property.location} <br />
+                                Price: {property.price} LKR <br />
+
+                                <button 
+                                    onClick={() => navigate(`/property/${property.id}`)}
+                                    style={{
+                                        backgroundColor: 'skyblue',
+                                        border: 'none',
+                                        padding: '5px 10px',
+                                        cursor: 'pointer',
+                                        marginTop: '10px'
+                                    }}>
+                                    View Details
+                                </button>
+                            </Popup>
+                        
+                
+                    </Marker>
+                    ) ;
+                })}
+            </MapContainer> 
         </div> 
+
+        <h4 className='marker-heading'>
+                <img src="/marker.png" alt="marker" className='marker' />
+                 - IIT Verified Accommodation
+        </h4>
+        <br /><br /><br />
 
         <div className='location-slider'>
             <h1>We've got you covered in various locations!</h1> <br /><br />
@@ -242,30 +370,62 @@ function Map() {
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kotte
-                </h2>
-                <h2>
-                    <span className='fa'>&#xf3c5;</span>
                     Nugegoda
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Moratuwa
+                    Boralesgamuwa
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kesbewa
+                    Mount Lavinia
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Homagama
+                    Katubedda
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kirulapana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wellawatte
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Bambalapitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kollupitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Rathmalana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Pepiliyana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Zoyzapura
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kalubowila
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wijerama
                 </h2>
                 
             </div>
 
             <div className='locations'>
                 
-                <h2>
+            <h2>
                     <span className='fa'>&#xf3c5;</span>
                     Colombo
                 </h2>
@@ -275,23 +435,55 @@ function Map() {
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kotte
-                </h2>
-                <h2>
-                    <span className='fa'>&#xf3c5;</span>
                     Nugegoda
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Moratuwa
+                    Boralesgamuwa
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Kesbewa
+                    Mount Lavinia
                 </h2>
                 <h2>
                     <span className='fa'>&#xf3c5;</span>
-                    Homagama
+                    Katubedda
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kirulapana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wellawatte
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Bambalapitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kollupitiya
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Rathmalana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Pepiliyana
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Zoyzapura
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Kalubowila
+                </h2>
+                <h2>
+                    <span className='fa'>&#xf3c5;</span>
+                    Wijerama
                 </h2>
                 
             </div>
