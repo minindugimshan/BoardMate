@@ -14,22 +14,31 @@ const PropertyDetails = () => {
   const [reviews, setReviews] = useState([]); // State to store reviews
   const navigate = useNavigate();
 
-  // Fetch reviews from the backend (Spring Boot)
+  // Fetch reviews from the backend 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchReviewsAndRating = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews`);
-        if (!response.ok) {
+        // Fetch reviews
+        const reviewsResponse = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews`);
+        if (!reviewsResponse.ok) {
           throw new Error('Failed to fetch reviews');
         }
-        const data = await response.json();
-        setReviews(data);
+        const reviewsData = await reviewsResponse.json();
+        setReviews(reviewsData);
+
+        // Fetch average rating
+        const ratingResponse = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews/average-rating`);
+        if (!ratingResponse.ok) {
+          throw new Error('Failed to fetch average rating');
+        }
+        const averageRating = await ratingResponse.json();
+        setAverageRating(averageRating); // Set the average rating
       } catch (error) {
-        console.error('Error fetching reviews:', error);
+        console.error('Error fetching reviews or rating:', error);
       }
     };
 
-    fetchReviews();
+    fetchReviewsAndRating();
   }, [propertyId]);
 
   if (!property) return <div className="container mt-5">Property Not Found</div>;
@@ -79,7 +88,11 @@ const PropertyDetails = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(review),
+        body: JSON.stringify({
+          ...review,
+          user: 'Anonymous', // Replace with actual user name if available
+          date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+        }),
       });
 
       if (!response.ok) {
@@ -88,6 +101,14 @@ const PropertyDetails = () => {
 
       const newReview = await response.json();
       setReviews([...reviews, newReview]); // Add the new review to the list
+
+      // Re-fetch the average rating after submitting a new review
+      const ratingResponse = await fetch(`http://localhost:8080/api/properties/${propertyId}/reviews/average-rating`);
+      if (!ratingResponse.ok) {
+        throw new Error('Failed to fetch updated average rating');
+      }
+      const updatedAverageRating = await ratingResponse.json();
+      setAverageRating(updatedAverageRating); // Update the average rating
     } catch (error) {
       console.error('Error submitting review:', error);
     }
@@ -124,8 +145,9 @@ const PropertyDetails = () => {
 
         <div className="rating-container">
           <Star className="star" size={20} />
-          <span>{property.rating}</span>
+          <span>{averageRating.toFixed(1)}</span> {/* Display average rating  */}
         </div>
+
 
         <div className="property-description">
           <h2>Description</h2>
