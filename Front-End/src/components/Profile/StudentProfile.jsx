@@ -1,11 +1,10 @@
-
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import PropertyCard from '../PropertyCard/PropertyCard'; // Import the PropertyCard component
 
 const StudentProfile = () => {
   const navigate = useNavigate();
-  // This would typically come from your app state or API
   const [studentData, setStudentData] = useState({
     firstName: 'John',
     lastName: 'Smith',
@@ -22,10 +21,18 @@ const StudentProfile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({...studentData});
+  const [bookedProperty, setBookedProperty] = useState(null); // State to track booked property
+
+  // Simulate fetching the booked property from local storage or API
+  useEffect(() => {
+    const bookedPropertyFromStorage = JSON.parse(localStorage.getItem('bookedProperty'));
+    if (bookedPropertyFromStorage) {
+      setBookedProperty(bookedPropertyFromStorage);
+    }
+  }, []);
 
   const handleEditToggle = () => {
     if (isEditing) {
-      // Save the changes
       setStudentData({...editedData});
     }
     setIsEditing(!isEditing);
@@ -249,6 +256,16 @@ const StudentProfile = () => {
               </div>
             ) : (
               <p className="empty-section">No housing preferences specified yet.</p>
+            )}
+          </div>
+
+          {/* Add the "My Property" section */}
+          <div className="profile-section">
+            <h3>My Property</h3>
+            {bookedProperty ? (
+              <PropertyCard property={bookedProperty} />
+            ) : (
+              <p className="empty-section">No property booked yet.</p>
             )}
           </div>
         </div>

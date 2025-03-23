@@ -1,7 +1,11 @@
 package com.backend.boardMate.service;
 
+
 import com.backend.boardMate.model.Property;
 import com.backend.boardMate.model.VirtualTour;
+// import com.backend.boardMate.entity.Property;
+// import com.backend.boardMate.entity.VirtualTour;
+
 import com.backend.boardMate.repository.PropertyRepository;
 import com.backend.boardMate.repository.VirtualTourRepository;
 import org.springframework.beans.factory.annotation.Autowired;

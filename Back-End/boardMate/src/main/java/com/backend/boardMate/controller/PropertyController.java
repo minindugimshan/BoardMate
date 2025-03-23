@@ -2,6 +2,7 @@
 package com.backend.boardMate.controller;
 
 import com.backend.boardMate.model.Property;
+// import com.backend.boardMate.entity.Property;
 import com.backend.boardMate.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

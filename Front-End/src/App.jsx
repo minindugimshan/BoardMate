@@ -27,10 +27,9 @@ import PropertyDetails from './components/Property/PropertyDetails';
 import SearchResults from './components/Property/SearchResults';
 import StudentProfile from './components/Profile/StudentProfile';
 import Payments from './components/Payments/Payments';
-import PaymentSuccess from './components/Payments/PaymentSuccess';
-import PaymentCancel from './components/Payments/PaymentCancel';
 import TC from './components/T&C/TC';
 import { Import } from 'lucide-react';
+import Support from './components/Support/Support.jsx';
 
 function LandingPageFlow() {
   const navigate = useNavigate();
@@ -57,7 +56,7 @@ function App() {
         <LandingPageFlow />
       ) : (
         <>
-         
+        <Navigationbar />
           <Routes>
             {/* Authentication routes */}
             <Route path="/get-started" element={<GetStarted />} />
@@ -78,8 +77,7 @@ function App() {
             <Route path='/search' element={<SearchResults />} />
             <Route path='/profile' element={<StudentProfile />} />
             <Route path='/property/:id/payments' element={<Payments />} />
-            <Route path='/payment-success' element={<PaymentSuccess />} />
-            <Route path='/payment-cancel' element={<PaymentCancel />} />
+            <Route path='/Support' element= {<Support />} />
           </Routes>
         </>
       )}
