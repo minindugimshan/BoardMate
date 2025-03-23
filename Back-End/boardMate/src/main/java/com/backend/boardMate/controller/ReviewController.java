@@ -1,7 +1,7 @@
 package com.backend.boardMate.controller;
 
-import com.example.boardMate.model.Review;
-import com.example.boardMate.service.ReviewService;
+import com.backend.boardMate.model.Review;
+import com.backend.boardMate.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

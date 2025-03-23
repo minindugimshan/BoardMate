@@ -1,4 +1,4 @@
-package com.example.boardMate.model;
+package com.backend.boardMate.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
