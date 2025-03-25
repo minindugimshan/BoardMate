@@ -1,4 +1,4 @@
-package com.example.boardMate.config;
+package com.backend.boardMate.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
