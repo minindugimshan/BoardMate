@@ -2,9 +2,10 @@
 
 .background{
     position: relative;
-    min-height: auto;
     background-color: white;
     z-index: 0;
+    background-image: url('/background.jpeg');
+    height: 100vh;
 }
 
 .homeBackground{

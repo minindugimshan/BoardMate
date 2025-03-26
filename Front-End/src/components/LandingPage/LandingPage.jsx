@@ -50,7 +50,7 @@ const LandingPage = (props) => {
           </div>
 
           {/* Search Section */}
-          <div id="find-place" className="search-container">
+          {/* <div id="find-place" className="search-container">
             <div className="search-box">
               <div className="search-input">
                 <div className="search-input-group">
@@ -110,7 +110,7 @@ const LandingPage = (props) => {
                 Search Now
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         
         <div className="hero-image">
