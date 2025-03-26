@@ -36,7 +36,7 @@ function Home() {
 
   return (
     <div>
-      <div className="background">
+      <div className="background flex flex-col gap-4 py-4 px-4">
         <TypeAnimation
           sequence={[
             "Finding Your Place, Made Easy",
@@ -147,7 +147,7 @@ function Home() {
       </div> */}
 
         {/* Search Section */}
-        <div id="find-place" className="search-container">
+        <div id="find-place">
           <div className="search-box">
             <div className="search-input">
               <div className="search-input-group">

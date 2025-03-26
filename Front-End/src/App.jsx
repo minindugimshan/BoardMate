@@ -71,7 +71,7 @@ function App() {
             <Route path="/parent-login" element={<ParentLogin />} />
 
             {/* Main app routes */}
-            <Route path="/" element={<GeneralLayout />}>
+              <Route path="/" element={<GeneralLayout />}>
               <Route path="home" element={<Home />} />
               <Route path="Map" element={<Map />} />
               <Route path="about" element={<About />} />

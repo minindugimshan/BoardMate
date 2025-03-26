@@ -5,7 +5,7 @@
     background-color: white;
     z-index: 0;
     background-image: url('/background.jpeg');
-    height: 100vh;
+    height: auto;
 }
 
 .homeBackground{
@@ -21,16 +21,16 @@
 .main{
     color: rgb(186, 219, 244);
     z-index: 1;
-    position: relative;
-    top: 150px;
+    /* position: relative;
+    top: 150px; */
     text-align: start;
     margin-left: 8%;
     font-weight: bold;
 }
 .mainsub{
     color: white;
-    position: relative;
-    top: 190px;
+    /* position: relative;
+    top: 190px; */
     margin-left: 8%;
 }
 

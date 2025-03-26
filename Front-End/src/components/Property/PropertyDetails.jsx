@@ -145,7 +145,7 @@ const PropertyDetails = () => {
 
         <div className="rating-container">
           <Star className="star" size={20} />
-          <span>{averageRating.toFixed(1)}</span> {/* Display average rating  */}
+          {/* <span>{averageRating.toFixed(1)}</span> Display average rating  */}
         </div>
 
 
@@ -196,5 +196,3 @@ const PropertyDetails = () => {
 };
 
 export default PropertyDetails;
-
-
