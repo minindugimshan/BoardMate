@@ -30,6 +30,7 @@ import Payments from './components/Payments/Payments';
 import TC from './components/T&C/TC';
 import { Import } from 'lucide-react';
 import Support from './components/Support/Support.jsx';
+import ChatBot from './components/ChatBot/ChatBot.jsx';
 
 function LandingPageFlow() {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ function App() {
           </Routes>
         </>
       )}
+       <ChatBot />
     </>
   );
 }
