@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignIn2.css';
 
-const EmailPasswordSignIn = () => {
+const EmailPasswordSignIn = ({ handleSubmitData }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -33,11 +32,10 @@ const EmailPasswordSignIn = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form submitted:', formData);
-      // Add your navigation logic here
+      await handleSubmitData(formData);
     }
   };
 
@@ -105,7 +103,7 @@ const EmailPasswordSignIn = () => {
             )}
           </div>
 
-          <button type="submit" className="signin-button" onClick={() => navigate('/home')}>Continue</button>
+          <button type="submit" className="signin-button">Continue</button>
         </form>
 
         <div className="additional-options">

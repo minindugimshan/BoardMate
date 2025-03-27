@@ -17,7 +17,7 @@ function Navigationbar() {
           <a href="#" onClick={() => navigate("/map")}>
             Map
           </a>
-          <a href="#" onClick={() => navigate("/chat")}>
+          <a href="#" onClick={() => navigate("/chats")}>
             Chat
           </a>
           <a href="#" onClick={() => navigate("/support")}>

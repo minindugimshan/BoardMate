@@ -12,11 +12,11 @@ import GetStarted from "./components/SignInLogin/GetStarted/GetStarted.jsx";
 
 // Import login/signin components
 import StudentLogin from "./components/SignInLogin/Login/StudentLogin.jsx";
-import StudentSignIn from "./components/SignInLogin/SignIn/StudentSignIn";
+import StudentSignIn from "./components/SignInLogin/SignIn/student/StudentSignIn.jsx";
 import LandlordLogin from "./components/SignInLogin/LogIn/LandlordLogIn.jsx";
 import LandlordSignup from "./components/SignInLogin/SignIn/LandlordSignUp";
-import UniversitySignIn from "./components/SignInLogin/SignIn/UniversitySignIn";
-import EmailPasswordSignIn from "./components/SignInLogin/SignIn/EmailPasswordSignIn";
+import UniversitySignIn from "./components/SignInLogin/SignIn/student/UniversitySignIn.jsx";
+import EmailPasswordSignIn from "./components/SignInLogin/SignIn/common/EmailPasswordSignIn.jsx";
 import ParentLogin from "./components/SignInLogin/ParentLogin/ParentLogin.jsx";
 
 import Home from "./components/Home/Home";
@@ -33,6 +33,10 @@ import Support from "./components/Support/Support.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
 import { GeneralLayout } from "./layout/Genrallayout.jsx";
 import ChatPage from "./components/Chatapp/ChatPage.jsx";
+
+// Import Loader component
+import Loader from "./components/Loader/Loader.jsx";
+import { ToastContainer } from "react-toastify";
 
 function LandingPageFlow() {
   const navigate = useNavigate();
@@ -67,7 +71,7 @@ function App() {
             <Route path="/student-login" element={<StudentLogin />} />
             <Route path="/landlord-signin" element={<LandlordSignup />} />
             <Route path="/landlord-login" element={<LandlordLogin />} />
-            <Route path="/university-signin" element={<UniversitySignIn />} />
+            {/* <Route path="/university-signin" element={<UniversitySignIn />} /> */}
             <Route path="/email-signin" element={<EmailPasswordSignIn />} />
             <Route path="/parent-login" element={<ParentLogin />} />
 
@@ -89,6 +93,9 @@ function App() {
         </>
       )}
       <ChatBot />
+      {/* Add Loader component */}
+      <Loader />
+      <ToastContainer />
     </>
   );
 }

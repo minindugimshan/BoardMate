@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignIn2.css';
 
-const UniversitySignIn = () => {
+const UniversitySignIn = ({ handleSubmitData }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     university: '',
@@ -19,7 +18,7 @@ const UniversitySignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/email-signin');
+    handleSubmitData(formData);
   };
 
   return (
