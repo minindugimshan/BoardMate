@@ -52,7 +52,7 @@ import { useState, useRef, useEffect } from "react";
          ref={iframeRef}
          className="transition-opacity duration-300"
          style={{ opacity: isLoading ? 0 : 1 }}
-         src="https://console.dialogflow.com/api-client/demo/embedded/39367daf-a11f-4d82-a241-630e0405e9f2"
+         src="https://dialogflow.cloud.google.com/api-client/demo/embedded/39367daf-a11f-4d82-a241-630e0405e9f2"
          width="350"
          height="430"
          onLoad={handleIframeLoad}

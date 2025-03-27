@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import './PropertyDetails.css';
 import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
+import PropertyChatButton from '../Chatapp/PropertyChatButton';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -141,6 +142,11 @@ const PropertyDetails = () => {
             <Calendar size={20} /> Book a tour
           </a>
           <button className="book-now" onClick={handleBookProperty}><Key size={20} /> Book Now</button>
+          <PropertyChatButton 
+                  propertyId={property.id}
+                  landlordId={2}
+                  studentId={1}
+                />
         </div>
 
         <div className="rating-container">

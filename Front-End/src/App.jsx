@@ -32,6 +32,7 @@ import { Import } from "lucide-react";
 import Support from "./components/Support/Support.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
 import { GeneralLayout } from "./layout/Genrallayout.jsx";
+import ChatPage from "./components/Chatapp/ChatPage.jsx";
 
 function LandingPageFlow() {
   const navigate = useNavigate();
@@ -81,6 +82,8 @@ function App() {
               <Route path="profile" element={<StudentProfile />} />
               <Route path="property/:id/payments" element={<Payments />} />
               <Route path="Support" element={<Support />} />
+              <Route path="chats" element={<ChatPage />} />
+              <Route path="chats/:chatId" element={<ChatPage />} />
             </Route>
           </Routes>
         </>
