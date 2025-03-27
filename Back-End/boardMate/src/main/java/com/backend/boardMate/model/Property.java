@@ -33,9 +33,9 @@ public class Property {
     @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
     private List<String> amenities;
 
-    @ElementCollection
-    @CollectionTable(name = "property_images", joinColumns = @JoinColumn(name = "property_id"))
-    private List<String> imageUrls;
+    // @ElementCollection
+    // @CollectionTable(name = "property_images", joinColumns = @JoinColumn(name = "property_id"))
+    // private List<String> imageUrls;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "virtual_tour_id", referencedColumnName = "id")
@@ -185,13 +185,13 @@ public class Property {
         this.amenities = amenities;
     }
 
-    public List<String> getImageUrls() {
-        return imageUrls;
-    }
+    // public List<String> getImageUrls() {
+    //     return imageUrls;
+    // }
 
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
-    }
+    // public void setImageUrls(List<String> imageUrls) {
+    //     this.imageUrls = imageUrls;
+    // }
 
     public VirtualTour getVirtualTour() {
         return virtualTour;
