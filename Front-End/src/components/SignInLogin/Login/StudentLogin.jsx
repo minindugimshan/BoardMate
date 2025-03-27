@@ -23,7 +23,7 @@ const StudentSignIn = () => {
     };
     const rs = await apiService.post("/auth/login", rq);
     if (rs.status === 200) {
-      const userData = await apiService.get("/users/getByEmail", { email: formData.studentId });
+      const userData = await apiService.get("/users/getByEmail", { email: formData.email });
       if (userData.status === 200) {
         authStore.login(userData.data);
         toast.success("Login successful");
