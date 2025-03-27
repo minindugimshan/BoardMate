@@ -1,5 +1,7 @@
 package com.backend.boardMate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +16,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -34,6 +37,9 @@ public class User {
 
     @Column
     private String dateOfBirthYear;
+
+    @Column
+    private String userType;
 
     public Long getId() {
         return id;
@@ -105,5 +111,13 @@ public class User {
 
     public void setDateOfBirthYear(String dateOfBirthYear) {
         this.dateOfBirthYear = dateOfBirthYear;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

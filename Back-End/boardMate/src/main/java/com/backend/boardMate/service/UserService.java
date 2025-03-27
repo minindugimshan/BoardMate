@@ -18,7 +18,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User registerUser(String email, String password, String firstName, String lastName, String mobile,
-                             String day, String month, String year) {
+                             String day, String month, String year, String userType) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
@@ -32,8 +32,20 @@ public class UserService {
         user.setDateOfBirthDay(day);
         user.setDateOfBirthMonth(month);
         user.setDateOfBirthYear(year);
-
+        user.setUserType(userType);
         return userRepository.save(user);
+    }
+
+    public User registerStudent(String email, String password, String firstName, String lastName, String mobile,
+                                String day, String month, String year) {
+        // Check if the user's document has been verified
+        boolean isVerified = verificationService.isDocumentVerified(email);
+
+        // Register the student
+        User student = registerUser(email, password, firstName, lastName, mobile, day, month, year, "STUDENT");
+        // Additional student-specific settings could be added here
+
+        return student;
     }
 
     public User registerLandlord(String email, String password, String firstName, String lastName, String mobile,
@@ -44,7 +56,7 @@ public class UserService {
         }
 
         // Create the user as a landlord
-        User landlord = registerUser(email, password, firstName, lastName, mobile, day, month, year);
+        User landlord = registerUser(email, password, firstName, lastName, mobile, day, month, year, "LANDLORD");
         // Additional landlord-specific settings could be added here
 
         return landlord;
@@ -53,5 +65,9 @@ public class UserService {
     public boolean authenticateUser(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword());
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

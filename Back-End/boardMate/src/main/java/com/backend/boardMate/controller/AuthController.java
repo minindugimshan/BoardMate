@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Map<String, String> registerUser(@RequestBody Map<String, String> request) {
-        User user = userService.registerUser(
+        User user = userService.registerStudent(
                 request.get("email"),
                 request.get("password"),
                 request.get("firstName"),
