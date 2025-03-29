@@ -6,7 +6,7 @@ import './PropertyDetails.css';
 import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
 import PropertyChatButton from '../Chatapp/PropertyChatButton';
-import useAuthStore from '../../store/use-auth-store';
+import useAuthStore from '../../store/auth-store';
 import apiService from '../../services/api-service';
 import { use } from 'react';
 import { toast } from 'react-toastify';

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiService from "../../../services/api-service";
-import useAuthStore from "../../../store/use-auth-store";
-import "./StudentLogIn.css";
+import useAuthStore from "../../../store/auth-store";
+import "./StudentLogin.css";
 
 const StudentSignIn = () => {
   const navigate = useNavigate();

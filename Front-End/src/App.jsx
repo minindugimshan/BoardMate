@@ -35,7 +35,7 @@ import { ToastContainer } from "react-toastify";
 import LandlordDashboard from "./components/LandlordDashboard/LandlordDashboard.jsx";
 import Loader from "./components/Loader/Loader.jsx";
 import LandlordProfile from "./components/Profile/LandloardProfile.jsx";
-import useAuthStore from "./store/use-auth-store.js";
+import useAuthStore from "./store/auth-store.js";
 
 // Protected route component for authenticated users
 const ProtectedRoute = ({ children }) => {

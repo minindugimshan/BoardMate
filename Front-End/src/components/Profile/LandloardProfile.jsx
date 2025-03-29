@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 import { useEffect, useState } from 'react';
-import useAuthStore from '../../store/use-auth-store';
+import useAuthStore from '../../store/auth-store';
 import { use } from 'react';
 import apiService from '../../services/api-service';
 

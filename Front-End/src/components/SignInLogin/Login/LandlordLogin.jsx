@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandlordLogin.css";
 import apiService from "../../../services/api-service";
-import useAuthStore from "../../../store/use-auth-store";
+import useAuthStore from "../../../store/auth-store";
 import { toast } from "react-toastify";
 
 const LandlordSignIn = () => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useAuthStore from '../../store/use-auth-store';
+import useAuthStore from '../../store/auth-store';
 import PropertyCard from '../PropertyCard/PropertyCard'; // Import the PropertyCard component
 import './Profile.css';
 

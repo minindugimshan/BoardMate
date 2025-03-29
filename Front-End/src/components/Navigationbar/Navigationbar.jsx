@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./Navigationbar.css";
-import useAuthStore from "../../store/use-auth-store";
+import useAuthStore from "../../store/auth-store";
 import { useLoaderStore } from "../../store/use-loader-store";
 import { toast } from "react-toastify";
 

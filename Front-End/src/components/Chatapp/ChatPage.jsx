@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 // import { UserContext } from '../../context/UserContext';
 import ChatMessages from './ChatMessages';
 import ChatList from './ChatList';
-import useAuthStore from '../../store/use-auth-store';
+import useAuthStore from '../../store/auth-store';
 
 const ChatPage = () => {
   const { chatId } = useParams();
