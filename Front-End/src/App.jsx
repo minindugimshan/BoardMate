@@ -128,6 +128,9 @@ function App() {
             <Route path="/landlord-signin" element={<LandlordSignup />} />
             <Route path="/landlord-login" element={<LandlordLogin />} />
             <Route path="/unauthorized" element={<div>You are not authorized to view this page</div>} />
+            <Route path="" element={<GeneralLayout />}>
+               <Route path="Support" element={<Support />} />
+             </Route>
 
             {/* Protected routes inside layout */}
             <Route
@@ -172,7 +175,6 @@ function App() {
               <Route path="profile" element={(userType && userType == "STUDENT") ? (<StudentProfile />) : (<LandlordProfile />)} />
               <Route path="about" element={<About />} />
               <Route path="TC" element={<TC />} />
-              <Route path="Support" element={<Support />} />
               <Route path="chats" element={<ChatPage />} />
               <Route path="chats/:chatId" element={<ChatPage />} />
             </Route>

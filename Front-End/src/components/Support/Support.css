@@ -1,10 +1,11 @@
-.background{
+.background-support{
     position: relative;
     min-height: auto;
     /* background-color: rgb(12, 12, 57); */
-    background-color: white;
+    /* background-color: white; */
     z-index: 0;
     overflow-x: hidden;
+
 }
 .supportBackground img{
    width: 100%;
@@ -12,9 +13,9 @@
    display: block;
    object-fit: cover;
 }
-.image-container{
+.image-container-support{
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
 }
 .text-overlay{
     position: absolute;

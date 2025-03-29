@@ -5,10 +5,10 @@ import {Mail, Phone, Text, Lightbulb, MessageCircle} from 'lucide-react';
 
 function Support() {
   return (
-    <div className='background'>
-        <div className='supportBackground'>
-          <div className='image-container'>
-            <img src="/support page icon1.png" alt="" />
+    <div className='background-support text-black' style={{paddingTop: '20px'}}>
+        <div className='supportBackground h-[50vh]'>
+          <div className='image-container-support h-full'>
+            {/* <img src="/support page icon1.png" alt="" /> */}
             <h2 className='text-overlay'>How It Works
               <span className='sub-text'> <br /> We are with you at every step of your journey! <br /><br /></span>
               <span className='seconde-sub-text'>Know how BoardMate works! <Lightbulb size={30} color='white' /></span>
