@@ -41,6 +41,12 @@ public class User {
     @Column
     private String userType;
 
+    @Column
+    private String universityId;
+
+    @Column
+    private String university;
+
     public Long getId() {
         return id;
     }
@@ -119,5 +125,21 @@ public class User {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getUniversityId() {
+        return universityId;
+    }
+
+    public void setUniversityId(String universityId) {
+        this.universityId = universityId;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
     }
 }

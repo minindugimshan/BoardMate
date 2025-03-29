@@ -28,7 +28,9 @@ public class AuthController {
                 request.get("mobile"),
                 request.get("dateOfBirthDay"),
                 request.get("dateOfBirthMonth"),
-                request.get("dateOfBirthYear")
+                request.get("dateOfBirthYear"),
+                request.get("university"),
+                request.get("universityId")
         );
 
         Map<String, String> response = new HashMap<>();
@@ -41,14 +43,14 @@ public class AuthController {
         String email = request.get("email");
 
         // Check if the user's document has been verified
-        boolean isVerified = verificationService.isDocumentVerified(email);
+        // boolean isVerified = verificationService.isDocumentVerified(email);
 
-        if (!isVerified) {
-            Map<String, String> response = new HashMap<>();
-            response.put("status", "error");
-            response.put("message", "Document verification required before landlord registration");
-            return response;
-        }
+        // if (!isVerified) {
+        //     Map<String, String> response = new HashMap<>();
+        //     response.put("status", "error");
+        //     response.put("message", "Document verification required before landlord registration");
+        //     return response;
+        // }
 
         // Register the landlord with verification
         User landlord = userService.registerLandlord(

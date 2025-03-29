@@ -33,19 +33,19 @@ public class UserService {
         user.setDateOfBirthMonth(month);
         user.setDateOfBirthYear(year);
         user.setUserType(userType);
-        return userRepository.save(user);
+        return user;
     }
 
     public User registerStudent(String email, String password, String firstName, String lastName, String mobile,
-                                String day, String month, String year) {
-        // Check if the user's document has been verified
-        boolean isVerified = verificationService.isDocumentVerified(email);
+                                String day, String month, String year, String university, String universityId) {
 
         // Register the student
         User student = registerUser(email, password, firstName, lastName, mobile, day, month, year, "STUDENT");
         // Additional student-specific settings could be added here
+        student.setUniversity(university);
+        student.setUniversityId(universityId);
 
-        return student;
+        return userRepository.save(student);
     }
 
     public User registerLandlord(String email, String password, String firstName, String lastName, String mobile,
@@ -59,7 +59,7 @@ public class UserService {
         User landlord = registerUser(email, password, firstName, lastName, mobile, day, month, year, "LANDLORD");
         // Additional landlord-specific settings could be added here
 
-        return landlord;
+        return userRepository.save(landlord);
     }
 
     public boolean authenticateUser(String email, String password) {
@@ -68,6 +68,12 @@ public class UserService {
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user;
+    }
+
+    public User getUserById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user;
     }
 }

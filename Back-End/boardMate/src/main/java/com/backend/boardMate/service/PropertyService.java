@@ -62,7 +62,7 @@ public class PropertyService {
         existingProperty.setArea(property.getArea());
         existingProperty.setDescription(property.getDescription());
         existingProperty.setAmenities(property.getAmenities());
-        existingProperty.setImageUrls(property.getImageUrls());
+//        existingProperty.setImageUrls(property.getImageUrls());
         existingProperty.setAddress(property.getAddress());
         existingProperty.setContactNumber(property.getContactNumber());
         existingProperty.setRating(property.getRating());
