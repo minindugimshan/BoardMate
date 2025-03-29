@@ -29,6 +29,9 @@ public class ChatService {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @Autowired
+    private PropertyService propertyService;
+
     // Start a new chat or get existing one
     public Chat startChat(Long studentId, Long landlordId, Long propertyId) {
         // Verify users and property exist
@@ -54,6 +57,8 @@ public class ChatService {
         chat.setStudentId(studentId);
         chat.setLandlordId(landlordId);
         chat.setPropertyId(propertyId);
+
+        propertyService.updatePropertyInquiryCount(propertyId);
 
         return chatRepository.save(chat);
     }

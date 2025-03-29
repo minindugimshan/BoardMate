@@ -1,5 +1,7 @@
 package com.backend.boardMate.model;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,10 +13,11 @@ public class VirtualTour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tourUrl;
+    private Long propertyId;
 
-    // @OneToOne(mappedBy = "virtualTour")
-    // private Property property;
+    private Date date;
+
+    private Long studentId;
 
     public Long getId() {
         return id;
@@ -24,19 +27,27 @@ public class VirtualTour {
         this.id = id;
     }
 
-    public String getTourUrl() {
-        return tourUrl;
+    public Long getPropertyId() {
+        return propertyId;
     }
 
-    public void setTourUrl(String tourUrl) {
-        this.tourUrl = tourUrl;
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
     }
 
-    // public Property getProperty() {
-    //     return property;
-    // }
+    public Date getDate() {
+        return date;
+    }
 
-    // public void setProperty(Property property) {
-    //     this.property = property;
-    // }
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
 }

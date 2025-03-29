@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -71,5 +70,19 @@ public class PropertyController {
         // Your service call to search properties
         return propertyService.searchProperties(location.toLowerCase(), type, minPrice, maxPrice);
     }
+
+
+    @PostMapping("/bookATour")
+
+    public Map<String, String> bookATour(@RequestBody Map<String, Object> request) {
+        Integer propertyID = (Integer) request.get("propertyId");
+        Integer studentID = (Integer) request.get("studentId");
+        String tourDateTime = (String) request.get("tourDateTime");
+        // Your service call to book a tour
+        propertyService.bookATour(propertyID.longValue(), studentID.longValue(), tourDateTime);
+        return Map.of("message", "Tour booked successfully");
+
+    }
+
 
 }

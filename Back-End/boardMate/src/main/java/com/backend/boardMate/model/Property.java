@@ -31,6 +31,8 @@ public class Property {
     private String university;
     private Integer landlordId;
     private Boolean isActive;
+    private Integer views;
+    private Integer inquiries;
 
     // @ElementCollection
     // @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
@@ -218,5 +220,21 @@ public class Property {
 
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+
+    public Integer getInquiries() {
+        return inquiries;
+    }
+
+    public void setInquiries(Integer inquiries) {
+        this.inquiries = inquiries;
     }
 }

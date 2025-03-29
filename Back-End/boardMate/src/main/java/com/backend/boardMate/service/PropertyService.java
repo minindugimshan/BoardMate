@@ -11,6 +11,9 @@ import com.backend.boardMate.repository.VirtualTourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,8 +43,9 @@ public class PropertyService {
 
     // Get a property by ID
     public Property getPropertyById(Long id) {
-        return propertyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Property not found with id: " + id));
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new RuntimeException("Property not found with id: " + id));
+        property = this.updatePropertyViewCount(property);
+        return property;
     }
 
     // Update a property
@@ -105,5 +109,31 @@ public class PropertyService {
     // search using query for location, type, price range, rooms, bathrooms, bedrooms
     public List<Property> searchProperties(String location, String type, Double minPrice, Double maxPrice) {
         return propertyRepository.search(location, type, minPrice, maxPrice);
+    }
+
+
+    public Property updatePropertyViewCount(Property property) {
+        property.setViews(property.getViews() + 1);
+        return propertyRepository.save(property);
+    }
+
+    public Property updatePropertyInquiryCount(Long id) {
+        Property existingProperty = propertyRepository.getReferenceById(id); // Fetch the existing property
+        existingProperty.setInquiries(existingProperty.getInquiries() + 1);
+        return propertyRepository.saveAndFlush(existingProperty);
+    }
+
+    public void bookATour(Long propertyID, Long studentID, String tourDateTime) {
+        VirtualTour virtualTour = new VirtualTour();
+        // tourDateTime is a iso string
+        try {
+            SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            virtualTour.setDate(dateFormat.parse(tourDateTime));
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid date format for tourDateTime: " + tourDateTime, e);
+        }
+        virtualTour.setPropertyId(propertyID);
+        virtualTour.setStudentId(studentID);
+        virtualTourRepository.save(virtualTour);
     }
 }
