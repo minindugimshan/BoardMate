@@ -152,7 +152,6 @@ function App() {
               >
                 <Route path="home" element={<Home />} />
                 <Route path="Map" element={<Map />} />
-                <Route path="property/:id" element={<PropertyDetails />} />
                 <Route path="search" element={<SearchResults />} />
                 <Route path="property/:id/payments" element={<Payments />} />
               </Route>
@@ -167,11 +166,11 @@ function App() {
               >
                 {/* Landlord specific routes */}
                 <Route path="landlord-dashboard" element={<LandlordDashboard />} />
-                <Route path="properties/:id" element={<PropertyDetails />} />
 
               </Route>
 
               {/* Common routes - for all authenticated users */}
+              <Route path="property/:id" element={<PropertyDetails />} />
               <Route path="profile" element={(userType && userType == "STUDENT") ? (<StudentProfile />) : (<LandlordProfile />)} />
               <Route path="about" element={<About />} />
               <Route path="TC" element={<TC />} />

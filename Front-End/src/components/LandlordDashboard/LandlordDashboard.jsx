@@ -104,9 +104,9 @@ const LandlordDashboard = () => {
           </div>
           <div className="chart-container">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={[]}>
+              <BarChart data={properties}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="title" />
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey="views" fill="#8884d8" name="Views" />
