@@ -70,10 +70,10 @@ function Home() {
     });
     fetchProperties();
   }
-  
+
   return (
     <div>
-      <div className="background flex flex-col gap-4 py-4 px-4">
+      <div className="background-home flex flex-col gap-4 py-4 px-4">
         <TypeAnimation
           sequence={[
             "Finding Your Place, Made Easy",

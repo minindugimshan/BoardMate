@@ -7,16 +7,23 @@ import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm c
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
 import PropertyChatButton from '../Chatapp/PropertyChatButton';
 import useAuthStore from '../../store/use-auth-store';
+import apiService from '../../services/api-service';
+import { use } from 'react';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = parseInt(id);
-  const property = propertyData.find(p => p.id === propertyId);
+  // const property = propertyData.find(p => p.id === propertyId);
+  const [property, setProperty] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [reviews, setReviews] = useState([]); // State to store reviews
   const navigate = useNavigate();
   const authStore = useAuthStore();
   const user = authStore.user;
+
+  useEffect(() => {
+    fetchProperty();
+  }, [])
 
   // Fetch reviews from the backend 
   useEffect(() => {
@@ -44,6 +51,15 @@ const PropertyDetails = () => {
 
     fetchReviewsAndRating();
   }, [propertyId]);
+
+  const fetchProperty = async () => {
+    const rs = await apiService.get(`/properties/${propertyId}`);
+    if (rs.status === 200) {
+      const data = rs.data;
+      console.log("data",data);
+      setProperty(data);
+    }
+  };
 
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
@@ -122,7 +138,7 @@ const PropertyDetails = () => {
     <div className="property-details-container">
       <div className="property-info-section">
         <div className="property-header">
-          <h1>{property.name}</h1>
+          <h1>{property.title}</h1>
           <div className="property-location">
             <MapPin size={20} />
             <span>{property.address}</span>
@@ -134,9 +150,9 @@ const PropertyDetails = () => {
         </div>
 
         <div className="property-quick-info">
-          <div className="info-item"><Bed size={24} /><span>{property.totalBeds} beds</span></div>
-          <div className="info-item"><Home size={24} /><span>{property.totalRooms} rooms</span></div>
-          <div className="info-item"><Bath size={24} /><span>{property.totalBathrooms} bathrooms</span></div> 
+          <div className="info-item"><Bed size={24} /><span>{property.bedrooms} beds</span></div>
+          <div className="info-item"><Home size={24} /><span>{property.rooms} rooms</span></div>
+          <div className="info-item"><Bath size={24} /><span>{property.bathrooms} bathrooms</span></div> 
           <div className="info-item"><Phone size={24} /><span>{property.contactNumber}</span></div>
         </div>
 
@@ -147,7 +163,7 @@ const PropertyDetails = () => {
           <button className="book-now" onClick={handleBookProperty}><Key size={20} /> Book Now</button>
           <PropertyChatButton 
                   propertyId={property.id}
-                  landlordId={2}
+                  landlordId={property.landlordId}
                   studentId={user.id}
                 />
         </div>}
