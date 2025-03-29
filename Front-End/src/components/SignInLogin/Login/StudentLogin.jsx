@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiService from "../../../services/api-service";
-import useAuthStore from "../../../store/auth-store"
-import "./StudentLogin.css";
+import useAuthStore from "../../../store/use-auth-store";
+import "./StudentLogIn.css";
 
 const StudentSignIn = () => {
   const navigate = useNavigate();
@@ -25,6 +25,10 @@ const StudentSignIn = () => {
     if (rs.status === 200) {
       const userData = await apiService.get("/users/getByEmail", { email: formData.email });
       if (userData.status === 200) {
+        if (userData.data.userType !== "STUDENT") {
+          toast.error("Invalid user login");
+          return;
+        }
         authStore.login(userData.data);
         toast.success("Login successful");
         navigate("/home");

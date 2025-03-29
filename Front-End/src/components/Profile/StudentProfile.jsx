@@ -34,7 +34,7 @@ const StudentProfile = () => {
         lastName: user.lastName || '',
         dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
         university: user.university || '',
-        studentId: user.studentId || '',
+        studentId: user.universityId || '',
         email: user.email || '',
         profileImage: user.profileImage || null
       });
@@ -43,7 +43,7 @@ const StudentProfile = () => {
         lastName: user.lastName || '',
         dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
         university: user.university || '',
-        studentId: user.studentId || '',
+        studentId: user.universityId || '',
         email: user.email || '',
         profileImage: user.profileImage || null
       });

@@ -6,6 +6,7 @@ import './PropertyDetails.css';
 import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
 import PropertyChatButton from '../Chatapp/PropertyChatButton';
+import useAuthStore from '../../store/use-auth-store';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -14,6 +15,8 @@ const PropertyDetails = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [reviews, setReviews] = useState([]); // State to store reviews
   const navigate = useNavigate();
+  const authStore = useAuthStore();
+  const user = authStore.user;
 
   // Fetch reviews from the backend 
   useEffect(() => {
@@ -137,7 +140,7 @@ const PropertyDetails = () => {
           <div className="info-item"><Phone size={24} /><span>{property.contactNumber}</span></div>
         </div>
 
-        <div className="booking-section">
+        {user && user.userType != "LANDLORD" && <div className="booking-section">
           <a href={createGoogleCalendarEvent()} target="_blank" rel="noopener noreferrer" className="book-tour-btn">
             <Calendar size={20} /> Book a tour
           </a>
@@ -145,9 +148,9 @@ const PropertyDetails = () => {
           <PropertyChatButton 
                   propertyId={property.id}
                   landlordId={2}
-                  studentId={1}
+                  studentId={user.id}
                 />
-        </div>
+        </div>}
 
         <div className="rating-container">
           <Star className="star" size={20} />
@@ -180,7 +183,7 @@ const PropertyDetails = () => {
         {/* Review and Rating Section */}
         <div className="review-section">
           <h2>Reviews</h2>
-          <ReviewForm onSubmit={handleReviewSubmit} />
+         {user && user.userType != "LANDLORD" && <ReviewForm onSubmit={handleReviewSubmit} />}
           <ReviewList reviews={reviews} />
         </div>
       </div>

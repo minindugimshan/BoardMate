@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './LandlordSignUp.css';
+import apiService from '../../../services/api-service';
+import { toast } from 'react-toastify';
 
 const LandlordSignup = () => {
   const [step, setStep] = useState(1);
@@ -127,34 +129,38 @@ const LandlordSignup = () => {
     formDataObj.append('idDocument', file);
 
     try {
-      // Call backend API to process the document
-      const response = await fetch('/api/verify/document', {
-        method: 'POST',
-        body: formDataObj
-      });
+      // // Call backend API to process the document
+      // const response = await fetch('/api/verify/document', {
+      //   method: 'POST',
+      //   body: formDataObj
+      // });
 
-      const result = await response.json();
+      // const result = await response.json();
       
-      if (result.success) {
-        // Auto-fill form data from the extracted information
-        setFormData(prevFormData => ({
+      // if (result.success) {
+      //   // Auto-fill form data from the extracted information
+      //   setFormData(prevFormData => ({
+      //     ...prevFormData,
+      //     firstName: result.firstName || prevFormData.firstName,
+      //     lastName: result.lastName || prevFormData.lastName,
+      //     dateOfBirth: {
+      //       day: result.dateOfBirth?.day || prevFormData.dateOfBirth.day,
+      //       month: result.dateOfBirth?.month || prevFormData.dateOfBirth.month,
+      //       year: result.dateOfBirth?.year || prevFormData.dateOfBirth.year
+      //     },
+      //     idVerificationStatus: result.verified ? 'verified' : 'rejected'
+      //   }));
+      // } else {
+      //   setFormData(prevFormData => ({
+      //     ...prevFormData,
+      //     idVerificationStatus: 'rejected'
+      //   }));
+      //   setErrors(prev => ({...prev, idVerification: result.message || 'Document verification failed'}));
+      // }
+              setFormData(prevFormData => ({
           ...prevFormData,
-          firstName: result.firstName || prevFormData.firstName,
-          lastName: result.lastName || prevFormData.lastName,
-          dateOfBirth: {
-            day: result.dateOfBirth?.day || prevFormData.dateOfBirth.day,
-            month: result.dateOfBirth?.month || prevFormData.dateOfBirth.month,
-            year: result.dateOfBirth?.year || prevFormData.dateOfBirth.year
-          },
-          idVerificationStatus: result.verified ? 'verified' : 'rejected'
+          idVerificationStatus: 'verified'
         }));
-      } else {
-        setFormData(prevFormData => ({
-          ...prevFormData,
-          idVerificationStatus: 'rejected'
-        }));
-        setErrors(prev => ({...prev, idVerification: result.message || 'Document verification failed'}));
-      }
     } catch (error) {
       console.error('Error verifying document:', error);
       setErrors(prev => ({...prev, idVerification: 'Error processing document. Please try again.'}));
@@ -192,26 +198,28 @@ const LandlordSignup = () => {
     setIsVerifying(true);
     
     try {
-      const response = await fetch('/api/verify/send-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          method: verificationMethod,
-          email: formData.email,
-          phone: formData.mobile
-        })
-      });
+      // const response = await fetch('/api/verify/send-code', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     method: verificationMethod,
+      //     email: formData.email,
+      //     phone: formData.mobile
+      //   })
+      // });
       
-      const result = await response.json();
+      // const result = await response.json();
       
-      if (result.success) {
+      // if (result.success) {
+      //   setVerificationSent(true);
+      // } else {
+      //   setErrors(prev => ({
+      //     ...prev, 
+      //     verificationSend: result.message || `Failed to send verification code to your ${verificationMethod}`
+      //   }));
+      // }
         setVerificationSent(true);
-      } else {
-        setErrors(prev => ({
-          ...prev, 
-          verificationSend: result.message || `Failed to send verification code to your ${verificationMethod}`
-        }));
-      }
+
     } catch (error) {
       console.error('Error sending verification code:', error);
       setErrors(prev => ({
@@ -235,24 +243,26 @@ const LandlordSignup = () => {
     setIsVerifying(true);
     
     try {
-      const response = await fetch('/api/verify/check-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          method: verificationMethod,
-          contact: verificationMethod === 'email' ? formData.email : formData.mobile,
-          code: formData.verificationCode
-        })
-      });
+      // const response = await fetch('/api/verify/check-code', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     method: verificationMethod,
+      //     contact: verificationMethod === 'email' ? formData.email : formData.mobile,
+      //     code: formData.verificationCode
+      //   })
+      // });
       
-      const result = await response.json();
+      // const result = await response.json();
       
-      if (result.success) {
-        // Continue to next step or submit if all steps are complete
-        handleSubmit();
-      } else {
-        setErrors({verificationCode: result.message || 'Invalid verification code'});
-      }
+      // if (result.success) {
+      //   // Continue to next step or submit if all steps are complete
+      //   handleSubmit();
+      // } else {
+      //   setErrors({verificationCode: result.message || 'Invalid verification code'});
+      // }
+       // Continue to next step or submit if all steps are complete
+       await handleSubmit();
     } catch (error) {
       console.error('Error verifying code:', error);
       setErrors({verificationCode: 'Error verifying code. Please try again.'});
@@ -261,7 +271,7 @@ const LandlordSignup = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // For regular step navigation
     if (step !== 5) {
       const currentErrors = validateStep();
@@ -279,7 +289,7 @@ const LandlordSignup = () => {
       // For final submission
       console.log('Form submitted:', formData);
       // Submit form to backend
-      submitFormData();
+      await submitFormData();
     }
   };
 
@@ -294,36 +304,15 @@ const LandlordSignup = () => {
       dateOfBirthMonth: formData.dateOfBirth.month,
       dateOfBirthYear: formData.dateOfBirth.year
     };
-  
     console.log("Sending Data:", userData); // ✅ Logs data before sending
   
     try {
-      const response = await fetch ('http://localhost:8080/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // This sends cookies if any are needed
-        body: JSON.stringify({
-          email: 'user@example.com',
-          password: 'password',
-          firstName: 'John',
-          lastName: 'Doe',
-          mobile: '1234567890',
-          dateOfBirthDay: '01',
-          dateOfBirthMonth: '01',
-          dateOfBirthYear: '1990'
-        })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  
-      const result = await response.json();
+      const response = await apiService.post('/auth/register', userData);
+      const result = response.data;
       console.log("Response from backend:", result); // ✅ Logs backend response
   
-      if (response.ok) {
-        alert('Registration successful!');
+      if (response.status === 200) {
+        toast.success('Registration successful!');
         window.location.href = '/landlord/dashboard';
       } else {
         setErrors({ submission: result.message || 'Failed to submit registration' });
@@ -347,7 +336,7 @@ const LandlordSignup = () => {
       case 'pending':
       default:
         return isVerifying ? 
-          <div className="verification-pending">Verifying your document...</div> : 
+          <div className="verification-pending">Verifying your document...</div> :
           null;
     }
   };
@@ -465,7 +454,7 @@ const LandlordSignup = () => {
               <label>Date of Birth</label>
               <div className="date-inputs">
                 <input
-                  type="text"
+                  type="number"
                   placeholder="DD"
                   maxLength="2"
                   value={formData.dateOfBirth.day}
@@ -473,9 +462,12 @@ const LandlordSignup = () => {
                     ...formData,
                     dateOfBirth: {...formData.dateOfBirth, day: e.target.value}
                   })}
+                  required
+                  min={1}
+                  max={31}
                 />
                 <input
-                  type="text"
+                  type="number"
                   placeholder="MM"
                   maxLength="2"
                   value={formData.dateOfBirth.month}
@@ -483,9 +475,12 @@ const LandlordSignup = () => {
                     ...formData,
                     dateOfBirth: {...formData.dateOfBirth, month: e.target.value}
                   })}
+                  required
+                  min={1}
+                  max={12}
                 />
                 <input
-                  type="text"
+                  type="number"
                   placeholder="YYYY"
                   maxLength="4"
                   value={formData.dateOfBirth.year}
@@ -493,6 +488,9 @@ const LandlordSignup = () => {
                     ...formData,
                     dateOfBirth: {...formData.dateOfBirth, year: e.target.value}
                   })}
+                  required
+                  min={1900}
+                  max={2005}
                 />
               </div>
               {renderError(errors.dateOfBirth)}

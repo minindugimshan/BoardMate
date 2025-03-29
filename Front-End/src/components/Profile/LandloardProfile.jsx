@@ -1,48 +1,64 @@
 
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuthStore from '../../store/use-auth-store';
+import { use } from 'react';
+import apiService from '../../services/api-service';
 
 const LandlordProfile = () => {
   const navigate = useNavigate();
+  const authStore = useAuthStore();
+  const user = authStore.user;
   // This would typically come from your app state or API
   const [landlordData, setLandlordData] = useState({
-    firstName: 'Sarah',
-    lastName: 'Johnson',
+    firstName: undefined,
+    lastName: undefined,
     dateOfBirth: {
-      day: '20',
-      month: '05',
-      year: '1985'
+      day: undefined,
+      month: undefined,
+      year: undefined
     },
-    mobile: '+94 76 123 4567',
-    email: 'sarah.johnson@example.com',
+    mobile: undefined,
+    email: undefined,
     idVerified: true,
     profileImage: null,
-    properties: [
-      {
-        id: 'prop001',
-        title: 'Cozy Room near University',
-        location: 'Colombo 07',
-        price: 25000,
-        isActive: true
-      },
-      {
-        id: 'prop002',
-        title: 'Spacious Apartment with WiFi',
-        location: 'Nawala',
-        price: 35000,
-        isActive: true
-      }
-    ]
+    properties: []
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState({...landlordData});
+  const [editedData, setEditedData] = useState(null);
+
+  useEffect(() => {
+    initData();
+  }, []);
+
+  const initData = async () => {
+    const properties = await fetchProperties();
+    if (properties){
+      const data = {
+        ...landlordData,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        mobile: user.mobile,
+        dateOfBirth: {
+          day: user.dateOfBirthDay || "",
+          month: user.dateOfBirthMonth || "",
+          year: user.dateOfBirthYear || ""
+        },
+        properties: properties
+      }
+      setLandlordData(data);
+      setEditedData(data);
+    }
+  }
 
   const handleEditToggle = () => {
     if (isEditing) {
       // Save the changes
       setLandlordData({...editedData});
+
     }
     setIsEditing(!isEditing);
   };
@@ -80,24 +96,16 @@ const LandlordProfile = () => {
     return `${day}/${month}/${year}`;
   };
 
-  return (
-    <div className="profile-container">
-      <header className="profile-header">
-        <img 
-          src="/bmlogo.png" 
-          alt="Logo" 
-          className="logo" 
-          onClick={() => navigate('/')}
-        />
-        <nav className="profile-nav">
-          <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-          <button onClick={() => navigate('/properties')}>My Properties</button>
-          <button onClick={() => navigate('/messages')}>Messages</button>
-          <button onClick={() => navigate('/settings')}>Settings</button>
-          <button onClick={() => navigate('/logout')}>Log Out</button>
-        </nav>
-      </header>
+  const fetchProperties = async () => {
+    const rs = await apiService.get('/properties/getPropertyList', { landlordId: user.id });
+    console.log(rs);
+    if (rs.status === 200) {
+      return rs.data;
+    }
+  }
 
+  return (
+    <div className="profile-container" style={{ padding: '20px' }}>
       <div className="profile-content">
         <div className="profile-sidebar">
           <div className="profile-image-container">
@@ -257,17 +265,17 @@ const LandlordProfile = () => {
                     <button onClick={() => navigate(`/properties/${property.id}`)}>
                       View
                     </button>
-                    <button onClick={() => navigate(`/properties/${property.id}/edit`)}>
+                    {/* <button onClick={() => navigate(`/properties/${property.id}/edit`)}>
                       Edit
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}
-              <div className="add-property">
+              {/* <div className="add-property">
                 <button onClick={() => navigate('/properties/new')}>
                   + Add New Property
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
 
