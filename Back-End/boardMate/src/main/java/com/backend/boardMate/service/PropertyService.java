@@ -25,11 +25,11 @@ public class PropertyService {
     // Add a new property
     public Property addProperty(Property property) {
         // Save the virtual tour if it exists
-        if (property.getVirtualTour() != null) {
-            VirtualTour virtualTour = property.getVirtualTour();
-            virtualTour.setProperty(property); // Set the relationship
-            virtualTourRepository.save(virtualTour); // Save the virtual tour
-        }
+        // if (property.getVirtualTour() != null) {
+        //     VirtualTour virtualTour = property.getVirtualTour();
+        //     virtualTour.setProperty(property); // Set the relationship
+        //     virtualTourRepository.save(virtualTour); // Save the virtual tour
+        // }
         return propertyRepository.save(property); // Save the property
     }
 
@@ -61,26 +61,26 @@ public class PropertyService {
         existingProperty.setRooms(property.getRooms());
         existingProperty.setArea(property.getArea());
         existingProperty.setDescription(property.getDescription());
-        existingProperty.setAmenities(property.getAmenities());
-//        existingProperty.setImageUrls(property.getImageUrls());
+        // existingProperty.setAmenities(property.getAmenities());
+        // existingProperty.setImageUrls(property.getImageUrls());
         existingProperty.setAddress(property.getAddress());
         existingProperty.setContactNumber(property.getContactNumber());
         existingProperty.setRating(property.getRating());
         existingProperty.setUniversity(property.getUniversity());
 
         // Update virtual tour
-        if (property.getVirtualTour() != null) {
-            VirtualTour virtualTour = property.getVirtualTour();
-            virtualTour.setProperty(existingProperty); // Set the relationship
-            virtualTourRepository.save(virtualTour); // Save the virtual tour
-            existingProperty.setVirtualTour(virtualTour); // Update the property's virtual tour
-        } else {
-            // If no virtual tour is provided, remove the existing one
-            if (existingProperty.getVirtualTour() != null) {
-                virtualTourRepository.delete(existingProperty.getVirtualTour());
-                existingProperty.setVirtualTour(null);
-            }
-        }
+        // if (property.getVirtualTour() != null) {
+        //     VirtualTour virtualTour = property.getVirtualTour();
+        //     virtualTour.setProperty(existingProperty); // Set the relationship
+        //     virtualTourRepository.save(virtualTour); // Save the virtual tour
+        //     existingProperty.setVirtualTour(virtualTour); // Update the property's virtual tour
+        // } else {
+        //     // If no virtual tour is provided, remove the existing one
+        //     if (existingProperty.getVirtualTour() != null) {
+        //         virtualTourRepository.delete(existingProperty.getVirtualTour());
+        //         existingProperty.setVirtualTour(null);
+        //     }
+        // }
 
         return propertyRepository.save(existingProperty); // Save the updated property
     }
@@ -90,10 +90,20 @@ public class PropertyService {
         Property property = getPropertyById(id); // Fetch the property
 
         // Delete the virtual tour if it exists
-        if (property.getVirtualTour() != null) {
-            virtualTourRepository.delete(property.getVirtualTour());
-        }
+        // if (property.getVirtualTour() != null) {
+        //     virtualTourRepository.delete(property.getVirtualTour());
+        // }
 
         propertyRepository.deleteById(id); // Delete the property
+    }
+
+    // Get properties by landlord ID
+    public List<Property> getPropertiesByLandlordId(Integer landlordId) {
+        return propertyRepository.findByLandlordId(landlordId);
+    }
+
+    // search using query for location, type, price range, rooms, bathrooms, bedrooms
+    public List<Property> searchProperties(String location, String type, Double minPrice, Double maxPrice) {
+        return propertyRepository.search(location, type, minPrice, maxPrice);
     }
 }

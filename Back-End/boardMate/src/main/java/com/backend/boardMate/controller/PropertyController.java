@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/properties")
@@ -51,4 +54,22 @@ public class PropertyController {
     ) {
         return "File uploaded: " + file.getOriginalFilename();
     }
+
+    @GetMapping("/getPropertyList")
+    public List<Property> getPropertyList(@RequestParam Integer landlordId) {
+        // Your service call to get the list of properties
+        return propertyService.getPropertiesByLandlordId(landlordId);
+    }
+
+    @GetMapping("/search")
+    public List<Property> searchProperties(
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice
+    ) {
+        // Your service call to search properties
+        return propertyService.searchProperties(location.toLowerCase(), type, minPrice, maxPrice);
+    }
+
 }

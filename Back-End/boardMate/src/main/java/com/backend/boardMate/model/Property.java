@@ -1,6 +1,7 @@
 package com.backend.boardMate.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.Data;
 import java.util.List;
 
@@ -28,18 +29,20 @@ public class Property {
     private String contactNumber;
     private Double rating;
     private String university;
+    private Integer landlordId;
+    private Boolean isActive;
 
-    @ElementCollection
-    @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
-    private List<String> amenities;
+    // @ElementCollection
+    // @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
+    // private List<String> amenities;
 
     // @ElementCollection
     // @CollectionTable(name = "property_images", joinColumns = @JoinColumn(name = "property_id"))
     // private List<String> imageUrls;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "virtual_tour_id", referencedColumnName = "id")
-    private VirtualTour virtualTour;
+    // @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    // @JoinColumn(name = "virtual_tour_id", referencedColumnName = "id")
+    // private VirtualTour virtualTour;
 
     public Long getId() {
         return id;
@@ -177,13 +180,13 @@ public class Property {
         this.university = university;
     }
 
-    public List<String> getAmenities() {
-        return amenities;
-    }
+    // public List<String> getAmenities() {
+    //     return amenities;
+    // }
 
-    public void setAmenities(List<String> amenities) {
-        this.amenities = amenities;
-    }
+    // public void setAmenities(List<String> amenities) {
+    //     this.amenities = amenities;
+    // }
 
     // public List<String> getImageUrls() {
     //     return imageUrls;
@@ -193,11 +196,27 @@ public class Property {
     //     this.imageUrls = imageUrls;
     // }
 
-    public VirtualTour getVirtualTour() {
-        return virtualTour;
+    // public VirtualTour getVirtualTour() {
+    //     return virtualTour;
+    // }
+
+    // public void setVirtualTour(VirtualTour virtualTour) {
+    //     this.virtualTour = virtualTour;
+    // }
+
+    public Integer getLandlordId() {
+        return landlordId;
     }
 
-    public void setVirtualTour(VirtualTour virtualTour) {
-        this.virtualTour = virtualTour;
+    public void setLandlordId(Integer landlordId) {
+        this.landlordId = landlordId;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

@@ -13,8 +13,8 @@ public class VirtualTour {
 
     private String tourUrl;
 
-    @OneToOne(mappedBy = "virtualTour")
-    private Property property;
+    // @OneToOne(mappedBy = "virtualTour")
+    // private Property property;
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class VirtualTour {
         this.tourUrl = tourUrl;
     }
 
-    public Property getProperty() {
-        return property;
-    }
+    // public Property getProperty() {
+    //     return property;
+    // }
 
-    public void setProperty(Property property) {
-        this.property = property;
-    }
+    // public void setProperty(Property property) {
+    //     this.property = property;
+    // }
 }
