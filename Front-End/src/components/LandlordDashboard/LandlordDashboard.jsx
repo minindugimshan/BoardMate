@@ -73,7 +73,7 @@ const LandlordDashboard = () => {
       </div>
 
       <div className="dashboard-content">
-        <div className="properties-section">
+        <div className="w-full">
           <div className="section-header">
             <h2>Your Properties</h2>
             <TrendingUp />
@@ -81,19 +81,19 @@ const LandlordDashboard = () => {
           <div className="properties-grid">
             {properties.map(property => (
               <div key={property.id} className="property-card">
-                <img src={property.image} alt={property.title} />
-                <div className="property-info">
-                  <h3>{property.title}</h3>
-                  <p className="location">{property.location}</p>
-                  <p className="price">{property.price} PCM</p>
-                  <div className="property-stats">
-                    <span><Eye size={16} /> {property.views}</span>
-                    <span><Users size={16} /> {property.inquiries}</span>
-                    <span><Star size={16} /> {property.rating}</span>
-                  </div>
-                  <div className="status-badge">{property.status}</div>
+              <img src={property.image ? property.image : '/fallback-property.jpg'} alt={property.title} style={{margin: 0}}/>
+              <div className="property-info">
+                <h3>{property.title}</h3>
+                <p className="location">{property.location}</p>
+                <p className="price">{property.price} PCM</p>
+                <div className="property-stats">
+                  <span><Eye size={16} /> {property.views}</span>
+                  <span><Users size={16} /> {property.inquiries}</span>
+                  <span><Star size={16} /> {property.rating}</span>
                 </div>
+                <div className="status-badge">{property.status}</div>
               </div>
+            </div>
             ))}
           </div>
         </div>

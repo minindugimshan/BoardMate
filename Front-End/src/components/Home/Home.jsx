@@ -3,8 +3,7 @@ import { TypeAnimation } from "react-type-animation";
 // import { propertyData } from "../../data/propertyData";
 import "./Home.css";
 import { useEffect, useState } from "react";
-import { RotateCw, Search } from "lucide-react";
-import "../LandingPage/style.css";
+import { Eye, RotateCw, Search, Star, Users } from "lucide-react";
 import apiService from "../../services/api-service";
 
 function Home() {
@@ -173,20 +172,22 @@ function Home() {
             <p>No Data</p>
           </div>
         ) : (
-          <div className="property-grid min-h-[60vh]">
+          <div className="property-grid min-h-[60vh]" style={{ padding: "10px" }}>
             {propertyData.map((property) => (
-              <div key={property.id} className="property-card" onClick={() => handlePropertyClick(property.id)}>
-                <img src={property.images && property.images[0]} alt={property.name} />
-                <div className="property-info">
-                  <h3>{property.name}</h3>
-                  <p className="location">{property.location}</p>
-                  <p className="price">LKR {property.price} / month</p>
-                  <div className="rating">
-                    <span>★ {property.rating}</span>
-                    <span className="total-users">({property.totalUsers} users)</span>
-                  </div>
+              <div key={property.id} className="property-card">
+              <img src={property.image ? property.image : '/fallback-property.jpg'} alt={property.title} style={{margin: 0}}/>
+              <div className="property-info">
+                <h3>{property.title}</h3>
+                <p className="location">{property.location}</p>
+                <p className="price">{property.price} PCM</p>
+                <div className="property-stats">
+                  <span><Eye size={16} /> {property.views}</span>
+                  <span><Users size={16} /> {property.inquiries}</span>
+                  <span><Star size={16} /> {property.rating}</span>
                 </div>
+                <div className="status-badge">{property.status}</div>
               </div>
+            </div>
             ))}
           </div>
         )}
