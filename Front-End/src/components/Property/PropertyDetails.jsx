@@ -9,6 +9,7 @@ import PropertyChatButton from '../Chatapp/PropertyChatButton';
 import useAuthStore from '../../store/use-auth-store';
 import apiService from '../../services/api-service';
 import { use } from 'react';
+import { toast } from 'react-toastify';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -17,6 +18,11 @@ const PropertyDetails = () => {
   const [property, setProperty] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [reviews, setReviews] = useState([]); // State to store reviews
+  const [averageRating, setAverageRating] = useState(0); // State to store average rating
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [selectedDate, setSelectedDate] = useState(new Date()); // State for selected date
+  const [selectedTime, setSelectedTime] = useState('10:00'); // State for selected time
+  const [isLoading, setIsLoading] = useState(false); // Loading state for API calls
   const navigate = useNavigate();
   const authStore = useAuthStore();
   const user = authStore.user;
@@ -73,27 +79,60 @@ const PropertyDetails = () => {
     setCurrentImage(current => (current === 0 ? property.images.length - 1 : current - 1));
   };
 
-  const createGoogleCalendarEvent = () => {
+  const bookTour = (e) => {
+    setIsModalOpen(true);
+  };
 
-    // Format dates for Google Calendar
-    const today = new Date();
-    const tomorrow = new Date(today);
+  const handleBookTourSubmit = async () => {
+    if (!selectedDate || !selectedTime) {
+      toast.warn('Please select both date and time');
+      return;
+    }
 
-    // Set default start time to tomorrow at 10:00 AM
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const startTime = new Date(tomorrow);
-    startTime.setHours(10, 0, 0, 0);
+    setIsLoading(true);
 
-     // End time is 30 minutes after start time
-    const endTime = new Date(startTime);
-    endTime.setMinutes(endTime.getMinutes() + 30);
+    // Create a datetime by combining date and time
+    const [hours, minutes] = selectedTime.split(':').map(Number);
+    const tourDateTime = new Date(selectedDate);
+    tourDateTime.setHours(hours, minutes, 0, 0);
 
-    // Format dates for Google Calendar URL
-    const formatDate = date => date.toISOString().replace(/-|:|\.\d+/g, '');
-    const startTimeFormatted = formatDate(startTime);
-    const endTimeFormatted = formatDate(endTime);
+    try {
+      // Make API request to book a tour
+      const response = await apiService.post('/properties/bookATour', {
+        propertyId,
+        studentId: user.id,
+        tourDateTime: tourDateTime.toISOString(),
+      });
 
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Property Tour: ${property.name}`)}&dates=${startTimeFormatted}/${endTimeFormatted}&details=${encodeURIComponent(`Tour of ${property.type} property.\n\nProperty details:\n- ${property.totalBeds} beds\n- ${property.totalRooms} rooms\n- ${property.totalBathrooms} bathrooms\n- Contact: ${property.contactNumber}`)}&location=${encodeURIComponent(property.address)}`;
+      if (response.status === 200 || response.status === 201) {
+        toast.success('Tour booked successfully!');
+        setIsModalOpen(false);
+      } else {
+        toast.error('Failed to book tour. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error booking tour:', error);
+      toast.error('An error occurred while booking the tour. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Function to generate time options (9AM to 5PM in 30-minute intervals)
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let hour = 9; hour <= 17; hour++) {
+      const hourStr = hour.toString().padStart(2, '0');
+      times.push(`${hourStr}:00`);
+      times.push(`${hourStr}:30`);
+    }
+    return times;
+  };
+
+  // Function to handle date change
+  const handleDateChange = (e) => {
+    const date = new Date(e.target.value);
+    setSelectedDate(date);
   };
 
   const handleBookProperty = () => {
@@ -157,9 +196,9 @@ const PropertyDetails = () => {
         </div>
 
         {user && user.userType != "LANDLORD" && <div className="booking-section">
-          <a href={createGoogleCalendarEvent()} target="_blank" rel="noopener noreferrer" className="book-tour-btn">
+          <button onClick={bookTour} className="book-tour-btn">
             <Calendar size={20} /> Book a tour
-          </a>
+          </button>
           <button className="book-now" onClick={handleBookProperty}><Key size={20} /> Book Now</button>
           <PropertyChatButton 
                   propertyId={property.id}
@@ -203,6 +242,63 @@ const PropertyDetails = () => {
           <ReviewList reviews={reviews} />
         </div>
       </div>
+
+      {/* Tour Booking Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="tour-booking-modal">
+            <h2>Book a Property Tour</h2>
+            <p>Select a date and time for your property tour</p>
+            
+            <div className="modal-form">
+              <div className="form-group">
+                <label htmlFor="tour-date">Select Date:</label>
+                <input 
+                  type="date" 
+                  id="tour-date" 
+                  min={new Date().toISOString().split('T')[0]}
+                  // value={selectedDate.toISOString().split('T')[0]}
+                  onChange={handleDateChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="tour-time">Select Time:</label>
+                <select 
+                  id="tour-time"
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                >
+                  {generateTimeOptions().map(time => (
+                    <option key={time} value={time}>{time}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="property-tour-info">
+                <p><strong>Property:</strong> {property.title}</p>
+                <p><strong>Address:</strong> {property.address}</p>
+              </div>
+            </div>
+
+            <div className="modal-actions">
+              <button 
+                className="cancel-btn" 
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="book-btn" 
+                onClick={handleBookTourSubmit}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Booking...' : 'Book Tour'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="property-image-section">
         {property.images?.length > 0 ? (
