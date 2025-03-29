@@ -1,4 +1,3 @@
-
 .property-details-container {
   display: flex;
   min-height: 100vh;
@@ -94,7 +93,7 @@
   align-items: center;
 }
 
-.book-tour-btn, .book-now {
+.book-tour-btn, .book-now, .msg-btn {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -107,17 +106,27 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 
 .book-tour-btn:hover {
   background: #2F4156;
+  color: #f1f1f1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .book-now:hover {
-  background: #2F4156;
+  background: #2f4156;
+  color: #f1f1f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.msg-btn:hover {
+  background: #2f4156;
+  color: #f1f1f1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -303,4 +312,108 @@
     margin-top: 1rem;
     margin-left: 0;
   }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.tour-booking-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tour-booking-modal h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.modal-form {
+  margin-top: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="date"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: black;
+}
+
+.property-tour-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.property-tour-info p {
+  margin: 0.5rem 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-btn, .book-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background-color: #e9ecef;
+}
+
+.book-btn {
+  background-color: #2F4156;
+  border: none;
+  color: white;
+}
+
+.book-btn:hover {
+  background-color: #2a3847;
+}
+
+.book-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

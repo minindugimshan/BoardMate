@@ -13,7 +13,7 @@ import GetStarted from "./components/SignInLogin/GetStarted/GetStarted.jsx";
 // Import login/signin components
 import StudentLogin from "./components/SignInLogin/Login/StudentLogin.jsx";
 import StudentSignIn from "./components/SignInLogin/SignIn/student/StudentSignIn.jsx";
-import LandlordLogin from "./components/SignInLogin/LogIn/LandlordLogIn.jsx";
+import LandlordLogin from "./components/SignInLogin/Login/LandlordLogin.jsx";
 import LandlordSignup from "./components/SignInLogin/SignIn/LandlordSignUp";
 import UniversitySignIn from "./components/SignInLogin/SignIn/student/UniversitySignIn.jsx";
 import EmailPasswordSignIn from "./components/SignInLogin/SignIn/common/EmailPasswordSignIn.jsx";
@@ -31,7 +31,7 @@ import TC from "./components/T&C/TC";
 import { Import } from "lucide-react";
 import Support from "./components/Support/Support.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
-import { GeneralLayout } from "./layout/Genrallayout.jsx";
+import { GeneralLayout } from "./layout/GenralLayout.jsx";
 import ChatPage from "./components/Chatapp/ChatPage.jsx";
 
 // Import Loader component
