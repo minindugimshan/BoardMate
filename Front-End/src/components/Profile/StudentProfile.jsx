@@ -1,27 +1,54 @@
-import { useNavigate } from 'react-router-dom';
-import './Profile.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import useAuthStore from '../../store/use-auth-store';
 import PropertyCard from '../PropertyCard/PropertyCard'; // Import the PropertyCard component
+import './Profile.css';
 
 const StudentProfile = () => {
-  const navigate = useNavigate();
+  const authStore = useAuthStore();
+  const user = authStore.user;
+  
+  // Initialize with default values that will be overwritten if user data exists
   const [studentData, setStudentData] = useState({
-    firstName: 'John',
-    lastName: 'Smith',
+    firstName: '',
+    lastName: '',
     dateOfBirth: {
-      day: '15',
-      month: '03',
-      year: '2000'
+      day: '',
+      month: '',
+      year: ''
     },
-    university: 'Informatics Institute of Technology',
-    studentId: 'IIT20240001',
-    email: 'john.smith@example.com',
+    university: '',
+    studentId: '',
+    email: '',
     profileImage: null
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({...studentData});
   const [bookedProperty, setBookedProperty] = useState(null); // State to track booked property
+
+  // Update student data when user changes
+  useEffect(() => {
+    if (user) {
+      setStudentData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
+        university: user.university || '',
+        studentId: user.studentId || '',
+        email: user.email || '',
+        profileImage: user.profileImage || null
+      });
+      setEditedData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
+        university: user.university || '',
+        studentId: user.studentId || '',
+        email: user.email || '',
+        profileImage: user.profileImage || null
+      });
+    }
+  }, [user]);
 
   // Simulate fetching the booked property from local storage or API
   useEffect(() => {
@@ -33,7 +60,19 @@ const StudentProfile = () => {
 
   const handleEditToggle = () => {
     if (isEditing) {
+      // Update local state
       setStudentData({...editedData});
+      
+      // Update user data in auth store
+      authStore.updateUser({
+        firstName: editedData.firstName,
+        lastName: editedData.lastName,
+        dateOfBirth: editedData.dateOfBirth,
+        university: editedData.university,
+        studentId: editedData.studentId,
+        email: editedData.email,
+        profileImage: editedData.profileImage
+      });
     }
     setIsEditing(!isEditing);
   };
@@ -72,22 +111,7 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="profile-container">
-      <header className="profile-header">
-        <img 
-          src="/bmlogo.png" 
-          alt="Logo" 
-          className="logo" 
-          onClick={() => navigate('/')}
-        />
-        <nav className="profile-nav">
-          <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-          <button onClick={() => navigate('/messages')}>Messages</button>
-          <button onClick={() => navigate('/settings')}>Settings</button>
-          <button onClick={() => navigate('/logout')}>Log Out</button>
-        </nav>
-      </header>
-
+    <div className="profile-container" style={{ padding: '20px' }}>
       <div className="profile-content">
         <div className="profile-sidebar">
           <div className="profile-image-container">
@@ -117,7 +141,7 @@ const StudentProfile = () => {
               />
             )}
           </div>
-          <h2>{`${studentData.firstName} ${studentData.lastName}`}</h2>
+          <h2>{`${studentData.firstName || 'Student'} ${studentData.lastName || ''}`}</h2>
           <p className="profile-type">Student</p>
           <button 
             className="edit-profile-btn"

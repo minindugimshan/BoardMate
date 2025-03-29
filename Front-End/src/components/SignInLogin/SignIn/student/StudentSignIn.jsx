@@ -30,7 +30,10 @@ const StudentSignIn = () => {
       dateOfBirthDay: regData.dob.day,
       dateOfBirthMonth: regData.dob.month,
       dateOfBirthYear: regData.dob.year,
+      university: regData.university,
+      studentId: regData.studentId,
     };
+    
     const response = await apiService.post("/auth/register", rq);
     toast.success(response.data.message);
     // console.log(response);

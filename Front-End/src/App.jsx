@@ -71,9 +71,8 @@ function App() {
             <Route path="/student-login" element={<StudentLogin />} />
             <Route path="/landlord-signin" element={<LandlordSignup />} />
             <Route path="/landlord-login" element={<LandlordLogin />} />
-            {/* <Route path="/university-signin" element={<UniversitySignIn />} /> */}
-            <Route path="/email-signin" element={<EmailPasswordSignIn />} />
-            <Route path="/parent-login" element={<ParentLogin />} />
+            {/* <Route path="/parent-login" element={<ParentLogin />} /> */}
+
 
             {/* Main app routes */}
               <Route path="/" element={<GeneralLayout />}>
