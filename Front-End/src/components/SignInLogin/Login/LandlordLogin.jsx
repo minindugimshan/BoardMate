@@ -1,29 +1,43 @@
 // components/SignIn/LandlordSignIn.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './LandlordLogin.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./LandlordLogin.css";
+import apiService from "../../../services/api-service";
+import useAuthStore from "../../../store/auth-store";
+import { toast } from "react-toastify";
 
 const LandlordSignIn = () => {
   const navigate = useNavigate();
+  const authStore = useAuthStore();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add authentication logic here
-    console.log('Landlord sign in:', formData);
+    const rq = {
+      email: formData.email,
+      password: formData.password,
+    };
+    const rs = await apiService.post("/auth/login", rq);
+    if (rs.status === 200) {
+      const userData = await apiService.get("/users/getByEmail", { email: formData.email });
+      if (userData.status === 200) {
+        if (userData.data.userType !== "LANDLORD") {
+          toast.error("Invalid user login");
+          return;
+        }
+        authStore.login(userData.data);
+        toast.success("Login successful");
+        navigate("/landlord-dashboard");
+      }
+    }
   };
 
   return (
     <div className="signin-container">
-      <img 
-        src="/bmlogo.png" 
-        alt="Home Icon" 
-        className="home-icon" 
-        onClick={() => navigate('/')}
-      />
+      <img src="/bmlogo.png" alt="Home Icon" className="home-icon" onClick={() => navigate("/")} />
 
       <div className="signin-content-box">
         <h1>Log In</h1>
@@ -34,7 +48,7 @@ const LandlordSignIn = () => {
               type="email"
               id="email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
           </div>
@@ -44,15 +58,21 @@ const LandlordSignIn = () => {
               type="password"
               id="password"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
             />
           </div>
-          <button type="submit" className="signin-button">Sign In</button>
+          <button type="submit" className="signin-button">
+            Sign In
+          </button>
         </form>
         <div className="additional-options">
-          <p>Don't have an account? <span onClick={() => navigate('/landlord-signin')}>Sign Up</span></p>
-          <p>Forgot password? <span onClick={() => navigate('/forgot-password')}>Reset</span></p>
+          <p>
+            Don't have an account? <span onClick={() => navigate("/landlord-signin")}>Sign Up</span>
+          </p>
+          <p>
+            Forgot password? <span onClick={() => navigate("/forgot-password")}>Reset</span>
+          </p>
         </div>
       </div>
     </div>

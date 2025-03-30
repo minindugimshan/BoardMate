@@ -1,18 +1,32 @@
+import { Bath, Bed, Calendar, ChevronLeft, ChevronRight, Home, Key, MapPin, Phone, Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key, Bath } from 'lucide-react';
-import { propertyData } from '../../data/propertyData';
-import { useState, useEffect } from 'react';
-import './PropertyDetails.css';
+import { toast } from 'react-toastify';
+import apiService from '../../services/api-service';
+import useAuthStore from '../../store/auth-store';
+import PropertyChatButton from '../Chatapp/PropertyChatButton';
 import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
+import './PropertyDetails.css';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = parseInt(id);
-  const property = propertyData.find(p => p.id === propertyId);
+  const [property, setProperty] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [reviews, setReviews] = useState([]); // State to store reviews
+  const [averageRating, setAverageRating] = useState(0); // State to store average rating
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [selectedDate, setSelectedDate] = useState(new Date()); // State for selected date
+  const [selectedTime, setSelectedTime] = useState('10:00'); // State for selected time
+  const [isLoading, setIsLoading] = useState(false); // Loading state for API calls
   const navigate = useNavigate();
+  const authStore = useAuthStore();
+  const user = authStore.user;
+
+  useEffect(() => {
+    fetchProperty();
+  }, [])
 
   // Fetch reviews from the backend 
   useEffect(() => {
@@ -41,39 +55,83 @@ const PropertyDetails = () => {
     fetchReviewsAndRating();
   }, [propertyId]);
 
+  const fetchProperty = async () => {
+    const rs = await apiService.get(`/properties/${propertyId}`);
+    if (rs.status === 200) {
+      const data = rs.data;
+      console.log("data",data);
+      setProperty(data);
+    }
+  };
+
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   const nextSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === property.images.length - 1 ? 0 : current + 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === images.length - 1 ? 0 : current + 1));
   };
 
   const prevSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === 0 ? property.images.length - 1 : current - 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === 0 ? images.length - 1 : current - 1));
   };
 
-  const createGoogleCalendarEvent = () => {
+  const bookTour = (e) => {
+    setIsModalOpen(true);
+  };
 
-    // Format dates for Google Calendar
-    const today = new Date();
-    const tomorrow = new Date(today);
+  const handleBookTourSubmit = async () => {
+    if (!selectedDate || !selectedTime) {
+      toast.warn('Please select both date and time');
+      return;
+    }
 
-    // Set default start time to tomorrow at 10:00 AM
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const startTime = new Date(tomorrow);
-    startTime.setHours(10, 0, 0, 0);
+    setIsLoading(true);
 
-     // End time is 30 minutes after start time
-    const endTime = new Date(startTime);
-    endTime.setMinutes(endTime.getMinutes() + 30);
+    // Create a datetime by combining date and time
+    const [hours, minutes] = selectedTime.split(':').map(Number);
+    const tourDateTime = new Date(selectedDate);
+    tourDateTime.setHours(hours, minutes, 0, 0);
 
-    // Format dates for Google Calendar URL
-    const formatDate = date => date.toISOString().replace(/-|:|\.\d+/g, '');
-    const startTimeFormatted = formatDate(startTime);
-    const endTimeFormatted = formatDate(endTime);
+    try {
+      // Make API request to book a tour
+      const response = await apiService.post('/properties/bookATour', {
+        propertyId,
+        studentId: user.id,
+        tourDateTime: tourDateTime.toISOString(),
+      });
 
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Property Tour: ${property.name}`)}&dates=${startTimeFormatted}/${endTimeFormatted}&details=${encodeURIComponent(`Tour of ${property.type} property.\n\nProperty details:\n- ${property.totalBeds} beds\n- ${property.totalRooms} rooms\n- ${property.totalBathrooms} bathrooms\n- Contact: ${property.contactNumber}`)}&location=${encodeURIComponent(property.address)}`;
+      if (response.status === 200 || response.status === 201) {
+        toast.success('Tour booked successfully!');
+        setIsModalOpen(false);
+      } else {
+        toast.error('Failed to book tour. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error booking tour:', error);
+      toast.error('An error occurred while booking the tour. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Function to generate time options (9AM to 5PM in 30-minute intervals)
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let hour = 9; hour <= 17; hour++) {
+      const hourStr = hour.toString().padStart(2, '0');
+      times.push(`${hourStr}:00`);
+      times.push(`${hourStr}:30`);
+    }
+    return times;
+  };
+
+  // Function to handle date change
+  const handleDateChange = (e) => {
+    const date = new Date(e.target.value);
+    setSelectedDate(date);
   };
 
   const handleBookProperty = () => {
@@ -114,11 +172,27 @@ const PropertyDetails = () => {
     }
   };
 
+  const getImagesList = (property) => {
+    // return a list of image URLs
+    if (property.images) {
+      return property.images.map((image) => `http://localhost:8080/api/properties/images/${image}`);
+    }
+    if (property.image) {
+      return [`http://localhost:8080/api/properties/images/${property.image}`];
+    }
+    if (property.imagesList) {
+      const imgRefs = property.imagesList.split(',');
+      return imgRefs.map((imgRef) => `http://localhost:8080/api/properties/images/${imgRef}`);
+    }
+    // Fallback if no images are available
+    return ['/fallback-property.jpg'];
+  }
+
   return (
     <div className="property-details-container">
       <div className="property-info-section">
         <div className="property-header">
-          <h1>{property.name}</h1>
+          <h1>{property.title}</h1>
           <div className="property-location">
             <MapPin size={20} />
             <span>{property.address}</span>
@@ -130,22 +204,27 @@ const PropertyDetails = () => {
         </div>
 
         <div className="property-quick-info">
-          <div className="info-item"><Bed size={24} /><span>{property.totalBeds} beds</span></div>
-          <div className="info-item"><Home size={24} /><span>{property.totalRooms} rooms</span></div>
-          <div className="info-item"><Bath size={24} /><span>{property.totalBathrooms} bathrooms</span></div> 
+          <div className="info-item"><Bed size={24} /><span>{property.bedrooms} beds</span></div>
+          <div className="info-item"><Home size={24} /><span>{property.rooms} rooms</span></div>
+          <div className="info-item"><Bath size={24} /><span>{property.bathrooms} bathrooms</span></div> 
           <div className="info-item"><Phone size={24} /><span>{property.contactNumber}</span></div>
         </div>
 
-        <div className="booking-section">
-          <a href={createGoogleCalendarEvent()} target="_blank" rel="noopener noreferrer" className="book-tour-btn">
+        {user && user.userType != "LANDLORD" && <div className="booking-section">
+          <button onClick={bookTour} className="book-tour-btn">
             <Calendar size={20} /> Book a tour
-          </a>
+          </button>
           <button className="book-now" onClick={handleBookProperty}><Key size={20} /> Book Now</button>
-        </div>
+          <PropertyChatButton 
+                  propertyId={property.id}
+                  landlordId={property.landlordId}
+                  studentId={user.id}
+                />
+        </div>}
 
         <div className="rating-container">
           <Star className="star" size={20} />
-          <span>{averageRating.toFixed(1)}</span> {/* Display average rating  */}
+          {/* <span>{averageRating.toFixed(1)}</span> Display average rating  */}
         </div>
 
 
@@ -174,21 +253,82 @@ const PropertyDetails = () => {
         {/* Review and Rating Section */}
         <div className="review-section">
           <h2>Reviews</h2>
-          <ReviewForm onSubmit={handleReviewSubmit} />
+         {user && user.userType != "LANDLORD" && <ReviewForm onSubmit={handleReviewSubmit} />}
           <ReviewList reviews={reviews} />
         </div>
       </div>
 
-      <div className="property-image-section">
-        {property.images?.length > 0 ? (
-          <div className="image-slider">
-            <img src={property.images[currentImage]} alt={`${property.name} - image ${currentImage + 1}`} className="main-image" />
-            <button className="slider-button prev" onClick={prevSlide}><ChevronLeft size={24} /></button>
-            <button className="slider-button next" onClick={nextSlide}><ChevronRight size={24} /></button>
-            <div className="image-counter">{currentImage + 1} / {property.images.length}</div>
+      {/* Tour Booking Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="tour-booking-modal">
+            <h2>Book a Property Tour</h2>
+            <p>Select a date and time for your property tour</p>
+            
+            <div className="modal-form">
+              <div className="form-group">
+                <label htmlFor="tour-date">Select Date:</label>
+                <input 
+                  type="date" 
+                  id="tour-date" 
+                  min={new Date().toISOString().split('T')[0]}
+                  // value={selectedDate.toISOString().split('T')[0]}
+                  onChange={handleDateChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="tour-time">Select Time:</label>
+                <select 
+                  id="tour-time"
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                >
+                  {generateTimeOptions().map(time => (
+                    <option key={time} value={time}>{time}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="property-tour-info">
+                <p><strong>Property:</strong> {property.title}</p>
+                <p><strong>Address:</strong> {property.address}</p>
+              </div>
+            </div>
+
+            <div className="modal-actions">
+              <button 
+                className="cancel-btn" 
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="book-btn" 
+                onClick={handleBookTourSubmit}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Booking...' : 'Book Tour'}
+              </button>
+            </div>
           </div>
-        ) : (
-          <div className="no-image">No images available</div>
+        </div>
+      )}
+
+      <div className="property-image-section">
+        {property && (
+          <div className="image-slider">
+            {getImagesList(property).length > 0 ? (
+              <>
+                <img src={getImagesList(property)[currentImage]} alt={`${property.title || 'Property'} - image ${currentImage + 1}`} className="main-image" />
+                <button className="slider-button prev" onClick={prevSlide}><ChevronLeft size={24} /></button>
+                <button className="slider-button next" onClick={nextSlide}><ChevronRight size={24} /></button>
+                <div className="image-counter">{currentImage + 1} / {getImagesList(property).length}</div>
+              </>
+            ) : (
+              <div className="no-image">No images available</div>
+            )}
+          </div>
         )}
       </div>
     </div>
@@ -196,5 +336,3 @@ const PropertyDetails = () => {
 };
 
 export default PropertyDetails;
-
-

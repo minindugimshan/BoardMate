@@ -1,85 +1,74 @@
-// import { useState } from 'react';
-// import { useNavigate } from "react-router-dom";
-// import { Container, Navbar, Nav } from 'react-bootstrap';
-// import './Navigationbar.css';
-// import { useLocation } from 'react-router-dom';
-
-// function Navigationbar() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <Navbar className='Navbar' expand='lg'>
-//       <Container>
-//         <Navbar.Brand>
-//           <img src="/logo.jpeg" alt="logo" className='logo' />
-//         </Navbar.Brand>
-
-//         <Navbar.Toggle aria-controls='collapse-navbar' />
-
-//         <Navbar.Collapse className='wholeLinks' id='collapse-navbar'>
-//           <nav className='links'>
-//             <Nav.Link href="/">Home</Nav.Link>
-//             <Nav.Link href="/Map">Map</Nav.Link>
-//             <Nav.Link href="/Chat">Chat</Nav.Link>
-//             <Nav.Link href='/Support'>Support</Nav.Link>
-//           </nav>
-
-//           {/* Profile Icon */}
-//           <div className='profileContainer'>
-//             <img
-//               className='profile'
-//               src="https://static.vecteezy.com/system/resources/thumbnails/006/017/592/small/ui-profile-icon-vector.jpg"
-//               alt="profile"
-//               onClick={() => navigate('/profile')} // Navigate to the profile page
-//             />
-//           </div>
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-//   );
-// }
-
-// export default Navigationbar;
-
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Container, Navbar, Nav } from 'react-bootstrap';
-import './Navigationbar.css';
+import "./Navigationbar.css";
+import useAuthStore from "../../store/auth-store";
+import { useLoaderStore } from "../../store/use-loader-store";
+import { toast } from "react-toastify";
 
 function Navigationbar() {
   const navigate = useNavigate();
+  const authStore = useAuthStore();
+  const loader = useLoaderStore();
+  const user = authStore.user;
+
+  const handleLogout = async () => {
+    loader.setLoading(true);
+    setTimeout(() => {
+      try {
+        authStore.logout();
+        navigate("/");
+      } catch (error) {
+        toast.error("Failed to log out");
+        console.error("Error logging out:", error);
+      } finally {
+        loader.setLoading(false);
+      }
+    }, 1000);
+  };
 
   return (
-    <Navbar className='Navbar' expand='lg'>
-      <Container>
-        <Navbar.Brand>
-          <img src="/logo.jpeg" alt="logo" className='logo' />
-        </Navbar.Brand>
+    <nav className="navbar">
+      <div className="w-[80rem] flex justify-between items-center">
+        <div className="logo">
+          <img src="/bmlogo.png" alt="BoardMate Logo" className="logo-image" />
+        </div>
+        <div className="nav-links">
+          {user && user.userType == "LANDLORD" && (
+            <>
+              <a href="#" onClick={() => navigate("/landlord-dashboard")}>
+                Dashboard
+              </a>
+            </>
+          )}
+          {user && user.userType == "STUDENT" && (
+            <>
+              <a href="#" onClick={() => navigate("/home")}>
+                Home
+              </a>
+              <a href="#" onClick={() => navigate("/map")}>
+                Map
+              </a>
 
-        {/* Navbar Toggle Button */}
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-
-        {/* Navbar Collapse Content */}
-        <Navbar.Collapse id='basic-navbar-nav' className='wholeLinks'>
-          <Nav className='links'>
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/Map">Map</Nav.Link>
-            <Nav.Link href="/Chat">Chat</Nav.Link>
-            <Nav.Link href='/Support'>Support</Nav.Link>
-          </Nav>
-
-          {/* Profile Icon */}
-          <div className='profileContainer'>
-            <img
-              className='profile'
-              src="https://static.vecteezy.com/system/resources/thumbnails/006/017/592/small/ui-profile-icon-vector.jpg"
-              alt="profile"
-              onClick={() => navigate('/profile')}
-            />
-          </div>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+              <a href="#" onClick={() => navigate("/support")}>
+                Support
+              </a>
+            </>
+          )}
+          <a href="#" onClick={() => navigate("/chats")}>
+            Chat
+          </a>
+          {user && (
+            <>
+              <a href="#" onClick={() => navigate("/profile")}>
+                Profile
+              </a>
+              <a href="#" onClick={handleLogout}>
+                Log Out
+              </a>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }
 

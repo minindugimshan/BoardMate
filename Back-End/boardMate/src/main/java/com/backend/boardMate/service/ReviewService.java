@@ -1,7 +1,7 @@
-package com.example.boardMate.service;
+package com.backend.boardMate.service;
 
-import com.example.boardMate.model.Review;
-import com.example.boardMate.repository.ReviewRepository;
+import com.backend.boardMate.model.Review;
+import com.backend.boardMate.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.example.boardMate.repository;
+package com.backend.boardMate.repository;
 
-import com.example.boardMate.model.Review;
+import com.backend.boardMate.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
