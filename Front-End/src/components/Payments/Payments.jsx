@@ -1,9 +1,12 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { AlertCircle, CheckCircle, Loader2 } from "lucide-react"
 import Tesseract from "tesseract.js"
 import "./Payments.css"
 import "bootstrap/dist/css/bootstrap.min.css"
+import useAuthStore from '../../store/auth-store'; // Adjust the path as needed
 
 function Payments() {
   const { id } = useParams()
@@ -20,6 +23,9 @@ function Payments() {
   const [isVerifying, setIsVerifying] = useState(false)
   const [verificationResult, setVerificationResult] = useState(false)
 
+  // Get user from Zustand auth store
+  const { user, isAuthenticated } = useAuthStore()
+
   // Verifying the image
   const [verificationDetails, setVerificationDetails] = useState({
     bankName: false,
@@ -30,6 +36,10 @@ function Payments() {
   })
 
   const handleProceedToPay = () => {
+    if (!isAuthenticated || !user) {
+      alert("Please log in to proceed with payment.")
+      return
+    }
     setIsPopupOpen(true)
   }
 
@@ -355,19 +365,23 @@ function Payments() {
     }
   }, [propertyId])
 
+  // Replace the handlePaymentSuccess function with this updated version
   const handlePaymentSuccess = async () => {
-    if (!property) return
+    if (!property) {
+      alert("Property information is missing.")
+      return
+    }
 
-    // Dummy user data (replace with actual user details when available)
-    const currentUser = {
-      id: "123",
+    if (!user) {
+      alert("User information is missing. Please log in again.")
+      return
     }
 
     // Get the selected booking date
     const selectedDate = new Date().toLocaleDateString("en-CA") // YYYY-MM-DD format
 
     const paymentData = {
-      userId: Number(currentUser.id),
+      userId: user.id, // Use the real user ID from the Zustand store
       propertyId: property.id,
       propertyName: property.title,
       propertyAddress: property.address,
@@ -377,11 +391,19 @@ function Payments() {
     }
 
     try {
+      // Get the authentication token if available
+      const token = user.token // Assuming token is stored in the user object
+      const headers = {
+        "Content-Type": "application/json",
+      }
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`
+      }
+
       const response = await fetch("http://localhost:8080/api/payments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(paymentData),
       })
 
@@ -415,9 +437,21 @@ function Payments() {
             <h4>
               Location: <span>{property.location}</span>
             </h4>
-            <button className="btn mt-3 w-50 btn-primary" onClick={handleProceedToPay}>
-              Proceed To Pay
+            <h4>User Id: {user.id} </h4>
+            {/* Update the Proceed to Pay button to check if user is logged in */}
+            <button
+              className="btn mt-3 w-50 btn-primary"
+              onClick={handleProceedToPay}
+              disabled={!isAuthenticated || !user}
+            >
+              {isAuthenticated && user ? "Proceed To Pay" : "Please Log In to Continue"}
             </button>
+
+            {(!isAuthenticated || !user) && (
+              <div className="alert alert-warning mt-3">
+                You need to be logged in to make a payment. Please log in and try again.
+              </div>
+            )}
           </>
         ) : (
           <div className="alert alert-danger">
@@ -427,7 +461,7 @@ function Payments() {
       </div>
 
       {/* PayHere Payment Popup */}
-      {isPopupOpen && property && (
+      {isPopupOpen && property && user && (
         <div className="payhere-popup-overlay">
           <div className="payhere-popup-container">
             <div className="payhere-popup">
