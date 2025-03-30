@@ -62,6 +62,14 @@ const apiService = {
     post: async (url, data) => await apiClient.post(url, data),
     put: async (url, data) => await apiClient.put(url, data),
     delete: async (url) => await apiClient.delete(url),
+    // New method for multipart file uploads
+    postMultipart: async (url, formData) => {
+        return await apiClient.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
 };
 
 export default apiService;

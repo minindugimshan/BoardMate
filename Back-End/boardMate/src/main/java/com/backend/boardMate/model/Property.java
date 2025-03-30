@@ -37,11 +37,11 @@ public class Property {
     // defeult values
     @Column(columnDefinition = "integer default 0")
     @Basic(optional = false)
-    private Integer views;
+    private Integer views = 0;
 
     @Column(columnDefinition = "integer default 0")
     @Basic(optional = false)
-    private Integer inquiries;
+    private Integer inquiries = 0;
 
     private String imagesList;
 

@@ -67,13 +67,15 @@ const PropertyDetails = () => {
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   const nextSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === property.images.length - 1 ? 0 : current + 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === images.length - 1 ? 0 : current + 1));
   };
 
   const prevSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === 0 ? property.images.length - 1 : current - 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === 0 ? images.length - 1 : current - 1));
   };
 
   const bookTour = (e) => {
