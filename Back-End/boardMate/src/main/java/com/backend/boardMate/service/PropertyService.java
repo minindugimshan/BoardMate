@@ -2,12 +2,16 @@ package com.backend.boardMate.service;
 
 
 import com.backend.boardMate.model.Property;
+import com.backend.boardMate.model.User;
 import com.backend.boardMate.model.VirtualTour;
 // import com.backend.boardMate.entity.Property;
 // import com.backend.boardMate.entity.VirtualTour;
 
 import com.backend.boardMate.repository.PropertyRepository;
+import com.backend.boardMate.repository.UserRepository;
 import com.backend.boardMate.repository.VirtualTourRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,7 @@ import java.util.List;
 
 @Service
 public class PropertyService {
+    private static final Logger logger = LoggerFactory.getLogger(PropertyService.class);
 
     @Autowired
     private PropertyRepository propertyRepository;
@@ -26,14 +31,36 @@ public class PropertyService {
     private VirtualTourRepository virtualTourRepository;
 
     // Add a new property
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    // Add a new property
     public Property addProperty(Property property) {
-        // Save the virtual tour if it exists
-        // if (property.getVirtualTour() != null) {
-        //     VirtualTour virtualTour = property.getVirtualTour();
-        //     virtualTour.setProperty(property); // Set the relationship
-        //     virtualTourRepository.save(virtualTour); // Save the virtual tour
-        // }
-        return propertyRepository.save(property); // Save the property
+        Property savedProperty = propertyRepository.save(property); // Save the property
+
+        // Fetch all users to notify them
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            try {
+                String subject = "New Property Added!";
+                String text = "A new property has been added:\n" +
+                        "Title: " + savedProperty.getTitle() + "\n" +
+                        "Location: " + savedProperty.getLocation() + "\n" +
+                        "Price: " + savedProperty.getPrice() + "\n" +
+                        "For more details, visit our website.";
+
+                emailService.sendEmail(user.getEmail(), subject, text);
+
+            } catch (Exception e) {
+                logger.error("Failed to send email to {}: {}", user.getEmail(), e.getMessage());
+            }
+        }
+
+
+        return savedProperty; // Return the saved property
     }
 
     // Get all properties

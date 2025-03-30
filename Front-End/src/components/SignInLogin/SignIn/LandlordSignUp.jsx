@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './LandlordSignUp.css';
 import apiService from '../../../services/api-service';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const LandlordSignup = () => {
   const [step, setStep] = useState(1);
@@ -21,6 +22,7 @@ const LandlordSignup = () => {
     },
     verificationCode: '', // new field for verification code
   });
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [rulesAgreed, setRulesAgreed] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -313,7 +315,8 @@ const LandlordSignup = () => {
   
       if (response.status === 200) {
         toast.success('Registration successful!');
-        window.location.href = '/landlord/dashboard';
+        // window.location.href = '/landlord/dashboard';
+        navigate('/landlord-login');
       } else {
         setErrors({ submission: result.message || 'Failed to submit registration' });
       }

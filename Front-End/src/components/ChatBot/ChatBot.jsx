@@ -52,7 +52,7 @@ const ChatBotWindow = () => {
         ref={iframeRef}
         className="transition-opacity duration-300"
         style={{ opacity: isLoading ? 0 : 1 }}
-        src="https://dialogflow.cloud.google.com/api-client/demo/embedded/39367daf-a11f-4d82-a241-630e0405e9f2"
+        src="https://dialogflow.cloud.google.com/api-client/demo/embedded/0d4c667e-7884-4dcd-b12a-5886d5844308"
         width="350"
         height="430"
         onLoad={handleIframeLoad}
