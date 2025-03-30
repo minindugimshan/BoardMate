@@ -5,6 +5,8 @@ import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.Data;
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.C;
+
 @Data
 @Entity
 @Table(name = "property")
@@ -31,8 +33,17 @@ public class Property {
     private String university;
     private Integer landlordId;
     private Boolean isActive;
+
+    // defeult values
+    @Column(columnDefinition = "integer default 0")
+    @Basic(optional = false)
     private Integer views;
+
+    @Column(columnDefinition = "integer default 0")
+    @Basic(optional = false)
     private Integer inquiries;
+
+    private String imagesList;
 
     // @ElementCollection
     // @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
@@ -236,5 +247,13 @@ public class Property {
 
     public void setInquiries(Integer inquiries) {
         this.inquiries = inquiries;
+    }
+
+    public String getImagesList() {
+        return imagesList;
+    }
+
+    public void setImagesList(String imagesList) {
+        this.imagesList = imagesList;
     }
 }

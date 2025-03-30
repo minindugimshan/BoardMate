@@ -1,17 +1,19 @@
-
 package com.backend.boardMate.controller;
 
 import com.backend.boardMate.model.Property;
 // import com.backend.boardMate.entity.Property;
 import com.backend.boardMate.service.PropertyService;
+import com.backend.boardMate.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-
-
 
 @RestController
 @RequestMapping("/api/properties")
@@ -19,6 +21,9 @@ public class PropertyController {
 
     @Autowired
     private PropertyService propertyService;
+
+    @Autowired
+    private ImageService imageService;
 
     @PostMapping
     public Property addProperty(@RequestBody Property property) {
@@ -71,9 +76,7 @@ public class PropertyController {
         return propertyService.searchProperties(location.toLowerCase(), type, minPrice, maxPrice);
     }
 
-
     @PostMapping("/bookATour")
-
     public Map<String, String> bookATour(@RequestBody Map<String, Object> request) {
         Integer propertyID = (Integer) request.get("propertyId");
         Integer studentID = (Integer) request.get("studentId");
@@ -81,8 +84,45 @@ public class PropertyController {
         // Your service call to book a tour
         propertyService.bookATour(propertyID.longValue(), studentID.longValue(), tourDateTime);
         return Map.of("message", "Tour booked successfully");
-
     }
 
+    @PostMapping("/upload-images")
+    public ResponseEntity<Map<String, Object>> uploadImages(
+            @RequestParam("files") MultipartFile[] files) {
+        try {
+            List<String> imageReferences = imageService.storeImages(files);
+            Map<String, Object> response = Map.of(
+                    "success", true,
+                    "message", "Images uploaded successfully",
+                    "imageReferences", imageReferences
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = Map.of(
+                    "success", false,
+                    "message", "Failed to upload images: " + e.getMessage()
+            );
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 
+    @PostMapping("/{propertyId}/add-images")
+    public Property addImagesToProperty(
+            @PathVariable Long propertyId,
+            @RequestBody Map<String, Object> request) {
+        List<String> imageReferences = (List<String>) request.get("imageReferences");
+        if (imageReferences == null || imageReferences.isEmpty()) {
+            throw new IllegalArgumentException("Image references cannot be null or empty");
+        }
+        return propertyService.addImagesToProperty(propertyId, imageReferences);
+    }
+
+    @GetMapping("/images/{filename:.+}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+        Resource file = imageService.loadImageAsResource(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
+    }
 }
