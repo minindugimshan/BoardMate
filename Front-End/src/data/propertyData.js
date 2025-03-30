@@ -19,7 +19,7 @@ export const propertyData = [
       "Beds", 
       "Tables", 
       "Chairs", 
-      "Attached sharing bathroom", 
+      "Attached sharing bathroom",
       "Pantry", 
       "Ceiling fan", 
       "Separate electricity", 

@@ -5,34 +5,42 @@ import com.backend.boardMate.repository.PaymentBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaymentService {
 
     @Autowired
     private PaymentBookingRepository paymentBookingRepository;
 
-    public void savePaymentBooking(PaymentBookingDetails paymentBookingDetails) {
+    public PaymentBookingDetails savePaymentBooking(PaymentBookingDetails paymentBookingDetails) {
         try {
             // Log the payment details being saved
             System.out.println("Saving payment details: " + paymentBookingDetails);
-
-            paymentBookingRepository.save(paymentBookingDetails);
+            return paymentBookingRepository.save(paymentBookingDetails);
         } catch (Exception e) {
             // Log the exception for better debugging
             e.printStackTrace();
-            throw new RuntimeException("Failed to save payment booking", e);
+            throw new RuntimeException("Failed to save payment booking: " + e.getMessage(), e);
         }
     }
 
-    // Method to get payment details by ID (Read)
-//    public PaymentBookingDetails getPaymentBookingById(Long id) {
-//        try {
-//            // Fetch payment details by ID
-//            return paymentBookingRepository.findById(id).orElse(null);  // Returns null if not found
-//        } catch (Exception e) {
-//            // Log the exception for better debugging
-//            e.printStackTrace();
-//            throw new RuntimeException("Failed to retrieve payment booking by ID", e);
-//        }
-//    }
+    public List<PaymentBookingDetails> getBookingsByUserId(Long userId) {
+        try {
+            return paymentBookingRepository.findByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch bookings by user ID: " + e.getMessage(), e);
+        }
+    }
+
+    public PaymentBookingDetails getBookingById(Long id) {
+        try {
+            return paymentBookingRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch booking by ID: " + e.getMessage(), e);
+        }
+    }
 }
