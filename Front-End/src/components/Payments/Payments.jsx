@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { propertyData } from "../../data/propertyData"
-import { MapPin, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
+import { AlertCircle, CheckCircle, Loader2 } from "lucide-react"
 import Tesseract from "tesseract.js"
 import "./Payments.css"
 import "bootstrap/dist/css/bootstrap.min.css"
+import useAuthStore from '../../store/auth-store'; // Adjust the path as needed
 
 function Payments() {
   const { id } = useParams()
   const propertyId = Number.parseInt(id)
-  const property = propertyData.find((p) => p.id === propertyId)
+  const [property, setProperty] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [paymentStep, setPaymentStep] = useState('paymentMethod'); // or 'cardDetails'
+  const [paymentStep, setPaymentStep] = useState("paymentMethod")
   const [selectedMethod, setSelectedMethod] = useState(null)
-  const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false);
-  const [orderId, setOrderId] = useState('')
+  const [isCardDetailsVisible, setIsCardDetailsVisible] = useState(false)
+  const [orderId, setOrderId] = useState("")
   const [image, setImage] = useState(null)
   const [isImageUploaded, setIsImageUploaded] = useState(false)
   const [isVerifying, setIsVerifying] = useState(false)
   const [verificationResult, setVerificationResult] = useState(false)
 
-
-  if (!property) {
-    return <div className="text-container mt-5">Property Not Found</div>
-  }
+  // Get user from Zustand auth store
+  const { user, isAuthenticated } = useAuthStore()
 
   // Verifying the image
   const [verificationDetails, setVerificationDetails] = useState({
@@ -31,12 +30,15 @@ function Payments() {
     date: false,
     amount: false,
     accountNumber: false,
-    isSlip: false
+    isSlip: false,
   })
 
   const handleProceedToPay = () => {
+    if (!isAuthenticated || !user) {
+      alert("Please log in to proceed with payment.")
+      return
+    }
     setIsPopupOpen(true)
-
   }
 
   const handleClosePopUp = () => {
@@ -47,37 +49,37 @@ function Payments() {
       date: false,
       amount: false,
       accountNumber: false,
-      isSlip: false
+      isSlip: false,
     })
   }
 
   const [cardDetails, setCardDetails] = useState({
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-  });
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  })
 
   // New state to track payment success
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false)
 
   const handleMethodSelect = (methodId) => {
-    setSelectedMethod(methodId);
-    setImage(null);
-    setIsImageUploaded(false);
+    setSelectedMethod(methodId)
+    setImage(null)
+    setIsImageUploaded(false)
     setCardDetails({
-      cardNumber: '',
-      expiryDate: '',
-      cvv: '',
-    });
+      cardNumber: "",
+      expiryDate: "",
+      cvv: "",
+    })
     setVerificationResult(null)
     setVerificationDetails({
       bankName: false,
       date: false,
       amount: false,
       accountNumber: false,
-      isSlip: false
+      isSlip: false,
     })
-  };
+  }
 
   const handleCardDetailsChange = (e) => {
     const { name, value } = e.target
@@ -128,12 +130,11 @@ function Payments() {
     }
   }
 
-  // Function to handle the card details form submission
   const handleCardDetailsSubmit = () => {
     // Validation before submission
     if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
-      alert('Please fill all the fields');
-      return;
+      alert("Please fill all the fields")
+      return
     }
 
     if (!cardDetails.cardNumber || cardDetails.cardNumber.replace(/\s/g, "").length < 13) {
@@ -160,36 +161,35 @@ function Payments() {
       alert("Please enter a valid CVV")
       return
     }
-    setPaymentStep('paymentSuccess')
-    setPaymentSuccess(true);
-  };
-
+    setPaymentStep("paymentSuccess")
+    setPaymentSuccess(true)
+    handlePaymentSuccess()
+  }
 
   const handlePayNowClick = () => {
-    if (selectedMethod === 'visa' || selectedMethod === 'mastercard') {
-      setPaymentStep('cardDetails'); // Go to the card details page
+    if (selectedMethod === "visa" || selectedMethod === "mastercard") {
+      setPaymentStep("cardDetails") // Go to the card details page
+    } else if (selectedMethod === "bank") {
+      setPaymentStep("uploadBankImage")
     }
-    else if (selectedMethod === 'bank') {
-      setPaymentStep('uploadBankImage');
-    }
-  };
+  }
 
   // New function to handle image upload
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      setImage(URL.createObjectURL(file)); // Preview image
-      setIsImageUploaded(true);
+      setImage(URL.createObjectURL(file)) // Preview image
+      setIsImageUploaded(true)
       setVerificationResult(null) // Mark image as uploaded
       setVerificationDetails({
         bankName: false,
         date: false,
         amount: false,
         accountNumber: false,
-        isSlip: false
+        isSlip: false,
       })
     }
-  };
+  }
 
   const verifyBankSlip = async () => {
     if (!image) {
@@ -221,9 +221,13 @@ function Payments() {
         /\d{1,2}[/\-.]\d{1,2}[/\-.]\d{2,4}|\d{1,2}(?:st|nd|rd|th)?\s(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(
           text,
         )
-      const hasAmount = /amount|rs\.?|Rs.|Total|sum|Cash|Coins|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
+      const hasAmount =
+        /amount|rs\.?|Rs.|Total|sum|Cash|Coins|PAID|payment/i.test(text) && /\d+(?:\.\d{2})?/i.test(text)
       const hasAccountNumber = /acc(?:ount)?\s*(?:No|number|#)?[\s:.]?\s*\d+/i.test(text)
-      const isLikelySlip = /receipt|Computer Validation|Signature|Depositor|Name|Transaction|Payment|Deposit|Transfer|Slip|reference|ref|Confirmation/i.test(text)
+      const isLikelySlip =
+        /receipt|Computer Validation|Signature|Depositor|Name|Transaction|Payment|Deposit|Transfer|Slip|reference|ref|Confirmation/i.test(
+          text,
+        )
 
       // Update verification details
       const details = {
@@ -254,6 +258,7 @@ function Payments() {
       if (passes) {
         setTimeout(() => {
           setPaymentStep("paymentSuccess")
+          handlePaymentSuccess()
         }, 2000)
       }
     } catch (error) {
@@ -270,27 +275,57 @@ function Payments() {
 
   const handleImageVerification = () => {
     if (!isImageUploaded) {
-      alert("Please upload an image to verify.");
-      return;
+      alert("Please upload an image to verify.")
+      return
     }
     // In Here, you can add logic to verify the image if necessary
-    alert("Image uploaded successfully for verification.");
-  };
+    alert("Image uploaded successfully for verification.")
+  }
 
   // Payment methods data with icons
   const paymentMethods = {
     "Credit/Debit Card": [
-        { id: "visa", name: "Visa", icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1200px-Visa_2021.svg.png" },
-        { id: "mastercard", name: "Mastercard", icon: 'https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-No-Background.png' },
-        { id: "amex", name: "American Express", icon: 'https://www.citypng.com/public/uploads/preview/hd-amex-american-express-logo-png-701751694708970jttzjjyo6e.png' },
-      ],
+      {
+        id: "visa",
+        name: "Visa",
+        icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1200px-Visa_2021.svg.png",
+      },
+      {
+        id: "mastercard",
+        name: "Mastercard",
+        icon: "https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-No-Background.png",
+      },
+      {
+        id: "amex",
+        name: "American Express",
+        icon: "https://www.citypng.com/public/uploads/preview/hd-amex-american-express-logo-png-701751694708970jttzjjyo6e.png",
+      },
+    ],
     "Mobile Wallet": [
       { id: "genie", name: "Genie", icon: "https://www.genie.lk/wp-content/uploads/2021/03/genie-logo.png" },
-      { id: "ezcash", name: "Ez Cash", icon: "https://yt3.googleusercontent.com/eJyvaQmKtG_F-8JC6qJLIjcfHzyIwD0O5bOnmfZP0ed2XjbCiPJfPHPqL9FGlbvw7942CBar=s900-c-k-c0x00ffffff-no-rj" },
-      { id: "mcash", name: "mCash", icon: "https://play-lh.googleusercontent.com/vJsVOZbuNfKbLshcBmxIQaisdkI_8isieqkXhtxuqnr-PKnc53v-8GwdzgaI53P8_lA" },
-      { id: "frimi", name: "FriMi", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ys1jHPlXUOGwBhVXQQIwYt5VgmQmteZDCA&s" },
+      {
+        id: "ezcash",
+        name: "Ez Cash",
+        icon: "https://yt3.googleusercontent.com/eJyvaQmKtG_F-8JC6qJLIjcfHzyIwD0O5bOnmfZP0ed2XjbCiPJfPHPqL9FGlbvw7942CBar=s900-c-k-c0x00ffffff-no-rj",
+      },
+      {
+        id: "mcash",
+        name: "mCash",
+        icon: "https://play-lh.googleusercontent.com/vJsVOZbuNfKbLshcBmxIQaisdkI_8isieqkXhtxuqnr-PKnc53v-8GwdzgaI53P8_lA",
+      },
+      {
+        id: "frimi",
+        name: "FriMi",
+        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ys1jHPlXUOGwBhVXQQIwYt5VgmQmteZDCA&s",
+      },
     ],
-    "Bank Transfer": [{ id: "bank", name: "Bank Transfer", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU" }],
+    "Bank Transfer": [
+      {
+        id: "bank",
+        name: "Bank Transfer",
+        icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDnE_apx1xxwayXZulkEHC_PLDeU9MTmXz-LxwGNP5jvX49oXDvgcBO-0hgLac2D0mrnA&usqp=CAU",
+      },
+    ],
   }
 
   // generating a unique order id for properties
@@ -301,91 +336,144 @@ function Payments() {
   }
 
   useEffect(() => {
-    generateOrderId();
-  }, []);
+    generateOrderId()
+  }, [])
 
+  // Fetch property details from the backend
   useEffect(() => {
-    // Only call handlePaymentSuccess when paymentStep changes to 'paymentSuccess'
-    if (paymentStep === "paymentSuccess") {
-      handlePaymentSuccess()
+    const fetchPropertyDetails = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`http://localhost:8080/api/properties/${propertyId}`)
+        if (!response.ok) {
+          throw new Error("Failed to fetch property details.")
+        }
+        const data = await response.json()
+        setProperty(data)
+      } catch (error) {
+        console.error("Error fetching property details:", error)
+        alert("Failed to load property details. Please try again.")
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [paymentStep])
 
+    if (propertyId) {
+      fetchPropertyDetails()
+    }
+  }, [propertyId])
 
+  // Replace the handlePaymentSuccess function with this updated version
   const handlePaymentSuccess = async () => {
+    if (!property) {
+      alert("Property information is missing.")
+      return
+    }
 
-    // Dummy user data (replace with actual user details when available)
-    const currentUser = {
-      id: "123",
-    };
+    if (!user) {
+      alert("User information is missing. Please log in again.")
+      return
+    }
 
-    // const selectedDate = new Date().toISOString().split('T')[0];
-    // console.log(selectedDate);
+    // Get the selected booking date
+    const selectedDate = new Date().toLocaleDateString("en-CA") // YYYY-MM-DD format
 
-    const selectedDate = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD in local timezone
-    console.log("Booking Date:", selectedDate);
-
-
-    // Data to be sent to the backend after successful payment
     const paymentData = {
-      userId : Number(currentUser.id),
-      propertyId: property.id, // selected property details
-      propertyName: property.name, // selected property name
+      userId: user.id, // Use the real user ID from the Zustand store
+      propertyId: property.id,
+      propertyName: property.title,
       propertyAddress: property.address,
-      propertyContact: property.contactNumber ,
-      bookingDate: selectedDate, // date of booking
-      price: property.price, // property price
-    };
-    console.log("Payment details being sent:", paymentData);
-  
+      propertyContact: property.contactNumber,
+      bookingDate: selectedDate,
+      price: property.price,
+    }
+
     try {
+      // Get the authentication token if available
+      const token = user.token // Assuming token is stored in the user object
+      const headers = {
+        "Content-Type": "application/json",
+      }
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`
+      }
+
       const response = await fetch("http://localhost:8080/api/payments", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(paymentData),
-      });
-  
+      })
+
       if (!response.ok) {
-        throw new Error("Payment record failed to save.");
+        throw new Error("Payment record failed to save.")
       }
-  
-      console.log("Payment recorded successfully!");
-      alert("Payment recorded successfully!");
+
+      console.log("Payment recorded successfully!")
+      alert("Payment recorded successfully!")
     } catch (error) {
-      console.error("Error saving payment:", error);
-      alert("An error occurred while saving the payment.");
-      return;
+      console.error("Error saving payment:", error)
+      alert("An error occurred while saving the payment.")
     }
-  };
+  }
 
   return (
-    <div className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}>
+    <div
+      className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}
+    >
       <div className="card shadow p-4 text-center w-75" id="payments-container">
-        <h2 className="mb-3">Your Booking Details Are As Follows: </h2>
-        <h2 className="prop-name"> {property.name} </h2>
-        <h4>Price: {property.price} </h4>
-        <h4>
-          location: <MapPin size={24} color="red" /> {property.location}
-        </h4>
-        <button className="btn mt-3 w-50 btn-primary" onClick={handleProceedToPay}>
-          Proceed To Pay
-        </button>
+        <h2 className="mb-3">Your Booking Details Are As Follows:</h2>
+        {loading ? (
+          <div className="d-flex justify-content-center">
+            <Loader2 className="animate-spin h-6 w-6" />
+            <span className="ml-2">Loading property details...</span>
+          </div>
+        ) : property ? (
+          <>
+            <h2 className="prop-name">{property.title}</h2>
+            <h4>Price: {property.price}</h4>
+            <h4>
+              Location: <span>{property.location}</span>
+            </h4>
+            <h4>User Id: {user.id} </h4>
+            {/* Update the Proceed to Pay button to check if user is logged in */}
+            <button
+              className="btn mt-3 w-50 btn-primary"
+              onClick={handleProceedToPay}
+              disabled={!isAuthenticated || !user}
+            >
+              {isAuthenticated && user ? "Proceed To Pay" : "Please Log In to Continue"}
+            </button>
+
+            {(!isAuthenticated || !user) && (
+              <div className="alert alert-warning mt-3">
+                You need to be logged in to make a payment. Please log in and try again.
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="alert alert-danger">
+            Failed to load property details. Please refresh the page or try again later.
+          </div>
+        )}
       </div>
 
       {/* PayHere Payment Popup */}
-      {isPopupOpen && (
+      {isPopupOpen && property && user && (
         <div className="payhere-popup-overlay">
           <div className="payhere-popup-container">
             <div className="payhere-popup">
               {/* Header */}
               <div className="payhere-header">
                 <div className="payhere-logo-wrapper">
-                  <img src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png" alt="PayHere" className="payhere-logo" />
+                  <img
+                    src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png"
+                    alt="PayHere"
+                    className="payhere-logo"
+                  />
                 </div>
                 <div className="payhere-merchant-info">
-                  <div className="merchant-name">{property.name}</div>
+                  <div className="merchant-name">{property.title}</div>
                   <div className="order-id">Order ID: {orderId} </div>
                   <div className="amount">Rs. {property.price}</div>
                 </div>
@@ -397,7 +485,7 @@ function Payments() {
 
               {/* Body */}
               <div className="payhere-body">
-                {paymentStep === 'paymentMethod' && (
+                {paymentStep === "paymentMethod" && (
                   <>
                     <div className="payment-method-title">SELECT A PAYMENT METHOD</div>
 
@@ -411,11 +499,7 @@ function Payments() {
                               className={`payment-method-item ${selectedMethod === method.id ? "selected" : ""}`}
                               onClick={() => handleMethodSelect(method.id)}
                             >
-                              <img
-                                src={method.icon || "/placeholder.svg"}
-                                alt={method.name}
-                                className="payment-icon"
-                              />
+                              <img src={method.icon || "/placeholder.svg"} alt={method.name} className="payment-icon" />
                             </div>
                           ))}
                         </div>
@@ -424,7 +508,7 @@ function Payments() {
                   </>
                 )}
 
-                {paymentStep === 'cardDetails' && (
+                {paymentStep === "cardDetails" && (
                   <div className="card-details-form">
                     <div className="form-group">
                       <label htmlFor="cardNumber">Card Number</label>
@@ -464,16 +548,12 @@ function Payments() {
                     </div>
 
                     <div className="payhere-actions mt-4">
-                      <button
-                        className="btn btn-success payhere-pay-btn"
-                        onClick={handleCardDetailsSubmit}
-                      >
+                      <button className="btn btn-success payhere-pay-btn" onClick={handleCardDetailsSubmit}>
                         Submit Payment
                       </button>
                     </div>
                   </div>
                 )}
-
 
                 {paymentStep === "uploadBankImage" && (
                   <div className="upload-image-section">
@@ -552,7 +632,7 @@ function Payments() {
                   </div>
                 )}
 
-                {paymentStep === 'paymentSuccess' && (
+                {paymentStep === "paymentSuccess" && (
                   <div className="payment-success">
                     <div className="success-icon">
                       <img src="https://www.pngall.com/wp-content/uploads/9/Green-Tick-No-Background.png" alt="" />
@@ -566,7 +646,7 @@ function Payments() {
                 )}
 
                 <div className="payhere-actions mt-4">
-                  {paymentStep === 'paymentMethod' && (
+                  {paymentStep === "paymentMethod" && (
                     <button
                       className="btn btn-success payhere-pay-btn"
                       disabled={!selectedMethod}
@@ -582,17 +662,20 @@ function Payments() {
               <div className="payhere-footer">
                 <div className="secured-by">
                   <span>Secured by</span>
-                  <img src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png" alt="PayHere" className="payhere-footer-logo" />
+                  <img
+                    src="https://payherestorage.blob.core.windows.net/payhere-resources/www/images/PayHere-Logo.png"
+                    alt="PayHere"
+                    className="payhere-footer-logo"
+                  />
                 </div>
                 <div className="central-bank-text">Central Bank approved Secure Payment Gateway Service</div>
               </div>
-              <br /><br />
+              <br />
+              <br />
             </div>
           </div>
-          
         </div>
       )}
-      
     </div>
   )
 }
