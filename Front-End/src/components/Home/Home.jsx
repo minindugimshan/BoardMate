@@ -5,6 +5,7 @@ import "./Home.css";
 import { useEffect, useState } from "react";
 import { Eye, RotateCw, Search, Star, Users } from "lucide-react";
 import apiService from "../../services/api-service";
+import { getImage } from "../../utils/image-resolver";
 
 function Home() {
   const navigate = useNavigate();
@@ -174,8 +175,8 @@ function Home() {
         ) : (
           <div className="property-grid min-h-[60vh]" style={{ padding: "10px" }}>
             {propertyData.map((property) => (
-              <div key={property.id} className="property-card">
-              <img src={property.image ? property.image : '/fallback-property.jpg'} alt={property.title} style={{margin: 0}}/>
+              <div key={property.id} className="property-card" onClick={() => handlePropertyClick(property.id)}>
+              <img src={getImage(property)} alt={property.title} style={{margin: 0}}/>
               <div className="property-info">
                 <h3>{property.title}</h3>
                 <p className="location">{property.location}</p>

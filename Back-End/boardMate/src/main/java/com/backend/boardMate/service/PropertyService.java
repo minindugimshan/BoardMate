@@ -1,6 +1,14 @@
 package com.backend.boardMate.service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.backend.boardMate.model.Property;
 import com.backend.boardMate.model.User;
 import com.backend.boardMate.model.VirtualTour;
@@ -162,5 +170,17 @@ public class PropertyService {
         virtualTour.setPropertyId(propertyID);
         virtualTour.setStudentId(studentID);
         virtualTourRepository.save(virtualTour);
+    }
+
+    // Add images to a property
+    public Property addImagesToProperty(Long propertyId, List<String> imageReferences) {
+        Property property = propertyRepository.getReferenceById(propertyId);
+        List<String> existingImages =  property.getImagesList() != null && property.getImagesList().split(",").length > 0 ? List.of(property.getImagesList().split(",")) : null;
+        if (existingImages == null) {
+            existingImages = new ArrayList<>();
+        }
+        existingImages.addAll(imageReferences);
+        property.setImagesList(String.join(",", existingImages));
+        return propertyRepository.save(property);
     }
 }

@@ -4,6 +4,8 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import apiService from '../../services/api-service';
 import './LandlordDashboard.css';
 import NewProperty from './NewProperty/NewProperty';
+import { toast } from 'react-toastify';
+import { getImage } from '../../utils/image-resolver';
 
 const LandlordDashboard = () => {
   const [showNewPropertyForm, setShowNewPropertyForm] = useState(false);
@@ -28,15 +30,88 @@ const LandlordDashboard = () => {
     }
   };
 
+  // Function to upload images and return their filenames
+  const uploadImages = async (images) => {
+
+    console.log('Upload images function called with:', images);
+    
+    if (!images || images.length === 0) {
+      toast.warn('No images to upload');
+      return [];
+    }
+    
+    try {
+      const formData = new FormData();
+      
+      const imageArray = images instanceof FileList ? Array.from(images) : 
+                         Array.isArray(images) ? images : [images];
+    
+      imageArray.forEach((image, index) => {
+        if (image instanceof File) {
+          console.log(`Processing image ${index}:`, image.name, 'Size:', image.size);
+          formData.append('files', image);
+        } else {
+          toast.error("Invalid image type. Please upload valid images.");
+          console.error('Invalid image type:', image);
+        }
+      });
+
+      
+      // Using the new postMultipart method instead of custom post config
+      const response = await apiService.postMultipart('http://localhost:8080/api/properties/upload-images', formData);
+      
+      if (response.status !== 200) {
+        throw new Error('Failed to upload images');
+      }
+      
+      toast.success('Images uploaded successfully');
+      return response.data.imageReferences; // Return array of uploaded image filenames
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      throw error;
+    }
+  };
+
   // Function to add a new property to the backend
   const handleAddProperty = async (newProperty) => {
+    if (!newProperty) {
+      return; // Early return if there's no property
+    }
+    
     try {
-      const response = await apiService.post('/properties', newProperty);
+      let uploadedImageNames = [];
+      if (newProperty.images && newProperty.images.length > 0) {
+        console.log('Images found in new property:', newProperty.images);
+        uploadedImageNames = await uploadImages(newProperty.images);
+      }
+      
+
+      const propertyToCreate = { ...newProperty };
+      delete propertyToCreate.images; // Remove images from property object
+      
+      const response = await apiService.post('/properties', propertyToCreate);
       if (response.status !== 200) {
         throw new Error('Failed to add property');
       }
-      const data = await response.data
-      setProperties([...properties, data]); // Add the new property to the state
+      
+      const createdProperty = response.data;
+      
+      if (uploadedImageNames.length > 0) {
+        const imageResponse = await apiService.post(
+          `http://localhost:8080/api/properties/${createdProperty.id}/add-images`, 
+          { imageReferences: uploadedImageNames }
+        );
+        
+        if (imageResponse.status !== 200) {
+          console.warn('Property created but failed to link images');
+        } else {
+          // Update property with images
+          createdProperty.image = `http://localhost:8080/api/properties/images/${uploadedImageNames[0]}`; 
+          // Use first image as main display image
+        }
+      }
+      
+      await fetchProperties()
       setShowNewPropertyForm(false); // Close the form
     } catch (error) {
       console.error('Error adding property:', error);
@@ -81,7 +156,7 @@ const LandlordDashboard = () => {
           <div className="properties-grid">
             {properties.map(property => (
               <div key={property.id} className="property-card">
-              <img src={property.image ? property.image : '/fallback-property.jpg'} alt={property.title} style={{margin: 0}}/>
+              <img src={getImage(property)} alt={property.title} style={{margin: 0}}/>
               <div className="property-info">
                 <h3>{property.title}</h3>
                 <p className="location">{property.location}</p>

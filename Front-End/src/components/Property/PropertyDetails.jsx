@@ -1,20 +1,17 @@
+import { Bath, Bed, Calendar, ChevronLeft, ChevronRight, Home, Key, MapPin, Phone, Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Bed, Phone, MapPin, Star, ChevronLeft, ChevronRight, Calendar, Home, Droplet, Wifi, Key, Bath } from 'lucide-react';
-import { propertyData } from '../../data/propertyData';
-import { useState, useEffect } from 'react';
-import './PropertyDetails.css';
+import { toast } from 'react-toastify';
+import apiService from '../../services/api-service';
+import useAuthStore from '../../store/auth-store';
+import PropertyChatButton from '../Chatapp/PropertyChatButton';
 import ReviewForm from '../Review&Rating/ReviewForm'; // Import the ReviewForm component
 import ReviewList from '../Review&Rating/ReviewList'; // Import the ReviewList component
-import PropertyChatButton from '../Chatapp/PropertyChatButton';
-import useAuthStore from '../../store/auth-store';
-import apiService from '../../services/api-service';
-import { use } from 'react';
-import { toast } from 'react-toastify';
+import './PropertyDetails.css';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = parseInt(id);
-  // const property = propertyData.find(p => p.id === propertyId);
   const [property, setProperty] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [reviews, setReviews] = useState([]); // State to store reviews
@@ -70,13 +67,15 @@ const PropertyDetails = () => {
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
   const nextSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === property.images.length - 1 ? 0 : current + 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === images.length - 1 ? 0 : current + 1));
   };
 
   const prevSlide = () => {
-    if (!property.images || property.images.length === 0) return;
-    setCurrentImage(current => (current === 0 ? property.images.length - 1 : current - 1));
+    const images = getImagesList(property);
+    if (!images || images.length === 0) return;
+    setCurrentImage(current => (current === 0 ? images.length - 1 : current - 1));
   };
 
   const bookTour = (e) => {
@@ -172,6 +171,22 @@ const PropertyDetails = () => {
       console.error('Error submitting review:', error);
     }
   };
+
+  const getImagesList = (property) => {
+    // return a list of image URLs
+    if (property.images) {
+      return property.images.map((image) => `http://localhost:8080/api/properties/images/${image}`);
+    }
+    if (property.image) {
+      return [`http://localhost:8080/api/properties/images/${property.image}`];
+    }
+    if (property.imagesList) {
+      const imgRefs = property.imagesList.split(',');
+      return imgRefs.map((imgRef) => `http://localhost:8080/api/properties/images/${imgRef}`);
+    }
+    // Fallback if no images are available
+    return ['/fallback-property.jpg'];
+  }
 
   return (
     <div className="property-details-container">
@@ -301,15 +316,19 @@ const PropertyDetails = () => {
       )}
 
       <div className="property-image-section">
-        {property.images?.length > 0 ? (
+        {property && (
           <div className="image-slider">
-            <img src={property.images[currentImage]} alt={`${property.name} - image ${currentImage + 1}`} className="main-image" />
-            <button className="slider-button prev" onClick={prevSlide}><ChevronLeft size={24} /></button>
-            <button className="slider-button next" onClick={nextSlide}><ChevronRight size={24} /></button>
-            <div className="image-counter">{currentImage + 1} / {property.images.length}</div>
+            {getImagesList(property).length > 0 ? (
+              <>
+                <img src={getImagesList(property)[currentImage]} alt={`${property.title || 'Property'} - image ${currentImage + 1}`} className="main-image" />
+                <button className="slider-button prev" onClick={prevSlide}><ChevronLeft size={24} /></button>
+                <button className="slider-button next" onClick={nextSlide}><ChevronRight size={24} /></button>
+                <div className="image-counter">{currentImage + 1} / {getImagesList(property).length}</div>
+              </>
+            ) : (
+              <div className="no-image">No images available</div>
+            )}
           </div>
-        ) : (
-          <div className="no-image">No images available</div>
         )}
       </div>
     </div>
