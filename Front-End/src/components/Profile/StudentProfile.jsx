@@ -1,13 +1,16 @@
+
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/auth-store';
-import PropertyCard from '../PropertyCard/PropertyCard'; // Import the PropertyCard component
+import PropertyCard from '../PropertyCard/PropertyCard';
+import apiService from '../../services/api-service';
 import './Profile.css';
 
 const StudentProfile = () => {
   const authStore = useAuthStore();
   const user = authStore.user;
+  const navigate = useNavigate();
   
-  // Initialize with default values that will be overwritten if user data exists
   const [studentData, setStudentData] = useState({
     firstName: '',
     lastName: '',
@@ -24,7 +27,9 @@ const StudentProfile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({...studentData});
-  const [bookedProperty, setBookedProperty] = useState(null); // State to track booked property
+  const [bookedProperty, setBookedProperty] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Update student data when user changes
   useEffect(() => {
@@ -32,7 +37,11 @@ const StudentProfile = () => {
       setStudentData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
-        dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
+        dateOfBirth: { 
+          day: user.dateOfBirthDay || '', 
+          month: user.dateOfBirthMonth || '', 
+          year: user.dateOfBirthYear || '' 
+        },
         university: user.university || '',
         studentId: user.universityId || '',
         email: user.email || '',
@@ -41,7 +50,11 @@ const StudentProfile = () => {
       setEditedData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
-        dateOfBirth: { day: user.dateOfBirthDay || '', month: user.dateOfBirthMonth || '', year: user.dateOfBirthYear || '' },
+        dateOfBirth: { 
+          day: user.dateOfBirthDay || '', 
+          month: user.dateOfBirthMonth || '', 
+          year: user.dateOfBirthYear || '' 
+        },
         university: user.university || '',
         studentId: user.universityId || '',
         email: user.email || '',
@@ -50,13 +63,39 @@ const StudentProfile = () => {
     }
   }, [user]);
 
-  // Simulate fetching the booked property from local storage or API
+  // Fetch booked property
   useEffect(() => {
-    const bookedPropertyFromStorage = JSON.parse(localStorage.getItem('bookedProperty'));
-    if (bookedPropertyFromStorage) {
-      setBookedProperty(bookedPropertyFromStorage);
-    }
-  }, []);
+    const fetchBookedProperty = async () => {
+      if (user?.id) {
+        setLoading(true);
+        setError(null);
+        try {
+          // Check local storage first
+          const bookedPropertyFromStorage = JSON.parse(localStorage.getItem('bookedProperty'));
+          if (bookedPropertyFromStorage) {
+            setBookedProperty(bookedPropertyFromStorage);
+            return;
+          }
+
+          // Fetch from API if not in local storage
+          const response = await apiService.get(`/payments/user/${user.id}`);
+          if (response.data && response.data.length > 0) {
+            const latestBooking = response.data[response.data.length - 1];
+            const propertyResponse = await apiService.get(`/properties/${latestBooking.propertyId}`);
+            setBookedProperty(propertyResponse.data);
+            localStorage.setItem('bookedProperty', JSON.stringify(propertyResponse.data));
+          }
+        } catch (err) {
+          console.error('Error fetching booked property:', err);
+          setError('Failed to load booked property');
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchBookedProperty();
+  }, [user]);
 
   const handleEditToggle = () => {
     if (isEditing) {
@@ -65,11 +104,14 @@ const StudentProfile = () => {
       
       // Update user data in auth store
       authStore.updateUser({
+        ...user,
         firstName: editedData.firstName,
         lastName: editedData.lastName,
-        dateOfBirth: editedData.dateOfBirth,
+        dateOfBirthDay: editedData.dateOfBirth.day,
+        dateOfBirthMonth: editedData.dateOfBirth.month,
+        dateOfBirthYear: editedData.dateOfBirth.year,
         university: editedData.university,
-        studentId: editedData.studentId,
+        universityId: editedData.studentId,
         email: editedData.email,
         profileImage: editedData.profileImage
       });
@@ -81,33 +123,43 @@ const StudentProfile = () => {
     const { name, value } = e.target;
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
-      setEditedData({
-        ...editedData,
+      setEditedData(prev => ({
+        ...prev,
         [parent]: {
-          ...editedData[parent],
+          ...prev[parent],
           [child]: value
         }
-      });
+      }));
     } else {
-      setEditedData({
-        ...editedData,
+      setEditedData(prev => ({
+        ...prev,
         [name]: value
-      });
+      }));
     }
   };
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setEditedData({
-        ...editedData,
-        profileImage: URL.createObjectURL(e.target.files[0])
-      });
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setEditedData(prev => ({
+          ...prev,
+          profileImage: event.target.result
+        }));
+      };
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
 
   const formatDateOfBirth = () => {
     const { day, month, year } = studentData.dateOfBirth;
     return `${day}/${month}/${year}`;
+  };
+
+  const handlePropertyClick = () => {
+    if (bookedProperty) {
+      navigate(`/property/${bookedProperty.id}`);
+    }
   };
 
   return (
@@ -268,26 +320,15 @@ const StudentProfile = () => {
           </div>
 
           <div className="profile-section">
-            <h3>Housing Preferences</h3>
-            {isEditing ? (
-              <div className="profile-field">
-                <textarea
-                  name="housingPreferences"
-                  placeholder="Describe your housing preferences (location, budget, amenities, etc.)"
-                  rows="4"
-                  onChange={handleChange}
-                />
-              </div>
-            ) : (
-              <p className="empty-section">No housing preferences specified yet.</p>
-            )}
-          </div>
-
-          {/* Add the "My Property" section */}
-          <div className="profile-section">
             <h3>My Property</h3>
-            {bookedProperty ? (
-              <PropertyCard property={bookedProperty} />
+            {loading ? (
+              <div className="loading-section">Loading property...</div>
+            ) : error ? (
+              <div className="error-section">{error}</div>
+            ) : bookedProperty ? (
+              <div onClick={handlePropertyClick} style={{ cursor: 'pointer' }}>
+                <PropertyCard property={bookedProperty} />
+              </div>
             ) : (
               <p className="empty-section">No property booked yet.</p>
             )}
