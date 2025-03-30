@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    @Value("${app.upload.dir:${user.home}/boardmate/uploads}")
+    @Value("${app.upload.dir}")
     private String uploadDir;
 
     private Path fileStoragePath;

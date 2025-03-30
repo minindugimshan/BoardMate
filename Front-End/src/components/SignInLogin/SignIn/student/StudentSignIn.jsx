@@ -37,7 +37,7 @@ const StudentSignIn = () => {
     const response = await apiService.post("/auth/register", rq);
     toast.success(response.data.message);
     // console.log(response);
-    navigate('/university-signin');
+    navigate('/student-login');
   };
 
   const handleBasicDetailsSubmit = (data) => {

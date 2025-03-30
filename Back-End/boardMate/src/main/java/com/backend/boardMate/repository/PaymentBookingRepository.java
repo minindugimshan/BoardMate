@@ -1,4 +1,3 @@
-
 package com.backend.boardMate.repository;
 
 import com.backend.boardMate.model.PaymentBookingDetails;

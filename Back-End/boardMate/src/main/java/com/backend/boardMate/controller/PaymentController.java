@@ -1,5 +1,3 @@
-
-
 package com.backend.boardMate.controller;
 
 import com.backend.boardMate.model.PaymentBookingDetails;
@@ -21,6 +19,7 @@ public class PaymentController {
 
     // Endpoint to handle payment and booking data
     @PostMapping
+
     public ResponseEntity<?> savePaymentDetails(@RequestBody PaymentBookingDetails paymentBookingDetails) {
         try {
             System.out.println("Received Payment Data: " + paymentBookingDetails);

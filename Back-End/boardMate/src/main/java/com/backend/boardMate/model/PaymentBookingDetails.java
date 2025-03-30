@@ -64,4 +64,3 @@ public class PaymentBookingDetails {
     }
     // Getters and Setters (Lombok @Data annotation automatically generates these)
 }
-

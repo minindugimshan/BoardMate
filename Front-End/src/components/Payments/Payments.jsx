@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
@@ -24,6 +23,7 @@ function Payments() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
 
   const { user, isAuthenticated } = useAuthStore();
   const [verificationDetails, setVerificationDetails] = useState({
@@ -63,16 +63,18 @@ function Payments() {
     }
   };
 
+
   const handleMethodSelect = (methodId) => {
-    setSelectedMethod(methodId);
-    setImage(null);
-    setIsImageUploaded(false);
+    setSelectedMethod(methodId)
+    setImage(null)
+    setIsImageUploaded(false)
     setCardDetails({
       cardNumber: "",
       expiryDate: "",
       cvv: "",
     });
     setVerificationResult(null);
+
     setVerificationDetails({
       bankName: false,
       date: false,
@@ -81,6 +83,7 @@ function Payments() {
       isSlip: false,
     });
   };
+
 
   const handleCardDetailsChange = (e) => {
     const { name, value } = e.target;
@@ -102,6 +105,13 @@ function Payments() {
   };
 
   const handleCardDetailsSubmit = () => {
+
+    // Validation before submission
+    if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
+      alert("Please fill all the fields")
+      return
+    }
+
     if (!cardDetails.cardNumber || cardDetails.cardNumber.replace(/\s/g, "").length < 13) {
       alert("Please enter a valid card number");
       return;
@@ -137,14 +147,16 @@ function Payments() {
     } else if (selectedMethod === "bank") {
       setPaymentStep("uploadBankImage");
     }
-  };
+  }
 
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
+
       setImage(URL.createObjectURL(file));
       setIsImageUploaded(true);
       setVerificationResult(null);
+
       setVerificationDetails({
         bankName: false,
         date: false,
@@ -153,7 +165,7 @@ function Payments() {
         isSlip: false,
       });
     }
-  };
+  }
 
   const verifyBankSlip = async () => {
     if (!image) {
@@ -293,15 +305,17 @@ function Payments() {
     ],
   };
 
+
   const generateOrderId = () => {
     const uniqueOrderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     setOrderId(uniqueOrderId);
   };
 
   useEffect(() => {
-    generateOrderId();
-  }, []);
+    generateOrderId()
+  }, [])
 
+  // Fetch property details from the backend
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       setLoading(true);
@@ -321,8 +335,11 @@ function Payments() {
     }
   }, [propertyId]);
 
+
   return (
-    <div className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}>
+    <div
+      className={`container d-flex justify-content-center align-items-center min-vh-100 ${isPopupOpen ? "blur-background" : ""}`}
+    >
       <div className="card shadow p-4 text-center w-75" id="payments-container">
         <h2 className="mb-3">Your Booking Details Are As Follows:</h2>
         {loading ? (
@@ -334,7 +351,11 @@ function Payments() {
           <>
             <h2 className="prop-name">{property.title}</h2>
             <h4>Price: {property.price}</h4>
+
             <h4>Location: <span>{property.location}</span></h4>
+
+            {/* Update the Proceed to Pay button to check if user is logged in */}
+            
             <button
               className="btn mt-3 w-50 btn-primary"
               onClick={handleProceedToPay}
@@ -356,6 +377,9 @@ function Payments() {
         )}
       </div>
 
+
+      {/* PayHere Payment Popup */}
+
       {isPopupOpen && property && user && (
         <div className="payhere-popup-overlay">
           <div className="payhere-popup-container">
@@ -370,6 +394,7 @@ function Payments() {
                 </div>
                 <div className="payhere-merchant-info">
                   <div className="merchant-name">{property.title}</div>
+
                   <div className="order-id">Order ID: {orderId}</div>
                   <div className="amount">Rs. {property.price}</div>
                 </div>
@@ -390,7 +415,7 @@ function Payments() {
                               className={`payment-method-item ${selectedMethod === method.id ? "selected" : ""}`}
                               onClick={() => handleMethodSelect(method.id)}
                             >
-                              <img src={method.icon} alt={method.name} className="payment-icon" />
+                              <img src={method.icon || "/placeholder.svg"} alt={method.name} className="payment-icon" />
                             </div>
                           ))}
                         </div>
@@ -544,6 +569,8 @@ function Payments() {
                 </div>
                 <div className="central-bank-text">Central Bank approved Secure Payment Gateway Service</div>
               </div>
+              <br />
+              <br />
             </div>
           </div>
         </div>

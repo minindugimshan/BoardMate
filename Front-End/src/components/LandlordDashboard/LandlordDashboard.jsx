@@ -111,7 +111,7 @@ const LandlordDashboard = () => {
         }
       }
       
-      setProperties([...properties, createdProperty]); // Add the new property to the state
+      await fetchProperties()
       setShowNewPropertyForm(false); // Close the form
     } catch (error) {
       console.error('Error adding property:', error);
