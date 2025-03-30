@@ -85,9 +85,9 @@ const NewProperty = ({ onClose, onSubmit }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(propertyData);
+    await onSubmit(propertyData);
   };
 
   // Handle opening the map modal
