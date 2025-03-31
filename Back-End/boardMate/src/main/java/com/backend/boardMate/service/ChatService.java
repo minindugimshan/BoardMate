@@ -11,6 +11,7 @@ import com.backend.boardMate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,17 +38,17 @@ public class ChatService {
         // Verify users and property exist
         // User student = userRepository.findById(studentId)
         //         .orElseThrow(() -> new RuntimeException("Student not found"));
-
+        
         // User landlord = userRepository.findById(landlordId)
         //         .orElseThrow(() -> new RuntimeException("Landlord not found"));
-
+        
         // Property property = propertyRepository.findById(propertyId)
         //         .orElseThrow(() -> new RuntimeException("Property not found"));
 
         // Check if chat already exists
         Optional<Chat> existingChat = chatRepository.findByStudentIdAndLandlordIdAndPropertyId(
                 studentId, landlordId, propertyId);
-
+        
         if (existingChat.isPresent()) {
             return existingChat.get();
         }
@@ -59,7 +60,7 @@ public class ChatService {
         chat.setPropertyId(propertyId);
 
         propertyService.updatePropertyInquiryCount(propertyId);
-
+        
         return chatRepository.save(chat);
     }
 
@@ -72,25 +73,25 @@ public class ChatService {
     public List<Chat> getLandlordChats(Long landlordId) {
         return chatRepository.findByLandlordId(landlordId);
     }
-
+    
     // Get student chats with details (property info, unread count, last message)
     public List<Map<String, Object>> getStudentChatsWithDetails(Long studentId) {
         List<Chat> chats = getStudentChats(studentId);
         return getChatsWithDetails(chats, studentId);
     }
-
+    
     // Get landlord chats with details (property info, unread count, last message)
     public List<Map<String, Object>> getLandlordChatsWithDetails(Long landlordId) {
         List<Chat> chats = getLandlordChats(landlordId);
         return getChatsWithDetails(chats, landlordId);
     }
-
+    
     // Helper method to get details for a list of chats
     private List<Map<String, Object>> getChatsWithDetails(List<Chat> chats, Long userId) {
         return chats.stream().map(chat -> {
             Map<String, Object> chatDetails = new HashMap<>();
             chatDetails.put("chat", chat);
-
+            
             // Get property details
             propertyRepository.findById(chat.getPropertyId()).ifPresent(property -> {
                 Map<String, Object> propertyDetails = new HashMap<>();
@@ -103,7 +104,7 @@ public class ChatService {
                 // }
                 chatDetails.put("property", propertyDetails);
             });
-
+            
             // Get user details (other participant)
             Long otherUserId = userId.equals(chat.getStudentId()) ? chat.getLandlordId() : chat.getStudentId();
             userRepository.findById(otherUserId).ifPresent(user -> {
@@ -113,11 +114,11 @@ public class ChatService {
                 userDetails.put("email", user.getEmail());
                 chatDetails.put("participant", userDetails);
             });
-
+            
             // Get unread count
             int unreadCount = getUnreadMessageCount(chat.getId(), userId);
             chatDetails.put("unreadCount", unreadCount);
-
+            
             // Get last message
             Message lastMessage = messageRepository.findLatestMessageByChatId(chat.getId());
             if (lastMessage != null) {
@@ -130,18 +131,18 @@ public class ChatService {
                 messageDetails.put("isRead", lastMessage.isRead());
                 chatDetails.put("lastMessage", messageDetails);
             }
-
+            
             return chatDetails;
         }).sorted((chat1, chat2) -> {
             // Sort by last message timestamp (most recent first)
             Map<String, Object> lastMsg1 = (Map<String, Object>) chat1.get("lastMessage");
             Map<String, Object> lastMsg2 = (Map<String, Object>) chat2.get("lastMessage");
-
+            
             if (lastMsg1 == null && lastMsg2 == null) return 0;
             if (lastMsg1 == null) return 1;
             if (lastMsg2 == null) return -1;
-
-            return ((Date)lastMsg2.get("timestamp")).compareTo((Date)lastMsg1.get("timestamp"));
+            
+            return ((LocalDateTime)lastMsg2.get("timestamp")).compareTo((LocalDateTime)lastMsg1.get("timestamp"));
         }).collect(Collectors.toList());
     }
 
@@ -154,13 +155,13 @@ public class ChatService {
     // Send a message
     public Message sendMessage(Long chatId, Long senderId, String senderType, String content) {
         Chat chat = getChatById(chatId);
-
+        
         Message message = new Message();
         message.setChat(chat);
         message.setSenderId(senderId);
         message.setSenderType(senderType);
         message.setContent(content);
-
+        
         return messageRepository.save(message);
     }
 
@@ -174,7 +175,7 @@ public class ChatService {
     // Mark messages as read
     public void markMessagesAsRead(Long chatId, Long userId) {
         List<Message> messages = messageRepository.findByChatIdOrderByTimestampAsc(chatId);
-
+        
         messages.stream()
                 .filter(message -> !message.getSenderId().equals(userId) && !message.isRead())
                 .forEach(message -> {
@@ -187,7 +188,7 @@ public class ChatService {
     public int getUnreadMessageCount(Long chatId, Long userId) {
         return messageRepository.countByChatIdAndSenderIdNotAndIsReadFalse(chatId, userId);
     }
-
+    
     // Get total unread message count across all chats
     public int getTotalUnreadMessageCount(Long userId) {
         return messageRepository.countUnreadMessagesForUser(userId);
