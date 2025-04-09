@@ -7,10 +7,8 @@ function About() {
   return (
     <div className='about-background'>
         <h1>About Us</h1>
-        <div className='about-content'>
-        
-            <div className='about-text'>
-                
+        <div className='about-content'>     
+            <div className='about-text'>             
                 <p>
                     Finding a home away from home has never been easier! <br /> <br />
                     <strong>BoardMate</strong> connects students with the perfect stay - safe, 
@@ -22,7 +20,7 @@ function About() {
             <img className='about-img' src="https://www.goshen.edu/wp-content/uploads/sites/7/2018/06/GC.Fall_.2017.860-web.jpg" alt="" />
         </div>
 
-        <h1>Our Mission</h1>
+        <h1 className='mission-h1'>Our Mission</h1>
         <p className='mission-p'>
             <strong>BoardMate</strong> is a long-term accommodation booking platform for students. 
             We help university students in Sri Lanka, <br /> find and book full-time accommodations near their universities, <br />
@@ -33,14 +31,12 @@ function About() {
         <div className='about-boxes'>
             <div className='about-search'>
                 {/* <img className='search-icon' src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" alt="" />  */}
-                <Search color='black' size={38} />
-                <br /><br />
-                <h2>Easy Search</h2> <br />
+                <Search color='black' size={35} />
+                <br /><br /> <h2>Easy Search</h2> <br />
                 <p>
-                    Search from a wide-selection of accommodations <br /> 
+                    Search from a wide-selection of accommodations
                     that fit your preferences.
                 </p>
-
             </div>
 
             <div className='negotiation'>
@@ -78,7 +74,7 @@ function About() {
 
                 <div className='wrapper'>
                     <div className='title'>
-                        <h4>Meet The Dream Team Behind This Platform</h4>
+                        <h4>Meet The Team Behind This Platform</h4>
                     </div>
 
                     <div className='card-container'>
