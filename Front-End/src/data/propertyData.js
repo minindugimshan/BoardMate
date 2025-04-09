@@ -356,7 +356,11 @@ export const propertyData = [
       "Terrace access"
     ],
     description: "100m to Horana - Colombo (120 bus route). Have 3 floors, 11 rooms with attached bathroom and with furniture and ceiling fan. Terrace can also develop. Supply furniture, have ceiling fan + cupboard, Have individual water and electricity per room. Can Park 10 bikes. Rs.25000.00 per room. Can share the room with two. Need 3-6 month key money",
-    images: [],
+    images: ["../../public/id-11/WhatsApp Image 2022-09-12 at 1.37.56 PM.jpeg",
+      "../../public/id-11/WhatsApp Image 2022-09-12 at 1.37.54 PM.jpeg",
+       "../../public/id-11/WhatsApp Image 2022-09-12 at 1.37.55 PM.jpeg",
+       "../../public/id-11/WhatsApp Image 2022-09-12 at 1.37.48 PM.jpeg"
+    ],
     rating: 4.5,
     totalUsers: 0,
     map:"https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d990.3462326164719!2d79.8747222!3d6.8443726!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTAnNDAuOCJOIDc5wrA1MiczMC4xIkU!5e0!3m2!1sen!2slk!4v1739344817780!5m2!1sen!2slk"

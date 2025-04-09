@@ -278,7 +278,7 @@ const NewProperty = ({ onClose, onSubmit }) => {
                 <div className="form-group">
                   <label htmlFor="bedrooms">
                     <BedDouble size={18} />
-                    Bedrooms
+                    Beds
                   </label>
                   <input
                     type="number"
