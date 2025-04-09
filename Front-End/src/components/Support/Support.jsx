@@ -8,10 +8,15 @@ function Support() {
     <div className='background-support text-black' style={{paddingTop: '20px'}}>
         <div className='supportBackground h-[50vh]'>
           <div className='image-container-support h-full'>
-            {/* <img src="/support page icon1.png" alt="" /> */}
+            <img src="/support page icon1.png" alt="" />
             <h2 className='text-overlay'>How It Works
               <span className='sub-text'> <br /> We are with you at every step of your journey! <br /><br /></span>
-              <span className='seconde-sub-text'>Know how BoardMate works! <Lightbulb size={30} color='white' /></span>
+              <span className='second-sub-text'>
+                <div className='flex items-center justify-center gap-2'>
+                  <Lightbulb size={30} color='yellow' />
+                  Know how BoardMate works!
+                </div>
+              </span>
             </h2>
           </div>
         </div>
@@ -79,7 +84,7 @@ function Support() {
               <div className='col-12 col-sm-6 col-md-3 mb-4'>
                 <div className='call-card'>
                   <div className='call'>
-                    <Phone size={80} color='skyblue' />
+                    <Phone size={80} color='black' />
                     <p> +94 76 676 0760 </p>
                   </div>
                 </div>
@@ -88,9 +93,9 @@ function Support() {
               <div className='col-12 col-sm-6 col-md-3 mb-4'>
                 <div className='call-card'>
                   <div className='call'>
-                    <Mail size={80} color='skyblue' />
+                    <Mail size={80} color='black' />
                     <a className='mail' href="mailto:boardm8te@gmail.com">
-                        <p>Email Us</p>
+                        <p >Email Us</p>
                     </a>
                   </div>
                 </div>
@@ -99,7 +104,7 @@ function Support() {
               <div className='col-12 col-sm-6 col-md-3 mb-4'>
                 <div className='call-card'>
                   <div className='call'>
-                    <MessageCircle size={80} color="skyblue" />
+                    <MessageCircle size={80} color="black" />
                     <p>Whatsapp</p>
                   </div>
                 </div>
@@ -108,7 +113,7 @@ function Support() {
               <div className='col-12 col-sm-6 col-md-3 mb-4'>
                 <div className='call-card'>
                   <div className='call'>
-                    <Text size={80} color="skyblue" />
+                    <Text size={80} color="black" />
                     <p>Chat on platform</p>
                   </div>
                 </div>

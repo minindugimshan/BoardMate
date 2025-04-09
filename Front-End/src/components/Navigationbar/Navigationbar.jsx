@@ -51,6 +51,10 @@ function Navigationbar() {
               <a href="#" onClick={() => navigate("/support")}>
                 Support
               </a>
+
+              <a href="#" onClick={() => navigate("/about")}>
+                About
+              </a>
             </>
           )}
           <a href="#" onClick={() => navigate("/chats")}>
