@@ -16,6 +16,7 @@
   object-fit: cover;
   height: 90% !important;
   z-index: -1;
+  
 }
 
 .main{
@@ -92,7 +93,7 @@
     
 }
 .mostviewed-props{
-  background-color: white;
+  background-color: #d3d5d6 !important;
   min-height: 300px;
 }
 .mostviewed-props img{
@@ -103,21 +104,22 @@
 
 .property-grid {
 display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 gap: 1.5rem;
 }
 
 .property-card {
-display: flex;
-flex-direction: column;
-background: white;
-border-radius: 24px;
-overflow: hidden;
-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-height: 45vh;
-width: 30vw;
-margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 30vw;
+  margin-top: 100px;
+  height: auto; /* ✅ Let it grow based on content */
+  min-height: 400px; /* ✅ Optional, to avoid too small cards */
 }
 
 .property-card:hover {
