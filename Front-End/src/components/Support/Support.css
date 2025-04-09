@@ -3,13 +3,15 @@
     min-height: auto;
     z-index: 0;
     overflow-x: hidden;
-
+    background-color: white !important;
 }
+
 .supportBackground img{
    width: 100%;
    height: auto;
    display: block;
    object-fit: cover;
+   margin-top: -20px;
 }
 .image-container-support{
     position: relative;
@@ -79,7 +81,7 @@
 }
 .call-card{
     box-shadow: 0px 4px 10px rgba(157, 141, 141, 0.1);
-    background-color: rgb(209, 221, 231);
+    background-color:aliceblue;
     width: 50%;
     margin: 30px auto;
     padding: 20px;
@@ -113,6 +115,9 @@
 }
 
 /* Review Section  */
+.reviews{
+    background-color: white;
+}
 .review-topic p{
     text-align: center;
     color: rgb(84, 81, 81);
@@ -192,7 +197,14 @@
     font-size: 20px;
 }
 
+.container {
+    background-color: white;
+}  
+.row {
+    background-color: white;
+}
 
+  
 /* Mobile Devices (up to 600px) */
 @media (max-width: 600px) {
     .supportBackground img{

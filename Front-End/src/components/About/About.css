@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: white;
 }
 .about-background h1 {
     /* color: rgb(243, 221, 177); */

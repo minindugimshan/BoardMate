@@ -5,7 +5,7 @@ import {Mail, Phone, Text, Lightbulb, MessageCircle} from 'lucide-react';
 
 function Support() {
   return (
-    <div className='background-support text-black' style={{paddingTop: '20px'}}>
+      <div className='background-support text-black' style={{paddingTop: '20px', backgroundColor:"white"}}>
         <div className='supportBackground h-[50vh]'>
           <div className='image-container-support h-full'>
             <img src="/support page icon1.png" alt="" />
@@ -131,7 +131,7 @@ function Support() {
 
             <div className='container mt-5'>
               <div className='row'>
-                <div className='col-12 col-sm-6 col-md-4 mb-4'>
+                <div className='container2 col-12 col-sm-6 col-md-4 mb-4'>
                   <div className='review-list'>
                     <div className='review1'>
                       <p>
@@ -213,7 +213,7 @@ function Support() {
 
         </div>
 
-    </div>
+      </div>
   )
 }
 

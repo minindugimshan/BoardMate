@@ -208,13 +208,14 @@
     text-align: center;
     /* color: #ffffff; */
     color:  rgb(73, 68, 68);
+    font-size: 35px;
 }
 .locations{
     display: flex;
     white-space: nowrap;
     gap: 20px;
     flex-shrink: 0;
-    width: 180%;
+    width: 190%;
     position: relative;
 }
 
@@ -253,14 +254,34 @@
     animation: 17s slide linear infinite;
 }
 
-.locations h2{
+.locations h2 {
     font-size: 21px;
     /* color: white; */
-    color:  rgb(73, 68, 68);
+    color: rgb(73, 68, 68);
     margin: 0 20px;
-}
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Ensure horizontal layout */
+  }
+  
+  .location-icon {
+    margin-right: 8px; /* Add space between icon and text */
+    display: inline-flex; /* Ensure icon is treated as inline element */
+    vertical-align: middle; /* Align icon with text */
+  }
+  
+  .locations h2 span {
+    display: inline-block; /* Ensure text is treated as inline element */
+    vertical-align: middle; /* Align text with icon */
+  }
 .fa{
-    color: red;
+    color: rgb(255, 0, 0);
+    height: 20px;
+}
+
+h2 i {
+    margin-right: 8px;
+    color: #555; /* or your desired color */
 }
 
 
@@ -426,14 +447,19 @@
     height: 600px !important;
     width: 90% !important;
 }
-.marker{
+.marker-heading {
+    display: flex;
+    align-items: flex-start;       
+    justify-content: flex-end;     
+    margin-right: 5%;
+    margin-top: -30px;            
+    font-size: medium;
+    color: rgb(73, 68, 68);
+    gap: 8px;                      
+}
+
+.marker {
     height: 40px;
     width: 50px;
-}
-.marker-heading{
-    /* color: white; */
-    color:  rgb(73, 68, 68);
-    text-align: end;
-    margin-right: 5%;
-    font-size: medium;
+    margin: 0;                     
 }
