@@ -10,7 +10,7 @@ const LandlordProfile = () => {
   const navigate = useNavigate();
   const authStore = useAuthStore();
   const user = authStore.user;
-  // This would typically come from your app state or API
+    // Initial state for landlord profile data
   const [landlordData, setLandlordData] = useState({
     firstName: undefined,
     lastName: undefined,
@@ -26,13 +26,15 @@ const LandlordProfile = () => {
     properties: []
   });
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);  // Track if edit mode is active
   const [editedData, setEditedData] = useState(null);
 
+  // Load data when component mounts
   useEffect(() => {
     initData();
   }, []);
 
+  // Initialize profile data and fetch properties
   const initData = async () => {
     const properties = await fetchProperties();
     if (properties){
@@ -54,6 +56,7 @@ const LandlordProfile = () => {
     }
   }
 
+  // Toggle edit mode or save edited data
   const handleEditToggle = () => {
     if (isEditing) {
       // Save the changes
@@ -63,6 +66,7 @@ const LandlordProfile = () => {
     setIsEditing(!isEditing);
   };
 
+   // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.includes('.')) {
@@ -82,6 +86,7 @@ const LandlordProfile = () => {
     }
   };
 
+  // Handle profile image file selection and preview
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setEditedData({
@@ -91,11 +96,13 @@ const LandlordProfile = () => {
     }
   };
 
+  // Format DOB into a readable string
   const formatDateOfBirth = () => {
     const { day, month, year } = landlordData.dateOfBirth;
     return `${day}/${month}/${year}`;
   };
 
+  // Fetch properties from backend using landlord ID
   const fetchProperties = async () => {
     const rs = await apiService.get('/properties/getPropertyList', { landlordId: user.id });
     console.log(rs);
@@ -265,37 +272,10 @@ const LandlordProfile = () => {
                     <button onClick={() => navigate(`/properties/${property.id}`)}>
                       View
                     </button>
-                    {/* <button onClick={() => navigate(`/properties/${property.id}/edit`)}>
-                      Edit
-                    </button> */}
                   </div>
                 </div>
               ))}
-              {/* <div className="add-property">
-                <button onClick={() => navigate('/properties/new')}>
-                  + Add New Property
-                </button>
-              </div> */}
             </div>
-          </div>
-
-          <div className="profile-section">
-            <h3>About Me</h3>
-            {isEditing ? (
-              <div className="profile-field">
-                <textarea
-                  name="aboutMe"
-                  placeholder="Tell potential renters about yourself"
-                  rows="4"
-                  onChange={handleChange}
-                  defaultValue={landlordData.aboutMe || ''}
-                />
-              </div>
-            ) : (
-              <p className="empty-section">
-                {landlordData.aboutMe || 'No information provided yet.'}
-              </p>
-            )}
           </div>
         </div>
       </div>

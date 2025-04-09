@@ -8,8 +8,8 @@
 
 .property-info-section {
   flex: 1;
-  background: linear-gradient(to bottom, #e5ecfb, white);
-  color: #567c8d;
+  background-color: #d3d5d6;
+  color: #d3d5d6;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #567C8D;
+  background: #218ec1be;
   border: none;
   color: #2F4156;
   padding: 0.75rem 1.5rem;
@@ -118,7 +118,7 @@
 }
 
 .book-now:hover {
-  background: #2f4156;
+  background: #1eac50;
   color: #f1f1f1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -133,7 +133,7 @@
 
 .booking-section {
   display: flex;
-  gap: 1rem; 
+  gap: 1rem; rgb(47, 86, 54)
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 2rem;

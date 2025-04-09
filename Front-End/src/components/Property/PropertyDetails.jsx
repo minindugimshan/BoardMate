@@ -24,11 +24,12 @@ const PropertyDetails = () => {
   const authStore = useAuthStore();
   const user = authStore.user;
 
+  // Fetch property data on initial render
   useEffect(() => {
     fetchProperty();
   }, [])
 
-  // Fetch reviews from the backend 
+  // Fetch reviews and average rating when property ID is available 
   useEffect(() => {
     const fetchReviewsAndRating = async () => {
       try {
@@ -55,6 +56,7 @@ const PropertyDetails = () => {
     fetchReviewsAndRating();
   }, [propertyId]);
 
+  // Function to fetch property details from backend
   const fetchProperty = async () => {
     const rs = await apiService.get(`/properties/${propertyId}`);
     if (rs.status === 200) {
@@ -64,8 +66,10 @@ const PropertyDetails = () => {
     }
   };
 
+  // If property not loaded yet, show fallback message
   if (!property) return <div className="container mt-5">Property Not Found</div>;
 
+  // Handle images in slider
   const nextSlide = () => {
     const images = getImagesList(property);
     if (!images || images.length === 0) return;
@@ -96,7 +100,7 @@ const PropertyDetails = () => {
     tourDateTime.setHours(hours, minutes, 0, 0);
 
     try {
-      // Make API request to book a tour
+      // Send booking request
       const response = await apiService.post('/properties/bookATour', {
         propertyId,
         studentId: user.id,

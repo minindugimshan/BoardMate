@@ -181,7 +181,7 @@ function Home() {
               <div className="property-info">
                 <h3>{property.title}</h3>
                 <p className="location">{property.location}</p>
-                <p className="price">{property.price} PCM</p>
+                <p className="price">{property.price} LKR</p>
                 <div className="property-stats">
                   <span><Eye size={16} /> {property.views}</span>
                   <span><Users size={16} /> {property.inquiries}</span>

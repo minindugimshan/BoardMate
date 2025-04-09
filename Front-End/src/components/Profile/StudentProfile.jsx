@@ -7,10 +7,12 @@ import apiService from '../../services/api-service';
 import './Profile.css';
 
 const StudentProfile = () => {
+  // Access authentication store and routing
   const authStore = useAuthStore();
   const user = authStore.user;
   const navigate = useNavigate();
   
+  // State for displaying and editing student profile data
   const [studentData, setStudentData] = useState({
     firstName: '',
     lastName: '',
@@ -47,6 +49,8 @@ const StudentProfile = () => {
         email: user.email || '',
         profileImage: user.profileImage || null
       });
+
+      // Sync edited data with current user
       setEditedData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
@@ -63,14 +67,14 @@ const StudentProfile = () => {
     }
   }, [user]);
 
-  // Fetch booked property
+  // Fetch the property booked by the user
   useEffect(() => {
     const fetchBookedProperty = async () => {
       if (user?.id) {
         setLoading(true);
         setError(null);
         try {
-          // Check local storage first
+          // Check if there's a cached property in localStorage
           const bookedPropertyFromStorage = JSON.parse(localStorage.getItem('bookedProperty'));
           if (bookedPropertyFromStorage) {
             setBookedProperty(bookedPropertyFromStorage);
@@ -83,6 +87,7 @@ const StudentProfile = () => {
             const latestBooking = response.data[response.data.length - 1];
             const propertyResponse = await apiService.get(`/properties/${latestBooking.propertyId}`);
             setBookedProperty(propertyResponse.data);
+            // Cache the property in localStorage
             localStorage.setItem('bookedProperty', JSON.stringify(propertyResponse.data));
           }
         } catch (err) {
@@ -97,12 +102,11 @@ const StudentProfile = () => {
     fetchBookedProperty();
   }, [user]);
 
+  // Toggle between edit and view mode
   const handleEditToggle = () => {
     if (isEditing) {
-      // Update local state
+      // Save changes to local state and auth store
       setStudentData({...editedData});
-      
-      // Update user data in auth store
       authStore.updateUser({
         ...user,
         firstName: editedData.firstName,
@@ -119,8 +123,10 @@ const StudentProfile = () => {
     setIsEditing(!isEditing);
   };
 
+  // Handle input field changes for form data
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Handle nested object for dateOfBirth
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setEditedData(prev => ({
@@ -138,6 +144,7 @@ const StudentProfile = () => {
     }
   };
 
+  // Handle profile image upload and convert it to base64
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
@@ -156,6 +163,7 @@ const StudentProfile = () => {
     return `${day}/${month}/${year}`;
   };
 
+  // Navigate to the booked property details page
   const handlePropertyClick = () => {
     if (bookedProperty) {
       navigate(`/property/${bookedProperty.id}`);
