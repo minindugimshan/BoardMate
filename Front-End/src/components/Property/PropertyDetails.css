@@ -8,7 +8,7 @@
 
 .property-info-section {
   flex: 1;
-  background-color: #d3d5d6;
+  background-color: #e3e3e3;
   color: #d3d5d6;
   padding: 2rem;
   display: flex;
@@ -133,7 +133,7 @@
 
 .booking-section {
   display: flex;
-  gap: 1rem; rgb(47, 86, 54);
+  gap: 1rem; 
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 2rem;

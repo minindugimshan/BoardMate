@@ -13,6 +13,7 @@
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    color:black;
   }
   
   .review-form button {
@@ -36,17 +37,18 @@
   .review-item {
     margin-bottom: 1rem;
     padding: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #d3d5d6;
     border-radius: 4px;
   }
   
   .review-rating {
-    color: #ffd700;
+    color: rgba(255, 217, 0, 0.951);
     font-size: 1.2rem;
   }
   
   .review-text {
     margin-top: 0.5rem;
+    color:black;
   }
   
   .review-user {
