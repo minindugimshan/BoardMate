@@ -107,19 +107,6 @@ public class PropertyService {
         existingProperty.setRating(property.getRating());
         existingProperty.setUniversity(property.getUniversity());
 
-        // Update virtual tour
-        // if (property.getVirtualTour() != null) {
-        //     VirtualTour virtualTour = property.getVirtualTour();
-        //     virtualTour.setProperty(existingProperty); // Set the relationship
-        //     virtualTourRepository.save(virtualTour); // Save the virtual tour
-        //     existingProperty.setVirtualTour(virtualTour); // Update the property's virtual tour
-        // } else {
-        //     // If no virtual tour is provided, remove the existing one
-        //     if (existingProperty.getVirtualTour() != null) {
-        //         virtualTourRepository.delete(existingProperty.getVirtualTour());
-        //         existingProperty.setVirtualTour(null);
-        //     }
-        // }
 
         return propertyRepository.save(existingProperty); // Save the updated property
     }

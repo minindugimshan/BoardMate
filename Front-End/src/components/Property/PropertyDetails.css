@@ -133,7 +133,7 @@
 
 .booking-section {
   display: flex;
-  gap: 1rem; rgb(47, 86, 54)
+  gap: 1rem; rgb(47, 86, 54);
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 2rem;

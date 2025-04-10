@@ -45,17 +45,6 @@ public class Property {
 
     private String imagesList;
 
-    // @ElementCollection
-    // @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
-    // private List<String> amenities;
-
-    // @ElementCollection
-    // @CollectionTable(name = "property_images", joinColumns = @JoinColumn(name = "property_id"))
-    // private List<String> imageUrls;
-
-    // @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    // @JoinColumn(name = "virtual_tour_id", referencedColumnName = "id")
-    // private VirtualTour virtualTour;
 
     public Long getId() {
         return id;
@@ -193,29 +182,6 @@ public class Property {
         this.university = university;
     }
 
-    // public List<String> getAmenities() {
-    //     return amenities;
-    // }
-
-    // public void setAmenities(List<String> amenities) {
-    //     this.amenities = amenities;
-    // }
-
-    // public List<String> getImageUrls() {
-    //     return imageUrls;
-    // }
-
-    // public void setImageUrls(List<String> imageUrls) {
-    //     this.imageUrls = imageUrls;
-    // }
-
-    // public VirtualTour getVirtualTour() {
-    //     return virtualTour;
-    // }
-
-    // public void setVirtualTour(VirtualTour virtualTour) {
-    //     this.virtualTour = virtualTour;
-    // }
 
     public Integer getLandlordId() {
         return landlordId;

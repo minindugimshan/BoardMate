@@ -22,11 +22,13 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
+    // Reads the directory path from application properties for storing images
     @Value("${app.upload.dir}")
     private String uploadDir;
 
     private Path fileStoragePath;
 
+    // Initializes the storage directory after the bean is created
     @PostConstruct
     public void init() {
         fileStoragePath = Paths.get(uploadDir).toAbsolutePath().normalize();
@@ -67,7 +69,7 @@ public class ImageService {
     public Resource loadImageAsResource(String fileName) {
         try {
             Path filePath = fileStoragePath.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
+            Resource resource = new UrlResource(filePath.toUri()); // Convert path to URL-based resource
             if (resource.exists()) {
                 return resource;
             } else {
