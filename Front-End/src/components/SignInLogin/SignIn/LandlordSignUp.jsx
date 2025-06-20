@@ -27,7 +27,6 @@ const LandlordSignup = () => {
   const [rulesAgreed, setRulesAgreed] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
-  const [verificationMethod, setVerificationMethod] = useState('email'); // 'email' or 'phone'
   
   // Added rules from original component
   const rules = [
@@ -131,34 +130,6 @@ const LandlordSignup = () => {
     formDataObj.append('idDocument', file);
 
     try {
-      // // Call backend API to process the document
-      // const response = await fetch('/api/verify/document', {
-      //   method: 'POST',
-      //   body: formDataObj
-      // });
-
-      // const result = await response.json();
-      
-      // if (result.success) {
-      //   // Auto-fill form data from the extracted information
-      //   setFormData(prevFormData => ({
-      //     ...prevFormData,
-      //     firstName: result.firstName || prevFormData.firstName,
-      //     lastName: result.lastName || prevFormData.lastName,
-      //     dateOfBirth: {
-      //       day: result.dateOfBirth?.day || prevFormData.dateOfBirth.day,
-      //       month: result.dateOfBirth?.month || prevFormData.dateOfBirth.month,
-      //       year: result.dateOfBirth?.year || prevFormData.dateOfBirth.year
-      //     },
-      //     idVerificationStatus: result.verified ? 'verified' : 'rejected'
-      //   }));
-      // } else {
-      //   setFormData(prevFormData => ({
-      //     ...prevFormData,
-      //     idVerificationStatus: 'rejected'
-      //   }));
-      //   setErrors(prev => ({...prev, idVerification: result.message || 'Document verification failed'}));
-      // }
               setFormData(prevFormData => ({
           ...prevFormData,
           idVerificationStatus: 'verified'
@@ -180,16 +151,20 @@ const LandlordSignup = () => {
     setErrors({});
     const methodErrors = {};
     
-    if (verificationMethod === 'email') {
-      if (!formData.email) {
-        methodErrors.email = 'Email is required for verification';
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        methodErrors.email = 'Invalid email format';
+    if (formData.mobile) {
+      // No need to check mobile if it's empty
+      const payload = { mobile: formData.mobile };
+      const response = await apiService.post('/api/verify/send-code', payload);
+      if (response.data.status === 'success') {
+        setVerificationSent(true);
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          verificationSend: response.data.message || 'Failed to send verification code'
+        }));
       }
     } else {
-      if (!formData.mobile) {
-        methodErrors.mobile = 'Mobile number is required for verification';
-      }
+      methodErrors.mobile = 'Mobile number is required for verification';
     }
     
     if (Object.keys(methodErrors).length > 0) {
@@ -200,33 +175,20 @@ const LandlordSignup = () => {
     setIsVerifying(true);
     
     try {
-      // const response = await fetch('/api/verify/send-code', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     method: verificationMethod,
-      //     email: formData.email,
-      //     phone: formData.mobile
-      //   })
-      // });
-      
-      // const result = await response.json();
-      
-      // if (result.success) {
-      //   setVerificationSent(true);
-      // } else {
-      //   setErrors(prev => ({
-      //     ...prev, 
-      //     verificationSend: result.message || `Failed to send verification code to your ${verificationMethod}`
-      //   }));
-      // }
+      const payload = { mobile: formData.mobile };
+      const response = await apiService.post('/api/verify/send-code', payload);
+      if (response.data.status === 'success') {
         setVerificationSent(true);
-
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          verificationSend: response.data.message || 'Failed to send verification code'
+        }));
+      }
     } catch (error) {
-      console.error('Error sending verification code:', error);
       setErrors(prev => ({
-        ...prev, 
-        verificationSend: `Error sending verification code to your ${verificationMethod}`
+        ...prev,
+        verificationSend: 'Error sending verification code'
       }));
     } finally {
       setIsVerifying(false);
@@ -238,36 +200,23 @@ const LandlordSignup = () => {
     setErrors({});
     
     if (!formData.verificationCode) {
-      setErrors({verificationCode: 'Please enter the verification code'});
+      setErrors({ verificationCode: 'Please enter the verification code' });
       return;
     }
     
     setIsVerifying(true);
     
     try {
-      // const response = await fetch('/api/verify/check-code', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     method: verificationMethod,
-      //     contact: verificationMethod === 'email' ? formData.email : formData.mobile,
-      //     code: formData.verificationCode
-      //   })
-      // });
-      
-      // const result = await response.json();
-      
-      // if (result.success) {
-      //   // Continue to next step or submit if all steps are complete
-      //   handleSubmit();
-      // } else {
-      //   setErrors({verificationCode: result.message || 'Invalid verification code'});
-      // }
-       // Continue to next step or submit if all steps are complete
-       await handleSubmit();
-    } catch (error) {
-      console.error('Error verifying code:', error);
-      setErrors({verificationCode: 'Error verifying code. Please try again.'});
+      const payload = { mobile: formData.mobile, code: formData.verificationCode };
+      const response = await apiService.post('/api/verify/check-code', payload);
+      if (response.data.status === 'success') {
+        // Continue to next step or submit if all steps are complete
+        await handleSubmit();
+      } else {
+        setErrors({ verificationCode: response.data.message || 'Invalid verification code' });
+      }
+    } catch {
+      setErrors({ verificationCode: 'Error verifying code. Please try again.' });
     } finally {
       setIsVerifying(false);
     }
@@ -505,32 +454,9 @@ const LandlordSignup = () => {
         return (
           <div className="form-section">
             <h2>Verify Your Identity</h2>
-            <div className="verification-selection">
-              <div className="radio-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="verificationMethod"
-                    checked={verificationMethod === 'email'}
-                    onChange={() => setVerificationMethod('email')}
-                  />
-                  <span>Email Verification</span>
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="verificationMethod"
-                    checked={verificationMethod === 'phone'}
-                    onChange={() => setVerificationMethod('phone')}
-                  />
-                  <span>SMS Verification</span>
-                </label>
-              </div>
-            </div>
-            
             {!verificationSent ? (
               <div className="verification-send">
-                <p>We'll send a verification code to your {verificationMethod === 'email' ? 'email address' : 'mobile number'}</p>
+                <p>We'll send a verification code to your mobile number</p>
                 <button 
                   onClick={sendVerificationCode} 
                   className="verification-button"
@@ -539,12 +465,10 @@ const LandlordSignup = () => {
                   {isVerifying ? 'Sending...' : 'Send Verification Code'}
                 </button>
                 {renderError(errors.verificationSend)}
-                {renderError(errors.email)}
-                {renderError(errors.mobile)}
               </div>
             ) : (
               <div className="input-group verification-code-group">
-                <label>Enter the verification code sent to your {verificationMethod === 'email' ? 'email' : 'phone'}</label>
+                <label>Enter the verification code sent to your mobile</label>
                 <input
                   type="text"
                   placeholder="Enter verification code"

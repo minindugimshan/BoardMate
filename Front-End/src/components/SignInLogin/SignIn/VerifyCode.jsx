@@ -1,4 +1,3 @@
-
 import api from '../../services/api-service';
 import PropTypes from 'prop-types';
 
@@ -30,6 +29,26 @@ export default function VerifyCode({ email, phone, onVerified }) {
       : { mobile: phone };
     await api.post('/api/verify/send-code', payload);
     setStatus('Code resent!');
+  };
+
+  const handleVerifyCode = async () => {
+    setIsVerifying(true);
+    try {
+      const res = await api.post('/api/verify/check-code', {
+        mobile: phone,
+        code: code,
+      });
+      if (res.data.status === "success") {
+        setStatus('Verified! You can now log in.');
+        onVerified();
+      } else {
+        setStatus(res.data.message || "Invalid code");
+      }
+    } catch {
+      setStatus("Verification failed");
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
