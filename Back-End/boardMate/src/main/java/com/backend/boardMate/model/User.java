@@ -47,6 +47,9 @@ public class User {
     @Column
     private String university;
 
+    @Column(name = "verified")
+    private Boolean verified;
+
     public Long getId() {
         return id;
     }
@@ -141,5 +144,13 @@ public class User {
 
     public void setUniversity(String university) {
         this.university = university;
+    }
+
+    public Boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
 }

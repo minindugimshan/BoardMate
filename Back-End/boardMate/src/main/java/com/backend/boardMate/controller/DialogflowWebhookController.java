@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.boardMate.model.Property;
 import com.backend.boardMate.repository.PropertyRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +81,7 @@ public class DialogflowWebhookController {
         return ResponseEntity.ok(response);
     }
 
+    @SuppressWarnings("unchecked")
     @PostMapping("/test-webhook")
     public ResponseEntity<?> handleTestWebhook(@RequestBody Map<String, Object> request) {
         Map<String, Object> queryResult = (Map<String, Object>) request.get("queryResult");
@@ -136,42 +135,5 @@ public class DialogflowWebhookController {
 
         response.put("fulfillmentText", responseText);
         return ResponseEntity.ok(response);
-    }
-
-    private Map<String, Object> formatDialogflowResponse(List<Property> places) {
-        Map<String, Object> response = new HashMap<>();
-        List<Map<String, Object>> fulfillmentMessages = new ArrayList<>();
-
-        // Build response text
-        String responseText;
-        if (places.isEmpty()) {
-            responseText = "Sorry, I couldn't find any matching rooming places.";
-        } else {
-            StringBuilder sb = new StringBuilder("Here are a few suggestions:\n");
-            for (int i = 0; i < Math.min(3, places.size()); i++) {
-                Property place = places.get(i);
-                sb.append(String.format("%d. %s - %s (Price: %s)\n",
-                        i + 1, place.getTitle(), place.getLocation(), place.getPrice()));
-            }
-            if (places.size() > 3) {
-                sb.append("...and more. Ask me to see more options.");
-            }
-            responseText = sb.toString();
-        }
-
-        // Create text response object with the exact structure needed
-        Map<String, Object> textObj = new HashMap<>();
-        textObj.put("text", Collections.singletonList(responseText));
-
-        // Create message object
-        Map<String, Object> message = new HashMap<>();
-        message.put("text", textObj);
-
-        // Add message to fulfillment messages
-        fulfillmentMessages.add(message);
-
-        // Set fulfillment messages in response
-        response.put("fulfillmentMessages", fulfillmentMessages);
-        return response;
     }
 }

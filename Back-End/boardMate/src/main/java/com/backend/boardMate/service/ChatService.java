@@ -2,12 +2,9 @@ package com.backend.boardMate.service;
 
 import com.backend.boardMate.model.Chat;
 import com.backend.boardMate.model.Message;
-import com.backend.boardMate.model.Property;
-import com.backend.boardMate.model.User;
 import com.backend.boardMate.repository.ChatRepository;
 import com.backend.boardMate.repository.MessageRepository;
 import com.backend.boardMate.repository.PropertyRepository;
-import com.backend.boardMate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,26 +21,10 @@ public class ChatService {
     private MessageRepository messageRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private PropertyRepository propertyRepository;
-
-    @Autowired
-    private PropertyService propertyService;
 
     // Start a new chat or get existing one
     public Chat startChat(Long studentId, Long landlordId, Long propertyId) {
-        // Verify users and property exist
-        // User student = userRepository.findById(studentId)
-        //         .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        // User landlord = userRepository.findById(landlordId)
-        //         .orElseThrow(() -> new RuntimeException("Landlord not found"));
-
-        // Property property = propertyRepository.findById(propertyId)
-        //         .orElseThrow(() -> new RuntimeException("Property not found"));
-
         // Check if chat already exists
         Optional<Chat> existingChat = chatRepository.findByStudentIdAndLandlordIdAndPropertyId(
                 studentId, landlordId, propertyId);
@@ -57,9 +38,6 @@ public class ChatService {
         chat.setStudentId(studentId);
         chat.setLandlordId(landlordId);
         chat.setPropertyId(propertyId);
-
-        propertyService.updatePropertyInquiryCount(propertyId);
-
         return chatRepository.save(chat);
     }
 
@@ -85,7 +63,7 @@ public class ChatService {
         return getChatsWithDetails(chats, landlordId);
     }
 
-    // Helper method to get details for a list of chats
+    @SuppressWarnings("unchecked")
     private List<Map<String, Object>> getChatsWithDetails(List<Chat> chats, Long userId) {
         return chats.stream().map(chat -> {
             Map<String, Object> chatDetails = new HashMap<>();
@@ -98,20 +76,7 @@ public class ChatService {
                 propertyDetails.put("title", property.getTitle());
                 propertyDetails.put("location", property.getLocation());
                 propertyDetails.put("price", property.getPrice());
-                // if (property.getImageUrls() != null && !property.getImageUrls().isEmpty()) {
-                //     propertyDetails.put("thumbnail", property.getImageUrls().get(0));
-                // }
                 chatDetails.put("property", propertyDetails);
-            });
-
-            // Get user details (other participant)
-            Long otherUserId = userId.equals(chat.getStudentId()) ? chat.getLandlordId() : chat.getStudentId();
-            userRepository.findById(otherUserId).ifPresent(user -> {
-                Map<String, Object> userDetails = new HashMap<>();
-                userDetails.put("id", user.getId());
-                userDetails.put("name", user.getFirstName() + " " + user.getLastName());
-                userDetails.put("email", user.getEmail());
-                chatDetails.put("participant", userDetails);
             });
 
             // Get unread count

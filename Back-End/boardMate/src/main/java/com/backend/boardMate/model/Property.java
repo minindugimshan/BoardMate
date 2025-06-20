@@ -1,11 +1,7 @@
 package com.backend.boardMate.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.Data;
-import java.util.List;
-
-import org.checkerframework.checker.units.qual.C;
 
 @Data
 @Entity

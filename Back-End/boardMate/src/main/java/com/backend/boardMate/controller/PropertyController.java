@@ -110,6 +110,7 @@ public class PropertyController {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @PostMapping("/{propertyId}/add-images")
     public Property addImagesToProperty(
             @PathVariable Long propertyId,
