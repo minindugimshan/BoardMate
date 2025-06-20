@@ -20,6 +20,10 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.backend.boardMate.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.backend.boardMate.service.TwilioService;
+
 @Service
 public class VerificationService {
 
@@ -44,6 +48,12 @@ public class VerificationService {
 
     @Value("${veriff.api.private-key}")
     private String veriffApiPrivateKey;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private TwilioService twilioService;
 
     /**
      * Process and store document for verification using Veriff
@@ -286,19 +296,18 @@ public class VerificationService {
      */
     public Map<String, String> sendVerificationCode(String recipient, String type) {
         Map<String, String> response = new HashMap<>();
-
-        // Generate a random 6-digit code
-        String verificationCode = String.format("%06d", new Random().nextInt(999999));
-
-        // Store the code with the recipient
-        verificationCodes.put(recipient, verificationCode);
-
-        // In a real implementation, you would send the code via email or SMS
-        // For this demo, we'll just simulate sending
-
-        response.put("status", "success");
-        response.put("message", "Verification code sent to " + type);
-
+        if ("email".equals(type)) {
+            // Existing email code logic
+            String verificationCode = String.format("%06d", new Random().nextInt(999999));
+            verificationCodes.put(recipient, verificationCode);
+            emailService.sendEmail(recipient, "Your Verification Code", "Your code is: " + verificationCode);
+            response.put("status", "success");
+            response.put("message", "Verification code sent to email");
+        } else if ("mobile".equals(type)) {
+            twilioService.sendVerificationCode(recipient);
+            response.put("status", "success");
+            response.put("message", "Verification code sent via SMS");
+        }
         return response;
     }
 
@@ -307,26 +316,34 @@ public class VerificationService {
      */
     public Map<String, String> verifyCode(String recipient, String code) {
         Map<String, String> response = new HashMap<>();
-
-        // Check if a verification code exists for the recipient
-        if (!verificationCodes.containsKey(recipient)) {
-            response.put("status", "error");
-            response.put("message", "No verification code found for this recipient");
-            return response;
-        }
-
-        // Check if the code matches
-        if (verificationCodes.get(recipient).equals(code)) {
-            response.put("status", "success");
-            response.put("message", "Verification successful");
-
-            // Remove the code after successful verification
-            verificationCodes.remove(recipient);
+        // Check if it's an email or mobile
+        if (recipient.contains("@")) {
+            // Email verification (existing logic)
+            if (!verificationCodes.containsKey(recipient)) {
+                response.put("status", "error");
+                response.put("message", "No verification code found for this recipient");
+                return response;
+            }
+            if (verificationCodes.get(recipient).equals(code)) {
+                response.put("status", "success");
+                response.put("message", "Verification successful");
+                verificationCodes.remove(recipient);
+            } else {
+                response.put("status", "error");
+                response.put("message", "Invalid verification code");
+            }
         } else {
-            response.put("status", "error");
-            response.put("message", "Invalid verification code");
+            // Mobile verification via Twilio
+            Map<String, Object> smsResult = twilioService.verifyCode(recipient, code);
+            boolean verified = "success".equals(smsResult.get("status"));
+            if (verified) {
+                response.put("status", "success");
+                response.put("message", "Verification successful");
+            } else {
+                response.put("status", "error");
+                response.put("message", "Invalid or expired verification code");
+            }
         }
-
         return response;
     }
 
@@ -390,5 +407,10 @@ public class VerificationService {
      */
     public Map<String, Object> getDocumentDetails(String userId) {
         return documentDetails.getOrDefault(userId, new HashMap<>());
+    }
+
+    private void sendSms(String phone, String code) {
+        // Integrate with real SMS provider here
+        System.out.println("Sending SMS to " + phone + ": Your verification code is " + code);
     }
 }
