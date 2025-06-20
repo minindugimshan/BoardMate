@@ -1,8 +1,8 @@
 package com.backend.boardMate.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +18,9 @@ import com.backend.boardMate.model.VirtualTour;
 import com.backend.boardMate.repository.PropertyRepository;
 import com.backend.boardMate.repository.UserRepository;
 import com.backend.boardMate.repository.VirtualTourRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
 
 @Service
 public class PropertyService {
