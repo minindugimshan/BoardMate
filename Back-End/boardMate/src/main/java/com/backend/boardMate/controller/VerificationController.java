@@ -1,8 +1,11 @@
 package com.backend.boardMate.controller;
 
 import com.backend.boardMate.service.VerificationService;
+import com.backend.boardMate.service.UserService;
+import com.backend.boardMate.service.TwilioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +18,12 @@ public class VerificationController {
 
     @Autowired
     private VerificationService verificationService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TwilioService twilioService;
 
     /**
      * Upload and verify identity document (ID/Passport) using Veriff
@@ -80,6 +89,43 @@ public class VerificationController {
             return response;
         }
 
-        return verificationService.verifyCode(recipient, code);
+        Map<String, String> response = verificationService.verifyCode(recipient, code);
+
+        // If successful, mark user as verified
+        if ("success".equals(response.get("status"))) {
+            userService.markUserAsVerified(recipient);
+        }
+        return response;
+    }
+
+    @PostMapping("/send-sms-code")
+    public ResponseEntity<Map<String, Object>> sendSmsCode(@RequestBody Map<String, String> request) {
+        String phoneNumber = request.get("phoneNumber");
+        if (phoneNumber == null || phoneNumber.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "error",
+                    "message", "Phone number is required"
+            ));
+        }
+
+        Map<String, Object> response = twilioService.sendVerificationCode(phoneNumber);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/verify-sms-code")
+    public ResponseEntity<Map<String, Object>> verifySmsCode(
+            @RequestBody Map<String, String> request) {
+        String phoneNumber = request.get("phoneNumber");
+        String code = request.get("code");
+
+        if (phoneNumber == null || phoneNumber.isEmpty() || code == null || code.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "error",
+                    "message", "Phone number and code are required"
+            ));
+        }
+
+        Map<String, Object> response = twilioService.verifyCode(phoneNumber, code);
+        return ResponseEntity.ok(response);
     }
 }
