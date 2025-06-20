@@ -12,9 +12,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private VerificationService verificationService;
-
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User registerUser(String email, String password, String firstName, String lastName, String mobile,
@@ -75,5 +72,16 @@ public class UserService {
     public User getUserById(Long id) {
         User user = userRepository.findById(id).orElse(null);
         return user;
+    }
+
+    public void markUserAsVerified(String recipient) {
+        Optional<User> userOpt = userRepository.findByEmail(recipient);
+        if (!userOpt.isPresent()) {
+            userOpt = userRepository.findByMobile(recipient);
+        }
+        userOpt.ifPresent(user -> {
+            user.setVerified(true);
+            userRepository.save(user);
+        });
     }
 }
