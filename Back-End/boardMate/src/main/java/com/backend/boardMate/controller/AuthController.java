@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,28 +33,19 @@ public class AuthController {
                 request.get("university"),
                 request.get("universityId")
         );
+        // Send verification codes
+        verificationService.sendVerificationCode(user.getEmail(), "email");
+        verificationService.sendVerificationCode(user.getMobile(), "mobile");
 
         Map<String, String> response = new HashMap<>();
-        response.put("message", "User registered successfully");
+        response.put("message", "User registered successfully. Please verify your email and phone.");
         return response;
     }
 
     @PostMapping("/register/landlord")
     public Map<String, String> registerLandlord(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-
-        // Check if the user's document has been verified
-        // boolean isVerified = verificationService.isDocumentVerified(email);
-
-        // if (!isVerified) {
-        //     Map<String, String> response = new HashMap<>();
-        //     response.put("status", "error");
-        //     response.put("message", "Document verification required before landlord registration");
-        //     return response;
-        // }
-
-        // Register the landlord with verification
-        User landlord = userService.registerLandlord(
+        userService.registerLandlord(
                 email,
                 request.get("password"),
                 request.get("firstName"),
@@ -64,7 +56,6 @@ public class AuthController {
                 request.get("dateOfBirthYear"),
                 true // verified flag
         );
-
         Map<String, String> response = new HashMap<>();
         response.put("status", "success");
         response.put("message", "Landlord registered successfully");
