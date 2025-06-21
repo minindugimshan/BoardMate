@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function StudentBasicDetails({ handleSubmitData }) {
   const navigate = useNavigate();
@@ -94,3 +95,7 @@ export default function StudentBasicDetails({ handleSubmitData }) {
     </div>
   );
 }
+
+StudentBasicDetails.propTypes = {
+  handleSubmitData: PropTypes.func.isRequired,
+};
