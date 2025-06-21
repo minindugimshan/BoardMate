@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import apiService from "../../../../services/api-service";
@@ -38,7 +38,7 @@ const StudentSignIn = () => {
       dateOfBirthMonth: regData.dob.month,
       dateOfBirthYear: regData.dob.year,
       university: regData.university,
-      studentId: regData.studentId,
+      universityId: regData.studentId,
     };
     const response = await apiService.post("/auth/register", rq);
     toast.success(response.data.message);
@@ -65,7 +65,7 @@ const StudentSignIn = () => {
     }
     setIsVerifying(true);
     try {
-      await apiService.post('/api/verify/send-code', { mobile: regData.mobile });
+      await apiService.post('/verify/send-code', { mobile: regData.mobile });
       setVerificationSent(true);
       toast.info('Verification code sent to your phone');
     } catch (error) {
@@ -87,7 +87,8 @@ const StudentSignIn = () => {
     }
     setIsVerifying(true);
     try {
-      const res = await apiService.post('/api/verify/check-code', {
+      setErrors((prev) => ({ ...prev, verificationCode: '' }));
+      const res = await apiService.post('/verify/check-code', {
         mobile: regData.mobile,
         code: regData.verificationCode,
       });
