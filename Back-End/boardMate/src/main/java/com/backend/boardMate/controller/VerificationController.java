@@ -59,18 +59,23 @@ public class VerificationController {
      */
     @PostMapping("/send-code")
     public Map<String, String> sendVerificationCode(@RequestBody Map<String, String> request) {
-        String recipient = request.containsKey("email") ? request.get("email") : request.get("mobile");
-        String type = request.containsKey("email") ? "email" : "mobile";
+        Map<String, String> response = new HashMap<>();
+        try {
+            String recipient = request.containsKey("email") ? request.get("email") : request.get("mobile");
+            String type = request.containsKey("email") ? "email" : "mobile";
 
-        // Validate recipient
-        if (recipient == null || recipient.isEmpty()) {
-            Map<String, String> response = new HashMap<>();
+            if (recipient == null || recipient.isEmpty()) {
+                response.put("status", "error");
+                response.put("message", "Email or mobile number is required");
+                return response;
+            }
+
+            return verificationService.sendVerificationCode(recipient, type);
+        } catch (Exception e) {
             response.put("status", "error");
-            response.put("message", "Email or mobile number is required");
+            response.put("message", e.getMessage() != null ? e.getMessage() : "Unknown error occurred");
             return response;
         }
-
-        return verificationService.sendVerificationCode(recipient, type);
     }
 
     /**
@@ -129,3 +134,14 @@ public class VerificationController {
         return ResponseEntity.ok(response);
     }
 }
+
+// @RestControllerAdvice
+// public class GlobalExceptionHandler {
+//     @ExceptionHandler(Exception.class)
+//     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
+//         Map<String, String> error = new HashMap<>();
+//         error.put("status", "error");
+//         error.put("message", ex.getMessage() != null ? ex.getMessage() : "Unknown error occurred");
+//         return ResponseEntity.badRequest().body(error);
+//     }
+// }
