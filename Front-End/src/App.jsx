@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import AboutUs from "./components/LandingPage/AboutUs/AboutUs.jsx";
 import Footer from "./components/LandingPage/Footer/Footer.jsx";
@@ -6,16 +6,11 @@ import HowItWorksSection from "./components/LandingPage/HowItWorks/HowItWorks.js
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import PopularHomes from "./components/LandingPage/PopularHomes/PopularHomes.jsx";
 import WhatWeDO from "./components/LandingPage/WeDo/WhatWeDo.jsx";
-
-// Import the GetStarted component
 import GetStarted from "./components/SignInLogin/GetStarted/GetStarted.jsx";
-
-// Import login/signin components
 import LandlordLogin from "./components/SignInLogin/Login/LandlordLogin.jsx";
 import StudentLogin from "./components/SignInLogin/Login/StudentLogin.jsx";
 import LandlordSignup from "./components/SignInLogin/SignIn/LandlordSignUp";
 import StudentSignIn from "./components/SignInLogin/SignIn/student/StudentSignIn.jsx";
-
 import About from "./components/About/About";
 import ChatPage from "./components/Chatapp/ChatPage.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
@@ -28,8 +23,6 @@ import SearchResults from "./components/Property/SearchResults";
 import Support from "./components/Support/Support.jsx";
 import TC from "./components/T&C/TC";
 import { GeneralLayout } from "./layout/GenralLayout.jsx";
-
-// Import Loader component
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import LandlordDashboard from "./components/LandlordDashboard/LandlordDashboard.jsx";
@@ -37,151 +30,92 @@ import Loader from "./components/Loader/Loader.jsx";
 import LandlordProfile from "./components/Profile/LandloardProfile.jsx";
 import useAuthStore from "./store/auth-store.js";
 
-// Protected route component for authenticated users
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuthStore();
-  const navigate = useNavigate();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/get-started" replace />;
-  }
-
-  return children;
-};
-
-// Protected route for student users
-const StudentRoute = ({ children }) => {
+// Protected route component
+const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { isAuthenticated, user } = useAuthStore();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/get-started" replace />;
-  }
-
-  if (user?.userType !== "STUDENT") {
-    return <Navigate to="/unauthorized" replace />;
-  }
-
-  return children;
-};
-
-// Protected route for landlord users
-const LandlordRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/get-started" replace />;
-  }
-
-  if (user?.userType !== "LANDLORD") {
-    return <Navigate to="/unauthorized" replace />;
-  }
-
-  return children;
-};
-
-function LandingPageFlow({ userType, isAuthenticated }) {
-  const navigate = useNavigate();
-
   
+  if (!isAuthenticated) {
+    return <Navigate to="/get-started" replace />;
+  }
 
-  // Redirect authenticated users to their appropriate dashboard
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (userType === "STUDENT") {
-        navigate("/home");
-      } else if (userType === "LANDLORD") {
-        navigate("/landlord-dashboard");
-      }
-    }
-  }, [isAuthenticated, userType, navigate]);
+  if (allowedRoles.length > 0 && !allowedRoles.includes(user?.userType)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-  return (
-    <div className="app">
-      <LandingPage onGetStarted={() => navigate("/get-started")} />
-      <PopularHomes />
-      <WhatWeDO />
-      <HowItWorksSection />
-      <AboutUs />
-      <Footer />
-    </div>
-  );
-}
+  return children;
+};
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLandingPage = location.pathname === "/";
   const authStore = useAuthStore();
-  const userType = authStore.user ? authStore.user.userType : null;
-  const isAuthenticated = authStore.isAuthenticated;
+
+  // Redirect authenticated users from auth pages to their dashboard
+  useEffect(() => {
+    const authPages = ['/student-login', '/landlord-login', '/get-started'];
+    if (authStore.isAuthenticated && authPages.includes(location.pathname)) {
+      if (authStore.user?.userType === 'STUDENT') {
+        navigate('/home');
+      } else if (authStore.user?.userType === 'LANDLORD') {
+        navigate('/landlord-dashboard');
+      }
+    }
+  }, [location.pathname, authStore, navigate]);
 
   return (
     <>
       {isLandingPage ? (
-        <LandingPageFlow userType={userType} isAuthenticated={isAuthenticated}/>
+        <div className="app">
+          <LandingPage onGetStarted={() => navigate("/get-started")} />
+          <PopularHomes />
+          <WhatWeDO />
+          <HowItWorksSection />
+          <AboutUs />
+          <Footer />
+        </div>
       ) : (
-        <>
-          <Routes>
-            {/* Public routes - authentication related */}
-            <Route path="/get-started" element={<GetStarted />} />
-            <Route path="/student-signin" element={<StudentSignIn />} />
-            <Route path="/student-login" element={<StudentLogin />} />
-            <Route path="/landlord-signin" element={<LandlordSignup />} />
-            <Route path="/landlord-login" element={<LandlordLogin />} />
-            <Route path="/unauthorized" element={<div>You are not authorized to view this page</div>} />
-            <Route path="" element={<GeneralLayout />}>
-               <Route path="Support" element={<Support />} />
-             </Route>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/student-signin" element={<StudentSignIn />} />
+          <Route path="/student-login" element={<StudentLogin />} />
+          <Route path="/landlord-signin" element={<LandlordSignup />} />
+          <Route path="/landlord-login" element={<LandlordLogin />} />
+          <Route path="/unauthorized" element={<div>Unauthorized access</div>} />
+          <Route path="/support" element={<Support />} />
 
-            {/* Protected routes inside layout */}
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <GeneralLayout />
-                </ProtectedRoute>
-              }
-            >
-              {/* Student specific routes */}
-              <Route
-                path=""
-                element={
-                  <StudentRoute>
-                    <Outlet />
-                  </StudentRoute>
-                }
-              >
-                <Route path="home" element={<Home />} />
-                <Route path="Map" element={<Map />} />
-                <Route path="search" element={<SearchResults />} />
-                <Route path="property/:id/payments" element={<Payments />} />
-              </Route>
+          {/* Protected routes with layout */}
+          <Route element={<ProtectedRoute><GeneralLayout /></ProtectedRoute>}>
+            {/* Common routes for all authenticated users */}
+            <Route path="/property/:id" element={<PropertyDetails />} />
+            <Route path="/chats" element={<ChatPage />} />
+            <Route path="/chats/:chatId" element={<ChatPage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<TC />} />
 
-              <Route
-                path=""
-                element={
-                  <LandlordRoute>
-                    <Outlet />
-                  </LandlordRoute>
-                }
-              >
-                {/* Landlord specific routes */}
-                <Route path="landlord-dashboard" element={<LandlordDashboard />} />
-
-              </Route>
-
-              {/* Common routes - for all authenticated users */}
-              <Route path="property/:id" element={<PropertyDetails />} />
-              <Route path="profile" element={(userType && userType == "STUDENT") ? (<StudentProfile />) : (<LandlordProfile />)} />
-              <Route path="about" element={<About />} />
-              <Route path="TC" element={<TC />} />
-              <Route path="chats" element={<ChatPage />} />
-              <Route path="chats/:chatId" element={<ChatPage />} />
+            {/* Student-only routes */}
+            <Route element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/map" element={<Map />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/property/:id/payments" element={<Payments />} />
+              <Route path="/profile" element={<StudentProfile />} />
             </Route>
-          </Routes>
-        </>
+
+            {/* Landlord-only routes */}
+            <Route element={<ProtectedRoute allowedRoles={['LANDLORD']} />}>
+              <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
+              <Route path="/profile" element={<LandlordProfile />} />
+            </Route>
+          </Route>
+
+          {/* Catch-all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       )}
-      {userType != "LANDLORD" && <ChatBot />}
-      {/* Add Loader component */}
+
+      {authStore.user?.userType !== "LANDLORD" && <ChatBot />}
       <Loader />
       <ToastContainer />
     </>
