@@ -107,7 +107,6 @@ function Home() {
                   name="location"
                   value={searchInput.location} 
                   onChange={handleChange}
-                  defaultValue=""
                 >
                   <option value="" disabled>
                     Enter city or area
@@ -127,7 +126,6 @@ function Home() {
                   name="type"
                   value={searchInput.type} 
                   onChange={handleChange}
-                  defaultValue=""
                 >
                   <option value="" disabled>
                     Select type
@@ -145,7 +143,6 @@ function Home() {
                   name="priceRange"
                   value={searchInput.priceRange} 
                   onChange={handleChange}
-                  defaultValue=""
                 >
                   <option value="" disabled>
                     Set your budget

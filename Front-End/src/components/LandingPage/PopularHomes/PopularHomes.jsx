@@ -4,8 +4,6 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import './PopularHomes.css';
 
 const PopularHomes = () => {
-    console.log('PopularHomes rendering');
-
     const properties = [
         {
             location: "Bawdaloka Mw, Colombo 7",
@@ -76,7 +74,7 @@ const PopularHomes = () => {
                     {/* Text Box */}
                     <div className="property-text-box">
                         <h3>Find the best place, for you.</h3>
-                        <p>We’ll help you find the perfect home near your university</p>
+                        <p>We'll help you find the perfect home near your university</p>
                         <p> One that matches your lifestyle, needs, and preferences for comfort and convenience.</p>
                         <button className="explore-button">
                             Explore All
