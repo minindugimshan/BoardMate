@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import AboutUs from "./components/LandingPage/AboutUs/AboutUs.jsx";
@@ -23,12 +24,13 @@ import SearchResults from "./components/Property/SearchResults";
 import Support from "./components/Support/Support.jsx";
 import TC from "./components/T&C/TC";
 import { GeneralLayout } from "./layout/GenralLayout.jsx";
-import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import LandlordDashboard from "./components/LandlordDashboard/LandlordDashboard.jsx";
 import Loader from "./components/Loader/Loader.jsx";
 import LandlordProfile from "./components/Profile/LandloardProfile.jsx";
 import useAuthStore from "./store/auth-store.js";
+import PropTypes from 'prop-types';
+import payHereLoader from './utils/payhere-loader';
 
 // Protected route component
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -45,11 +47,76 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   return children;
 };
 
+// PropTypes for ProtectedRoute
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string)
+};
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <h2>Something went wrong.</h2>
+          <p>Please refresh the page and try again.</p>
+          <button onClick={() => window.location.reload()}>
+            Refresh Page
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// PropTypes for ErrorBoundary
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const isLandingPage = location.pathname === "/";
   const authStore = useAuthStore();
+
+  // Check PayHere script loading on app start
+  useEffect(() => {
+    const checkPayHere = async () => {
+      try {
+        console.log('Checking PayHere availability...');
+        if (!payHereLoader.isPayHereAvailable()) {
+          console.log('PayHere script not loaded, attempting to load...');
+          await payHereLoader.loadPayHere();
+          console.log('PayHere script loading completed');
+        } else {
+          console.log('PayHere script already available');
+        }
+      } catch (error) {
+        console.warn('PayHere script loading failed on app start:', error);
+        // Don't show error to user as it's not critical for app functionality
+      }
+    };
+
+    // Delay the check slightly to ensure DOM is ready
+    setTimeout(checkPayHere, 1000);
+  }, []);
 
   // Redirect authenticated users from auth pages to their dashboard
   useEffect(() => {
@@ -64,7 +131,7 @@ function App() {
   }, [location.pathname, authStore, navigate]);
 
   return (
-    <>
+    <ErrorBoundary>
       {isLandingPage ? (
         <div className="app">
           <LandingPage onGetStarted={() => navigate("/get-started")} />
@@ -86,28 +153,72 @@ function App() {
           <Route path="/support" element={<Support />} />
 
           {/* Protected routes with layout */}
-          <Route element={<ProtectedRoute><GeneralLayout /></ProtectedRoute>}>
+          <Route element={<GeneralLayout />}>
             {/* Common routes for all authenticated users */}
-            <Route path="/property/:id" element={<PropertyDetails />} />
-            <Route path="/chats" element={<ChatPage />} />
-            <Route path="/chats/:chatId" element={<ChatPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/terms" element={<TC />} />
+            <Route path="/property/:id" element={
+              <ProtectedRoute>
+                <PropertyDetails />
+              </ProtectedRoute>
+            } />
+            <Route path="/chats" element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/chats/:chatId" element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/about" element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            } />
+            <Route path="/terms" element={
+              <ProtectedRoute>
+                <TC />
+              </ProtectedRoute>
+            } />
 
             {/* Student-only routes */}
-            <Route element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/map" element={<Map />} />
-              <Route path="/search" element={<SearchResults />} />
-              <Route path="/property/:id/payments" element={<Payments />} />
-              <Route path="/profile" element={<StudentProfile />} />
-            </Route>
+            <Route path="/home" element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <Home />
+              </ProtectedRoute>
+            } />
+            <Route path="/map" element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <Map />
+              </ProtectedRoute>
+            } />
+            <Route path="/search" element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <SearchResults />
+              </ProtectedRoute>
+            } />
+            <Route path="/property/:id/payments" element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <Payments />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute allowedRoles={['STUDENT']}>
+                <StudentProfile />
+              </ProtectedRoute>
+            } />
 
             {/* Landlord-only routes */}
-            <Route element={<ProtectedRoute allowedRoles={['LANDLORD']} />}>
-              <Route path="/landlord-dashboard" element={<LandlordDashboard />} />
-              <Route path="/profile" element={<LandlordProfile />} />
-            </Route>
+            <Route path="/landlord-dashboard" element={
+              <ProtectedRoute allowedRoles={['LANDLORD']}>
+                <LandlordDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/landlord-profile" element={
+              <ProtectedRoute allowedRoles={['LANDLORD']}>
+                <LandlordProfile />
+              </ProtectedRoute>
+            } />
           </Route>
 
           {/* Catch-all route */}
@@ -118,7 +229,7 @@ function App() {
       {authStore.user?.userType !== "LANDLORD" && <ChatBot />}
       <Loader />
       <ToastContainer />
-    </>
+    </ErrorBoundary>
   );
 }
 
