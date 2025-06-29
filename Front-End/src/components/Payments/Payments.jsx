@@ -6,6 +6,8 @@ import "./Payments.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import useAuthStore from '../../store/auth-store';
 import apiService from '../../services/api-service';
+import { toast } from "react-toastify";
+import payHereLoader from '../../utils/payhere-loader';
 
 function Payments() {
   const { id } = useParams();
@@ -104,8 +106,28 @@ function Payments() {
     }
   };
 
-  const handleCardDetailsSubmit = () => {
+  // Check if PayHere script is loaded
+  const isPayHereLoaded = () => {
+    return payHereLoader.isPayHereAvailable();
+  };
 
+  const handleCardDetailsSubmit = async () => {
+    try {
+      // Try to load PayHere if not already loaded
+      if (!isPayHereLoaded()) {
+        await payHereLoader.loadPayHere();
+      }
+      
+      if (!isPayHereLoaded()) {
+        toast.error("Payment system is not available. Please try again later.");
+        return;
+      }
+    } catch (error) {
+      console.warn('PayHere loading failed:', error);
+      toast.error("Payment system is temporarily unavailable. Please try again later.");
+      return;
+    }
+    
     // Validation before submission
     if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
       alert("Please fill all the fields")
