@@ -85,4 +85,22 @@ public class UserService {
             userRepository.save(user);
         });
     }
+
+    public User updateUserProfile(Long userId, String firstName, String lastName, String mobile,
+                                  String dateOfBirthDay, String dateOfBirthMonth, String dateOfBirthYear,
+                                  String university, String universityId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+        if (firstName != null) user.setFirstName(firstName);
+        if (lastName != null) user.setLastName(lastName);
+        if (mobile != null) user.setMobile(mobile);
+        if (dateOfBirthDay != null) user.setDateOfBirthDay(dateOfBirthDay);
+        if (dateOfBirthMonth != null) user.setDateOfBirthMonth(dateOfBirthMonth);
+        if (dateOfBirthYear != null) user.setDateOfBirthYear(dateOfBirthYear);
+        if (university != null) user.setUniversity(university);
+        if (universityId != null) user.setUniversityId(universityId);
+        
+        return userRepository.save(user);
+    }
 }
