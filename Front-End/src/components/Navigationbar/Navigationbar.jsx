@@ -25,6 +25,25 @@ function Navigationbar() {
     }, 1000);
   };
 
+  const handleProfileClick = () => {
+    console.log('Profile clicked, user:', user);
+    console.log('User type:', user?.userType);
+    console.log('Is authenticated:', authStore.isAuthenticated);
+    
+    if (!user) {
+      toast.error("Please log in to access your profile");
+      return;
+    }
+    
+    if (user.userType === 'STUDENT') {
+      navigate("/profile");
+    } else if (user.userType === 'LANDLORD') {
+      navigate("/landlord-profile");
+    } else {
+      toast.error("Invalid user type");
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="w-[80rem] flex justify-between items-center">
@@ -62,7 +81,7 @@ function Navigationbar() {
           </a>
           {user && (
             <>
-              <a href="#" onClick={() => navigate("/profile")}>
+              <a href="#" onClick={handleProfileClick}>
                 Profile
               </a>
               <a href="#" onClick={handleLogout}>
