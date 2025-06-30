@@ -108,8 +108,18 @@ const PropertyDetails = () => {
       });
 
       if (response.status === 200 || response.status === 201) {
-        toast.success('Tour booked successfully!');
+        toast.success('Tour booked successfully! A message has been sent to the landlord.');
         setIsModalOpen(false);
+        
+        // Optionally navigate to chats after a short delay
+        setTimeout(() => {
+          const shouldNavigate = window.confirm(
+            'Your tour booking request has been sent to the landlord. Would you like to view your messages to see the conversation?'
+          );
+          if (shouldNavigate) {
+            navigate('/chats');
+          }
+        }, 2000);
       } else {
         toast.error('Failed to book tour. Please try again.');
       }
