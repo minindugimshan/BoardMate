@@ -333,3 +333,70 @@
     color: green;
     text-align: center;
   }
+  
+  /* Verification Code Input Styling */
+  .code-input {
+    padding: 14px 18px;
+    border: 2px solid #1c2237;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    background: #f5f7fa;
+    color: #1c2237;
+    width: 180px;
+    margin-right: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .code-input:focus {
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 2px #4f8cff33;
+    background: #eaf1fb;
+    outline: none;
+  }
+  
+  /* Verify Button Styling */
+  .verification-button {
+    background: linear-gradient(90deg, #4f8cff 0%, #1c2237 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 8px;
+    box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+  .verification-button:hover:not(:disabled) {
+    background: linear-gradient(90deg, #1c2237 0%, #4f8cff 100%);
+    box-shadow: 0 4px 16px rgba(79, 140, 255, 0.15);
+    transform: translateY(-2px) scale(1.03);
+  }
+  .verification-button:active:not(:disabled) {
+    background: #1c2237;
+    color: #fff;
+  }
+  
+  /* Resend Button Styling */
+  .resend-button {
+    background: none;
+    color: #4f8cff;
+    border: 1.5px solid #4f8cff;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .resend-button:hover:not(:disabled) {
+    background: #eaf1fb;
+    color: #1c2237;
+    border-color: #1c2237;
+  }
+  .resend-button:active:not(:disabled) {
+    background: #d6e6fa;
+    color: #1c2237;
+  }

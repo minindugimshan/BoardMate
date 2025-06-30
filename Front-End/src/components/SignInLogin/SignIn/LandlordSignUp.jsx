@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './LandlordSignUp.css';
 import apiService from '../../../services/api-service';
 import { toast } from 'react-toastify';
@@ -21,15 +21,15 @@ const LandlordSignup = () => {
       year: ''
     },
     verificationCode: '',
-    isPhoneVerified: false,
   });
+  const [isEmailVerified, setIsEmailVerified] = useState(false); // Added this line
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [rulesAgreed, setRulesAgreed] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationSent, setVerificationSent] = useState(false);
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+
   
-  // Added rules from original component
   const rules = [
     {
       title: "1. List Accurate Details",
@@ -69,9 +69,9 @@ const LandlordSignup = () => {
     }
   ];
 
-  // Add the missing renderError function
   const renderError = (error) => {
-    return error ? <div className="error-message">{error}</div> : null;
+    if (!error) return null;
+    return <div className="error-message">{typeof error === 'string' ? error : error.message || 'An error occurred'}</div>;
   };
 
   const renderIdVerificationStatus = () => {
@@ -105,15 +105,14 @@ const LandlordSignup = () => {
         if (!formData.dateOfBirth.day || !formData.dateOfBirth.month || !formData.dateOfBirth.year) {
           errors.dateOfBirth = 'Complete date of birth is required';
         }
+        if (!formData.mobile) errors.mobile = 'Phone number is required';
         break;
       case 3:
-        if (!formData.mobile) errors.mobile = 'Mobile number is required';
         if (!formData.email) {
           errors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
           errors.email = 'Invalid email format';
         }
-        if (!formData.isPhoneVerified) errors.verificationCode = 'Please verify your phone number';
         break;
       case 4:
         if (!formData.idPhoto) errors.idPhoto = 'ID/Passport photo is required';
@@ -133,13 +132,11 @@ const LandlordSignup = () => {
     return errors;
   };
 
-  // Handle ID document upload and verification
   const handleIdUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setFormData({ ...formData, idPhoto: file, idVerificationStatus: 'pending' });
     setIsVerifying(true);
-    // Simulate verification (replace with real API call if needed)
     setTimeout(() => {
       setFormData(prevFormData => ({
         ...prevFormData,
@@ -149,46 +146,41 @@ const LandlordSignup = () => {
     }, 2000);
   };
 
-  // SMS Verification
-  const sendVerificationCode = async () => {
+  const sendEmailVerificationCode = async () => {
     setErrors({});
-    if (!formData.mobile) {
-      setErrors({ mobile: 'Mobile number is required for verification' });
+    if (!formData.email) {
+      setErrors({ email: 'Email is required for verification' });
       return;
     }
     setIsVerifying(true);
     try {
-      setErrors((prev) => ({ ...prev, verificationSend: '' }));
-      const payload = { mobile: formData.mobile };
-      const response = await apiService.post('/verify/send-code', payload);
-      if (response.data.status === 'success') {
-        toast.success(response.data.message);
-        setVerificationSent(true);
-      } else {
-        setErrors(prev => ({ ...prev, verificationSend: response.data.message || 'Failed to send verification code' }));
-      }
+      await apiService.post('/verify/send-code', { email: formData.email });
+      toast.success('Verification code sent to your email');
+      setEmailVerificationSent(true);
     } catch (error) {
-      setErrors(prev => ({ ...prev, verificationSend: error.response?.data?.message || 'Error sending verification code to your phone' }));
+      const errorMsg = error.response?.data?.message || 'Error sending verification code';
+      setErrors({ verificationSend: errorMsg });
+      toast.error(errorMsg);
     } finally {
       setIsVerifying(false);
     }
   };
 
-  const verifyCode = async (e) => {
+  const verifyEmailCode = async (e) => {
     e.preventDefault();
     setIsVerifying(true);
     try {
-      setErrors((prev) => ({ ...prev, verificationCode: '' }));
-      const payload = { mobile: formData.mobile, code: formData.verificationCode };
-      const response = await apiService.post('/verify/check-code', payload);
-      if (response.data.status === 'success') {
-        toast.success(response.data.message);
-        setFormData({ ...formData, isPhoneVerified: true });
-      } else {
-        setErrors(prev => ({ ...prev, verificationCode: response.data.message || 'Invalid verification code' }));
-      }
-    } catch {
-      setErrors(prev => ({ ...prev, verificationCode: 'Error verifying code. Please try again.' }));
+      await apiService.post('/verify/check-code', { 
+        email: formData.email, 
+        code: formData.verificationCode 
+      });
+      toast.success('Email verified!');
+      setIsEmailVerified(true); // Now this will work
+      setStep(4);
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || 'Invalid verification code';
+      setErrors({ verificationCode: errorMsg });
+      toast.error(errorMsg);
     } finally {
       setIsVerifying(false);
     }
@@ -202,7 +194,6 @@ const LandlordSignup = () => {
     if (step < 5) {
       setStep(step + 1);
     } else {
-      // Final submission
       await submitFormData();
     }
   };
@@ -218,25 +209,27 @@ const LandlordSignup = () => {
       dateOfBirthMonth: formData.dateOfBirth.month,
       dateOfBirthYear: formData.dateOfBirth.year
     };
-    console.log("Sending Data:", userData); // ✅ Logs data before sending
-  
+    
+    setIsVerifying(true);
     try {
       const response = await apiService.post('/auth/register/landlord', userData);
-      const result = response.data;
-      console.log("Response from backend:", result); // ✅ Logs backend response
-  
       if (response.status === 200) {
         toast.success('Registration successful!');
         navigate('/landlord-login');
       } else {
-        setErrors({ submission: result.message || 'Failed to submit registration' });
+        const errorMsg = response.data?.message || 'Registration failed';
+        setErrors({ submission: errorMsg });
+        toast.error(errorMsg);
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      setErrors({ submission: 'Error submitting form. Please try again.' });
+      const errorMsg = error.response?.data?.message || 'Error submitting form';
+      setErrors({ submission: errorMsg });
+      toast.error(errorMsg);
+    } finally {
+      setIsVerifying(false);
     }
   };
-  
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -270,7 +263,7 @@ const LandlordSignup = () => {
             <div className="input-group">
               <input
                 type="text"
-                placeholder="Please enter your first name"
+                placeholder="First name"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               />
@@ -279,7 +272,7 @@ const LandlordSignup = () => {
             <div className="input-group">
               <input
                 type="text"
-                placeholder="Please enter your last name"
+                placeholder="Last name"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               />
@@ -291,44 +284,47 @@ const LandlordSignup = () => {
                 <input
                   type="number"
                   placeholder="DD"
-                  maxLength="2"
                   value={formData.dateOfBirth.day}
                   onChange={(e) => setFormData({
                     ...formData,
                     dateOfBirth: { ...formData.dateOfBirth, day: e.target.value }
                   })}
-                  required
                   min={1}
                   max={31}
                 />
                 <input
                   type="number"
                   placeholder="MM"
-                  maxLength="2"
                   value={formData.dateOfBirth.month}
                   onChange={(e) => setFormData({
                     ...formData,
                     dateOfBirth: { ...formData.dateOfBirth, month: e.target.value }
                   })}
-                  required
                   min={1}
                   max={12}
                 />
                 <input
                   type="number"
                   placeholder="YYYY"
-                  maxLength="4"
                   value={formData.dateOfBirth.year}
                   onChange={(e) => setFormData({
                     ...formData,
                     dateOfBirth: { ...formData.dateOfBirth, year: e.target.value }
                   })}
-                  required
                   min={1900}
                   max={2005}
                 />
               </div>
               {renderError(errors.dateOfBirth)}
+            </div>
+            <div className="input-group">
+              <input
+                type="tel"
+                placeholder="Phone number"
+                value={formData.mobile}
+                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+              />
+              {renderError(errors.mobile)}
             </div>
           </div>
         );
@@ -336,66 +332,69 @@ const LandlordSignup = () => {
       case 3:
         return (
           <div className="form-section">
-            <h2>Contact Information & Verification</h2>
+            <h2>Email Verification</h2>
             <div className="input-group">
               <input
                 type="email"
-                placeholder="Please enter your email address"
+                placeholder="Email address"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                disabled={isEmailVerified}
               />
               {renderError(errors.email)}
             </div>
-            <div className="input-group">
-              <input
-                type="tel"
-                placeholder="Please enter your mobile number"
-                value={formData.mobile}
-                onChange={(e) => setFormData({ ...formData, mobile: e.target.value, isPhoneVerified: false, verificationCode: '' })}
-                disabled={formData.isPhoneVerified}
-              />
-              {renderError(errors.mobile)}
-            </div>
-            {!formData.isPhoneVerified && (
-              <div className="input-group verification-code-group">
+            {!isEmailVerified && (
+              <>
                 <button
-                  onClick={sendVerificationCode}
+                  onClick={sendEmailVerificationCode}
                   className="verification-button"
-                  disabled={isVerifying || verificationSent}
+                  disabled={isVerifying || emailVerificationSent}
                 >
-                  {isVerifying ? 'Sending...' : (verificationSent ? 'Code Sent' : 'Send Verification Code')}
+                  {isVerifying ? 'Sending...' : 'Send Verification Code'}
                 </button>
                 {renderError(errors.verificationSend)}
-                {verificationSent && (
-                  <>
+                {emailVerificationSent && (
+                  <div className="verification-code-group" style={{ display: 'flex', alignItems: 'center', marginTop: 12 }}>
                     <input
                       type="text"
-                      placeholder="Enter verification code"
+                      placeholder="Verification code"
                       value={formData.verificationCode}
                       onChange={e => setFormData({ ...formData, verificationCode: e.target.value })}
+                      className="code-input"
                     />
                     <button
-                      onClick={verifyCode}
+                      onClick={verifyEmailCode}
                       className="verification-button"
                       disabled={isVerifying}
+                      style={{ marginRight: 0 }}
                     >
-                      {isVerifying ? 'Verifying...' : 'Verify'}
+                      Verify
+                    </button>
+                    <button
+                      onClick={sendEmailVerificationCode}
+                      className="resend-button"
+                      disabled={isVerifying}
+                      type="button"
+                    >
+                      Resend Code
                     </button>
                     {renderError(errors.verificationCode)}
-                  </>
+                  </div>
                 )}
-              </div>
+              </>
             )}
-            {formData.isPhoneVerified && <div className="verification-success">Phone number verified!</div>}
+            {isEmailVerified && (
+              <div className="verification-success">Email verified successfully!</div>
+            )}
           </div>
         );
 
       case 4:
         return (
           <div className="form-section">
-            <h2>ID/Passport Verification</h2>
+            <h2>ID Verification</h2>
             <div className="input-group">
-              <p>Please upload your ID or Passport photo for verification</p>
+              <label>Upload ID/Passport</label>
               <input
                 type="file"
                 accept="image/*,.pdf"
@@ -415,7 +414,7 @@ const LandlordSignup = () => {
             <div className="input-group">
               <input
                 type="password"
-                placeholder="Must contain at least 4 digits"
+                placeholder="Password (min 4 characters)"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
@@ -443,16 +442,21 @@ const LandlordSignup = () => {
       <div className="signup-form">
         <div className="progress-tracker">
           {[1, 2, 3, 4, 5].map((stepNumber) => (
-            <div key={stepNumber} className={`progress-step ${step >= stepNumber ? 'active' : ''}`}>
+            <div 
+              key={stepNumber} 
+              className={`progress-step ${step >= stepNumber ? 'active' : ''}`}
+            >
               {stepNumber}
             </div>
           ))}
         </div>
+        
         <div className="form-content">
           {renderStep()}
         </div>
+        
         <div className="button-group">
-          {step > 1 && (
+          {step > 1 && step !== 3 && (
             <button
               onClick={() => setStep(step - 1)}
               className="back-button"
@@ -461,17 +465,21 @@ const LandlordSignup = () => {
               Back
             </button>
           )}
-          <button
-            onClick={handleSubmit}
-            className="next-button"
-            disabled={isVerifying}
-          >
-            {step < 5 ? 'Continue' : 'Submit'}
-          </button>
+          
+          {step !== 3 && (
+            <button
+              onClick={handleSubmit}
+              className="next-button"
+              disabled={isVerifying || (step === 3 && !isEmailVerified)}
+            >
+              {step < 5 ? 'Continue' : 'Submit'}
+            </button>
+          )}
         </div>
+        
         {errors.submission && (
           <div className="submission-error">
-            {errors.submission}
+            {renderError(errors.submission)}
           </div>
         )}
       </div>

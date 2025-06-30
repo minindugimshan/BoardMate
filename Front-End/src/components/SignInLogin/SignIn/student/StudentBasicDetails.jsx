@@ -9,6 +9,7 @@ export default function StudentBasicDetails({ handleSubmitData }) {
     firstName: "",
     surname: "",
     dob: { day: "", month: "", year: "" },
+    mobile: "",
   });
 
   const handleChange = (e) => {
@@ -82,6 +83,16 @@ export default function StudentBasicDetails({ handleSubmitData }) {
               min={1900}
             />
           </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            value={formData.mobile}
+            onChange={handleChange}
+          />
         </div>
         <button type="submit" className="signin-button">
           Continue
