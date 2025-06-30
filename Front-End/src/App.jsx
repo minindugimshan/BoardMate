@@ -30,7 +30,7 @@ import Loader from "./components/Loader/Loader.jsx";
 import LandlordProfile from "./components/Profile/LandloardProfile.jsx";
 import useAuthStore from "./store/auth-store.js";
 import PropTypes from 'prop-types';
-import payHereLoader from './utils/payhere-loader';
+
 
 // Protected route component
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -95,28 +95,6 @@ function App() {
   const navigate = useNavigate();
   const isLandingPage = location.pathname === "/";
   const authStore = useAuthStore();
-
-  // Check PayHere script loading on app start
-  useEffect(() => {
-    const checkPayHere = async () => {
-      try {
-        console.log('Checking PayHere availability...');
-        if (!payHereLoader.isPayHereAvailable()) {
-          console.log('PayHere script not loaded, attempting to load...');
-          await payHereLoader.loadPayHere();
-          console.log('PayHere script loading completed');
-        } else {
-          console.log('PayHere script already available');
-        }
-      } catch (error) {
-        console.warn('PayHere script loading failed on app start:', error);
-        // Don't show error to user as it's not critical for app functionality
-      }
-    };
-
-    // Delay the check slightly to ensure DOM is ready
-    setTimeout(checkPayHere, 1000);
-  }, []);
 
   // Redirect authenticated users from auth pages to their dashboard
   useEffect(() => {
