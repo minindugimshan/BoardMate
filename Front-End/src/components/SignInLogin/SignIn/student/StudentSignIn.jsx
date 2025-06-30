@@ -14,17 +14,16 @@ const StudentSignIn = () => {
     firstName: "",
     surname: "",
     dob: { day: "", month: "", year: "" },
-    mobile: "",
-    verificationCode: "",
-    isPhoneVerified: false,
     email: "",
+    verificationCode: "",
+    isEmailVerified: false,
     password: "",
     confirmPassword: "",
     university: "",
     studentId: "",
   });
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationSent, setVerificationSent] = useState(false);
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleRegister = async () => {
@@ -33,7 +32,6 @@ const StudentSignIn = () => {
       password: regData.password,
       firstName: regData.firstName,
       lastName: regData.surname,
-      mobile: regData.mobile,
       dateOfBirthDay: regData.dob.day,
       dateOfBirthMonth: regData.dob.month,
       dateOfBirthYear: regData.dob.year,
@@ -55,30 +53,27 @@ const StudentSignIn = () => {
     setStep(2);
   };
 
-  // New: handle phone number submit and verification
-  const handlePhoneSubmit = async (e) => {
-    e.preventDefault();
+  // Email verification logic
+  const handleSendEmailCode = async (e) => {
+    if (e) e.preventDefault();
     setErrors({});
-    if (!regData.mobile) {
-      setErrors({ mobile: "Mobile number is required" });
+    if (!regData.email) {
+      setErrors({ email: 'Email is required for verification' });
       return;
     }
     setIsVerifying(true);
     try {
-      await apiService.post('/verify/send-code', { mobile: regData.mobile });
-      setVerificationSent(true);
-      toast.info('Verification code sent to your phone');
+      await apiService.post('/verify/send-code', { email: regData.email });
+      toast.success('Verification code sent to your email');
+      setEmailVerificationSent(true);
     } catch (error) {
-      setErrors(prev => ({
-        ...prev,
-        verificationSend: error.response?.data?.message || "Error sending verification code to your phone"
-      }));
+      setErrors(prev => ({ ...prev, verificationSend: error.response?.data?.message || 'Error sending verification code to your email' }));
     } finally {
       setIsVerifying(false);
     }
   };
 
-  const handleVerifyCode = async (e) => {
+  const handleVerifyEmailCode = async (e) => {
     e.preventDefault();
     setErrors({});
     if (!regData.verificationCode) {
@@ -88,13 +83,10 @@ const StudentSignIn = () => {
     setIsVerifying(true);
     try {
       setErrors((prev) => ({ ...prev, verificationCode: '' }));
-      const res = await apiService.post('/verify/check-code', {
-        mobile: regData.mobile,
-        code: regData.verificationCode,
-      });
-      if (res.data.status === "success") {
-        setRegData({ ...regData, isPhoneVerified: true });
-        toast.success('Phone number verified!');
+      const res = await apiService.post('/verify/check-code', { email: regData.email, code: regData.verificationCode });
+      if (res.data === "Verified" || res.data.status === "success") {
+        setRegData({ ...regData, isEmailVerified: true });
+        toast.success('Email verified!');
         setStep(3);
       } else {
         setErrors({ verificationCode: res.data.message || "Invalid code" });
@@ -118,7 +110,6 @@ const StudentSignIn = () => {
   const handleEmailPasswordSubmit = async (data) => {
     setRegData({
       ...regData,
-      email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
     });
@@ -132,22 +123,22 @@ const StudentSignIn = () => {
       case 2:
         return (
           <div className="signin-content-box">
-            <h1>Verify Phone Number</h1>
-            <form className="signin-form" onSubmit={verificationSent ? handleVerifyCode : handlePhoneSubmit}>
+            <h1>Verify Email</h1>
+            <form className="signin-form" onSubmit={emailVerificationSent ? handleVerifyEmailCode : handleSendEmailCode}>
               <div className="form-group">
-                <label htmlFor="mobile">Mobile Number</label>
+                <label htmlFor="email">Email</label>
                 <input
-                  type="tel"
-                  id="mobile"
-                  placeholder="Enter your mobile number"
-                  value={regData.mobile}
-                  onChange={e => setRegData({ ...regData, mobile: e.target.value })}
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  value={regData.email}
+                  onChange={e => setRegData({ ...regData, email: e.target.value })}
                   required
-                  disabled={verificationSent}
+                  disabled={regData.isEmailVerified}
                 />
-                {errors.mobile && <div className="error-message">{errors.mobile}</div>}
+                {errors.email && <div className="error-message">{errors.email}</div>}
               </div>
-              {verificationSent && (
+              {emailVerificationSent && !regData.isEmailVerified && (
                 <div className="form-group">
                   <label htmlFor="verificationCode">Verification Code</label>
                   <input
@@ -162,7 +153,7 @@ const StudentSignIn = () => {
                   <button
                     type="button"
                     className="signin-button"
-                    onClick={handlePhoneSubmit}
+                    onClick={handleSendEmailCode}
                     disabled={isVerifying}
                     style={{ marginTop: 8 }}
                   >
@@ -170,8 +161,8 @@ const StudentSignIn = () => {
                   </button>
                 </div>
               )}
-              <button type="submit" className="signin-button" disabled={isVerifying}>
-                {isVerifying ? (verificationSent ? "Verifying..." : "Sending...") : (verificationSent ? "Verify" : "Send Verification Code")}
+              <button type="submit" className="signin-button" disabled={isVerifying || regData.isEmailVerified}>
+                {isVerifying ? (emailVerificationSent ? "Verifying..." : "Sending...") : (emailVerificationSent ? "Verify" : "Send Verification Code")}
               </button>
             </form>
           </div>
@@ -179,7 +170,7 @@ const StudentSignIn = () => {
       case 3:
         return <UniversitySignIn handleSubmitData={handleUniversitySignIn} />;
       case 4:
-        return <EmailPasswordSignIn handleSubmitData={handleEmailPasswordSubmit} />;
+        return <EmailPasswordSignIn handleSubmitData={handleEmailPasswordSubmit} email={regData.email} />;
       default:
         return <StudentBasicDetails handleSubmitData={handleBasicDetailsSubmit} />;
     }
