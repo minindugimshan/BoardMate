@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 import { useEffect, useState } from 'react';
 import useAuthStore from '../../store/auth-store';
-import { use } from 'react';
 import apiService from '../../services/api-service';
 import { toast } from 'react-toastify';
 
@@ -30,18 +29,22 @@ const LandlordProfile = () => {
   const [editedData, setEditedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [dataInitialized, setDataInitialized] = useState(false); // Flag to prevent multiple initializations
 
   // Load data when component mounts
   useEffect(() => {
-    if (user) {
+    if (user?.id && !loading && !dataInitialized) {
       initData();
     }
-  }, [user]);
+  }, [user?.id]); // Only depend on user.id, not the entire user object
 
   // Initialize profile data and fetch properties
   const initData = async () => {
+    if (dataInitialized) return; // Prevent multiple initializations
+    
     try {
       setLoading(true);
+      setError(null);
       
       // Fetch fresh user data from database
       const userResponse = await apiService.get(`/auth/user/${user.id}`);
@@ -73,6 +76,7 @@ const LandlordProfile = () => {
       
       setLandlordData(data);
       setEditedData(data);
+      setDataInitialized(true); // Mark as initialized
     } catch (error) {
       console.error('Error initializing landlord data:', error);
       setError('Failed to load profile data');
@@ -84,13 +88,32 @@ const LandlordProfile = () => {
   // Toggle edit mode or save edited data
   const handleEditToggle = async () => {
     if (isEditing) {
+      // Validate form data before saving
+      if (!editedData.firstName?.trim() || !editedData.lastName?.trim()) {
+        toast.error('First name and last name are required');
+        return;
+      }
+      
+      if (!editedData.mobile?.trim()) {
+        toast.error('Mobile number is required');
+        return;
+      }
+      
+      // Validate date of birth
+      const { day, month, year } = editedData.dateOfBirth;
+      if (!day || !month || !year) {
+        toast.error('Please enter complete date of birth');
+        return;
+      }
+      
       try {
+        setLoading(true);
         // Save changes to backend
         const response = await apiService.put('/auth/update-profile', {
           id: user.id,
-          firstName: editedData.firstName,
-          lastName: editedData.lastName,
-          mobile: editedData.mobile,
+          firstName: editedData.firstName.trim(),
+          lastName: editedData.lastName.trim(),
+          mobile: editedData.mobile.trim(),
           dateOfBirthDay: editedData.dateOfBirth.day,
           dateOfBirthMonth: editedData.dateOfBirth.month,
           dateOfBirthYear: editedData.dateOfBirth.year
@@ -103,9 +126,9 @@ const LandlordProfile = () => {
           // Update auth store with new user data
           authStore.updateUser({
             ...user,
-            firstName: editedData.firstName,
-            lastName: editedData.lastName,
-            mobile: editedData.mobile,
+            firstName: editedData.firstName.trim(),
+            lastName: editedData.lastName.trim(),
+            mobile: editedData.mobile.trim(),
             dateOfBirthDay: editedData.dateOfBirth.day,
             dateOfBirthMonth: editedData.dateOfBirth.month,
             dateOfBirthYear: editedData.dateOfBirth.year
@@ -118,6 +141,8 @@ const LandlordProfile = () => {
       } catch (error) {
         console.error('Error updating profile:', error);
         toast.error('Failed to update profile. Please try again.');
+      } finally {
+        setLoading(false);
       }
     }
     setIsEditing(!isEditing);
@@ -161,12 +186,26 @@ const LandlordProfile = () => {
 
   // Fetch properties from backend using landlord ID
   const fetchProperties = async () => {
-    const rs = await apiService.get('/properties/getPropertyList', { landlordId: user.id });
-    console.log(rs);
-    if (rs.status === 200) {
-      return rs.data;
+    try {
+      const rs = await apiService.get(`/properties/getPropertyList?landlordId=${user.id}`);
+      console.log('Properties response:', rs);
+      if (rs.status === 200) {
+        return rs.data;
+      }
+      return [];
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+      toast.error('Failed to load properties');
+      return [];
     }
   }
+
+  // Refresh data manually
+  const handleRefresh = () => {
+    setDataInitialized(false);
+    setError(null);
+    initData();
+  };
 
   return (
     <div className="profile-container" style={{ padding: '20px' }}>
@@ -227,7 +266,7 @@ const LandlordProfile = () => {
             </button>
             <button 
               className="refresh-btn"
-              onClick={initData}
+              onClick={handleRefresh}
               style={{
                 background: 'none',
                 border: '1px solid #2196F3',
