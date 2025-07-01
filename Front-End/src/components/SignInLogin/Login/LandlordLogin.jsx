@@ -40,7 +40,7 @@ const LandlordSignIn = () => {
       <img src="/bmlogo.png" alt="Home Icon" className="home-icon" onClick={() => navigate("/")} />
 
       <div className="signin-content-box">
-        <h1>Log In</h1>
+        <h1>Landlord Log In</h1>
         <form onSubmit={handleSubmit} className="signin-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
