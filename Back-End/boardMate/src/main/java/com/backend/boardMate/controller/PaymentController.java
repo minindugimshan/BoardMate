@@ -3,79 +3,43 @@ package com.backend.boardMate.controller;
 import com.backend.boardMate.model.PaymentBookingDetails;
 import com.backend.boardMate.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
+    private final PaymentService paymentService;
 
     @Autowired
-    private PaymentService paymentService;
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
-    // Endpoint to handle payment and booking data
     @PostMapping
-
-    public ResponseEntity<?> savePaymentDetails(@RequestBody PaymentBookingDetails paymentBookingDetails) {
+    public ResponseEntity<?> createPayment(@RequestBody PaymentBookingDetails paymentDetails) {
         try {
-            System.out.println("Received Payment Data: " + paymentBookingDetails);
-            System.out.println("Booking Date: " + paymentBookingDetails.getBookingDate());
-            System.out.println("Price: " + paymentBookingDetails.getPrice());
-            System.out.println("Property Address: " + paymentBookingDetails.getPropertyAddress());
-            System.out.println("Property Contact: " + paymentBookingDetails.getPropertyContact());
-            System.out.println("Property ID: " + paymentBookingDetails.getPropertyId());
-            System.out.println("Property Name: " + paymentBookingDetails.getPropertyName());
-            System.out.println("User Id: " + paymentBookingDetails.getUserId());
-
-            if (paymentBookingDetails.getBookingDate() == null) {
-                return ResponseEntity.badRequest().body("Booking date cannot be null!");
-            }
-
-            // Save the payment and booking details in the database
-            PaymentBookingDetails savedDetails = paymentService.savePaymentBooking(paymentBookingDetails);
-            return ResponseEntity.status(HttpStatus.OK).body(savedDetails);
+            PaymentBookingDetails savedPayment = paymentService.processPayment(paymentDetails);
+            return ResponseEntity.ok(savedPayment);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to save payment and booking details: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // Endpoint to get all bookings for a user
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getBookingsByUser(@PathVariable Long userId) {
-        try {
-            List<PaymentBookingDetails> bookings = paymentService.getBookingsByUserId(userId);
-            if (bookings.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("No bookings found for user with ID: " + userId);
-            }
-            return ResponseEntity.ok(bookings);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to fetch bookings: " + e.getMessage());
-        }
+    public ResponseEntity<?> getUserPayments(@PathVariable Long userId) {
+        return ResponseEntity.ok(paymentService.getUserPayments(userId));
     }
 
-    // Endpoint to get a specific booking by ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBookingById(@PathVariable Long id) {
-        try {
-            PaymentBookingDetails booking = paymentService.getBookingById(id);
-            if (booking == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Booking not found with ID: " + id);
-            }
-            return ResponseEntity.ok(booking);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to fetch booking: " + e.getMessage());
+    public ResponseEntity<?> getPaymentById(@PathVariable Long id) {
+        Optional<PaymentBookingDetails> payment = paymentService.getPaymentById(id);
+        if (payment.isPresent()) {
+            return ResponseEntity.ok(payment.get());
+        } else {
+            return ResponseEntity.status(404).body("Payment not found");
         }
     }
 }
