@@ -16,6 +16,7 @@
     "@radix-ui/react-slider": "^1.2.2",
     "@react-google-maps/api": "^2.20.6",
     "@tailwindcss/vite": "^4.0.15",
+    "aos": "^2.3.4",
     "axios": "^1.8.4",
     "boardmate": "file:",
     "bootstrap": "^5.3.3",
