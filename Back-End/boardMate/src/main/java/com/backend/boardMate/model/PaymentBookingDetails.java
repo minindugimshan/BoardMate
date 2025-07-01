@@ -9,58 +9,39 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "payment_booking_details")
 public class PaymentBookingDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Long userId; // User ID for the person making the payment
+    private Long userId;
 
     @Column(nullable = false)
-    private Long propertyId; // Property ID that the user is booking
+    private Long propertyId;
 
     @Column(nullable = false)
-    private String propertyName; // Name of the property
+    private String propertyName;
 
     @Column(nullable = false)
-    private String propertyAddress; // Address of the property
+    private String propertyAddress;
 
     @Column(nullable = false)
-    private String propertyContact; // Contact number of the landlord
+    private String propertyContact;
 
     @Column(nullable = false)
-    private Double price; // Price of the property for booking
+    private Double price;
 
     @Column(nullable = false)
-    private LocalDate bookingDate; // Booking date in YYYY-MM-DD format
+    private LocalDate bookingDate;
 
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
+    @Column(nullable = false)
+    private String paymentMethod; // "card", "bank_transfer", etc.
 
-    public Double getPrice() {
-        return price;
-    }
+    @Column(nullable = false)
+    private String transactionId;
 
-    public String getPropertyAddress() {
-        return propertyAddress;
-    }
+    @Column(nullable = false)
+    private Boolean receiptSent = false; // Track if receipt was sent
 
-    public String getPropertyContact() {
-        return propertyContact;
-    }
-
-    public Long getPropertyId() {
-        return propertyId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-    // Getters and Setters (Lombok @Data annotation automatically generates these)
+    // Getters and setters
 }
