@@ -22,7 +22,7 @@ const LandlordSignup = () => {
     },
     verificationCode: '',
   });
-  const [isEmailVerified, setIsEmailVerified] = useState(false); // Added this line
+  const [isEmailVerified, setIsEmailVerified] = useState(false); 
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [rulesAgreed, setRulesAgreed] = useState(false);
