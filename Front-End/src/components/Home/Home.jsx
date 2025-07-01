@@ -111,11 +111,11 @@ function Home() {
                   <option value="" disabled>
                     Enter city or area
                   </option>
-                  <option value="Bambalapitiya">Colombo</option>
-                  <option value="Wallewatta">Dehiwala</option>
+                  <option value="Colombo">Colombo</option>
+                  <option value="Dehiwala">Dehiwala</option>
                   <option value="Boralesgamuwa">Boralesgamuwa</option>
                   <option value="Kirulapone">Kirulapone</option>
-                  <option value="Mount-Lavinia">Mount Lavinia</option>
+                  <option value="Mount Lavinia">Mount Lavinia</option>
                 </select>
               </div>
             </div>
@@ -130,8 +130,8 @@ function Home() {
                   <option value="" disabled>
                     Select type
                   </option>
-                  <option value="single">Single Room</option>
-                  <option value="shared">Shared Room</option>
+                  <option value="Room">Room</option>
+                  {/* <option value="shared">Shared Room</option> */}
                   <option value="annex">Annex</option>
                 </select>
               </div>
