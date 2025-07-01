@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Receipt</title>
+</head>
+<body>
+    <h2>Thank you for your payment!</h2>
+    <p>Property: <span th:text="${payment.propertyName}"></span></p>
+    <p>Address: <span th:text="${payment.propertyAddress}"></span></p>
+    <p>Amount: <span th:text="${formattedAmount}"></span></p>
+    <p>Date: <span th:text="${formattedDate}"></span></p>
+    <p>Transaction ID: <span th:text="${payment.transactionId}"></span></p>
+    <hr>
+    <p>If you have any questions, contact us at <span th:text="${supportEmail}"></span>.</p>
+</body>
+</html>
