@@ -2,37 +2,59 @@ import { Eye, Plus, Star, TrendingUp, Users } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import apiService from '../../services/api-service';
+import useAuthStore from '../../store/auth-store';
+import Navigationbar from '../Navigationbar/Navigationbar';
 import './LandlordDashboard.css';
+import '../LandingPage/style.css'; // Import modern global styles
 import NewProperty from './NewProperty/NewProperty';
 import { toast } from 'react-toastify';
 import { getImage } from '../../utils/image-resolver';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const LandlordDashboard = () => {
+  const authStore = useAuthStore();
+  const user = authStore.user;
   const [showNewPropertyForm, setShowNewPropertyForm] = useState(false);
   const [properties, setProperties] = useState([]); // State to store properties from the backend
+  const [loading, setLoading] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [showStudentDetails, setShowStudentDetails] = useState(false);
+  const [studentDetails, setStudentDetails] = useState(null);
+  const [loadingStudentDetails, setLoadingStudentDetails] = useState(false);
+
+  useEffect(() => {
+    AOS.init({ once: true, duration: 900, offset: 80 });
+  }, []);
 
   // Fetch properties from the backend when the component loads
   useEffect(() => {
-    fetchProperties();
-  }, []);
+    if (user?.id) {
+      fetchProperties();
+    }
+  }, [user?.id]);
 
   // Function to fetch properties from the backend
   const fetchProperties = async () => {
     try {
-      const response = await apiService.get('http://localhost:8080/api/properties');
+      setLoading(true);
+      // Fetch only properties belonging to the current landlord
+      const response = await apiService.get(`/properties/getPropertyList?landlordId=${user.id}`);
       if (response.status !== 200) {
         throw new Error('Failed to fetch properties');
       }
-      const data = await response.data;
+      const data = response.data;
       setProperties(data); // Update the state with fetched properties
     } catch (error) {
       console.error('Error fetching properties:', error);
+      toast.error('Failed to load your properties');
+    } finally {
+      setLoading(false);
     }
   };
 
   // Function to upload images and return their filenames
   const uploadImages = async (images) => {
-
     console.log('Upload images function called with:', images);
     
     if (!images || images.length === 0) {
@@ -56,7 +78,6 @@ const LandlordDashboard = () => {
         }
       });
 
-      
       // Using the new postMultipart method instead of custom post config
       const response = await apiService.postMultipart('http://localhost:8080/api/properties/upload-images', formData);
       
@@ -84,7 +105,6 @@ const LandlordDashboard = () => {
         console.log('Images found in new property:', newProperty.images);
         uploadedImageNames = await uploadImages(newProperty.images);
       }
-      
 
       const propertyToCreate = { ...newProperty };
       delete propertyToCreate.images; // Remove images from property object
@@ -118,79 +138,96 @@ const LandlordDashboard = () => {
     }
   };
 
+  // Function to fetch student details for a booked property
+  const handlePropertyClick = async (property) => {
+    if (!property.studentId) {
+      toast.info('This property is not booked by any student yet.');
+      return;
+    }
+    
+    try {
+      setLoadingStudentDetails(true);
+      setSelectedProperty(property);
+      
+      const response = await apiService.get(`/properties/${property.id}/student-details`);
+      if (response.status === 200) {
+        setStudentDetails(response.data);
+        setShowStudentDetails(true);
+      }
+    } catch (error) {
+      console.error('Error fetching student details:', error);
+      toast.error('Failed to load student details');
+    } finally {
+      setLoadingStudentDetails(false);
+    }
+  };
+
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <div>
-          <h1>Welcome Back!</h1>
-          <p>Manage your properties and track their performance all in one place</p>
+    <>
+      <Navigationbar />
+      <div className="section" data-aos="slide-left">
+        <div className="dashboard-header">
+          <h1 className="section-title">Welcome Back!</h1>
+          <p className="section-desc">Manage your properties and track their performance all in one place</p>
+          <button className="hero-btn" onClick={() => setShowNewPropertyForm(true)}>
+            <Plus size={20} /> Add New Property
+          </button>
         </div>
-        <button
-          className="add-property-btn"
-          onClick={() => setShowNewPropertyForm(true)}
-        >
-          <Plus size={20} />
-          Add New Property
-        </button>
       </div>
-
-      <div className="stats-grid">
-                 {/* {stats.map((stat, index) => (
-           <div key={index} className="stat-card">
-            <div className="stat-icon">{stat.icon}</div>
-             <div className="stat-info">
-              <h3>{stat.value}</h3>
-               <p>{stat.title}</p>
-             </div>
-          </div>
-       ))} */}
-        
-      </div>
-
-      <div className="dashboard-content">
-        <div className="w-full">
+      <div className="section alt" data-aos="slide-right">
+        <div className="dashboard-content">
           <div className="section-header">
-            <h2>Your Properties</h2>
+            <h2 className="section-title">Your Properties ({properties.length})</h2>
             <TrendingUp />
           </div>
           <div className="properties-grid">
-            {properties.map(property => (
-              <div key={property.id} className="property-card">
-              <img src={getImage(property)} alt={property.title} style={{margin: 0}}/>
-              <div className="property-info">
-                <h3>{property.title}</h3>
-                <p className="location">{property.location}</p>
-                <p className="price">{property.price} LKR</p>
-                <div className="property-stats">
-                  <span><Eye size={16} /> {property.views}</span>
-                  <span><Users size={16} /> {property.inquiries}</span>
-                  <span><Star size={16} /> {property.rating}</span>
-                </div>
-                <div className="status-badge">{property.status}</div>
+            {loading ? (
+              <div className="loading-message">
+                <p>Loading your properties...</p>
               </div>
-            </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="insights-section">
-          <div className="section-header">
-            <h2>Performance Insights</h2>
-          </div>
-          <div className="chart-container">
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={properties}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="title" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="views" fill="#8884d8" name="Views" />
-                <Bar dataKey="inquiries" fill="#82ca9d" name="Inquiries" />
-              </BarChart>
-            </ResponsiveContainer>
+            ) : properties.length === 0 ? (
+              <div className="empty-state">
+                <p>You haven't added any properties yet.</p>
+                <button 
+                  className="hero-btn"
+                  onClick={() => setShowNewPropertyForm(true)}
+                >
+                  <Plus size={20} /> Add Your First Property
+                </button>
+              </div>
+            ) : (
+              properties.map((property, idx) => (
+                <div
+                  key={property.id}
+                  className="property-card"
+                  data-aos={idx % 2 === 0 ? "slide-left" : "slide-right"}
+                >
+                  <img src={getImage(property)} alt={property.title} style={{margin: 0}}/>
+                  <div className="property-info">
+                    <h3 className="section-title">{property.title}</h3>
+                    <p className="location">{property.location}</p>
+                    <p className="price">{property.price} LKR</p>
+                    <div className="property-stats">
+                      <span><Eye size={16} /> {property.views || 0}</span>
+                      <span><Users size={16} /> {property.inquiries || 0}</span>
+                      <span><Star size={16} /> {property.rating || 0}</span>
+                    </div>
+                    <div className="status-badge">
+                      {property.studentId ? 'Booked' : 'Available'}
+                    </div>
+                    {property.studentId && (
+                      <div style={{ color: '#4CAF50', fontSize: '0.9rem', marginTop: '5px' }}>
+                        👤 Click to view student details
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
+      {/* Add more sections as needed, alternating data-aos */}
 
       {showNewPropertyForm && (
         <NewProperty
@@ -198,7 +235,80 @@ const LandlordDashboard = () => {
           onSubmit={handleAddProperty}
         />
       )}
-    </div>
+
+      {/* Student Details Modal */}
+      {showStudentDetails && studentDetails && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '8px',
+            maxWidth: '500px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflow: 'auto'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2>Student Details</h2>
+              <button 
+                onClick={() => setShowStudentDetails(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666'
+                }}
+              >
+                ×
+              </button>
+            </div>
+            
+            {loadingStudentDetails ? (
+              <p>Loading student details...</p>
+            ) : (
+              <div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Property:</strong> {selectedProperty?.title}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Name:</strong> {studentDetails.firstName} {studentDetails.lastName}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Email:</strong> {studentDetails.email}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Mobile:</strong> {studentDetails.mobile}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>University:</strong> {studentDetails.university}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>University ID:</strong> {studentDetails.universityId}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Date of Birth:</strong> {studentDetails.dateOfBirthDay}/{studentDetails.dateOfBirthMonth}/{studentDetails.dateOfBirthYear}
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <strong>Verified:</strong> {studentDetails.verified ? 'Yes' : 'No'}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
