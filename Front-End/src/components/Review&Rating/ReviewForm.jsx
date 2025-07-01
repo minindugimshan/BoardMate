@@ -19,7 +19,7 @@ const ReviewForm = ({ onSubmit }) => {
 
   return (
     <div className="review-form">
-      <h3>Leave a Review</h3>
+      <h3 style={{ color: 'black' }}>Leave a Review</h3>
       <ReactStars
         count={5}
         value={rating}
