@@ -1,5 +1,5 @@
 // Footer.jsx
-import React from 'react';
+
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import './Footer.css';
 
