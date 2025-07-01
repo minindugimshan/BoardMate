@@ -3,14 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import apiService from '../../services/api-service';
 import useAuthStore from '../../store/auth-store';
-import Navigationbar from '../Navigationbar/Navigationbar';
 import './LandlordDashboard.css';
-import '../LandingPage/style.css'; // Import modern global styles
 import NewProperty from './NewProperty/NewProperty';
 import { toast } from 'react-toastify';
 import { getImage } from '../../utils/image-resolver';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 const LandlordDashboard = () => {
   const authStore = useAuthStore();
@@ -22,10 +18,6 @@ const LandlordDashboard = () => {
   const [showStudentDetails, setShowStudentDetails] = useState(false);
   const [studentDetails, setStudentDetails] = useState(null);
   const [loadingStudentDetails, setLoadingStudentDetails] = useState(false);
-
-  useEffect(() => {
-    AOS.init({ once: true, duration: 900, offset: 80 });
-  }, []);
 
   // Fetch properties from the backend when the component loads
   useEffect(() => {
@@ -163,21 +155,29 @@ const LandlordDashboard = () => {
   };
 
   return (
-    <>
-      <Navigationbar />
-      <div className="section" data-aos="slide-left">
-        <div className="dashboard-header">
-          <h1 className="section-title">Welcome Back!</h1>
-          <p className="section-desc">Manage your properties and track their performance all in one place</p>
-          <button className="hero-btn" onClick={() => setShowNewPropertyForm(true)}>
-            <Plus size={20} /> Add New Property
-          </button>
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <div>
+          <h1>Welcome Back!</h1>
+          <p>Manage your properties and track their performance all in one place</p>
         </div>
+        <button
+          className="add-property-btn"
+          onClick={() => setShowNewPropertyForm(true)}
+        >
+          <Plus size={20} />
+          Add New Property
+        </button>
       </div>
-      <div className="section alt" data-aos="slide-right">
-        <div className="dashboard-content">
+
+      <div className="stats-grid">
+        {/* Stats can be added here later */}
+      </div>
+
+      <div className="dashboard-content">
+        <div className="w-full">
           <div className="section-header">
-            <h2 className="section-title">Your Properties ({properties.length})</h2>
+            <h2>Your Properties ({properties.length})</h2>
             <TrendingUp />
           </div>
           <div className="properties-grid">
@@ -189,22 +189,24 @@ const LandlordDashboard = () => {
               <div className="empty-state">
                 <p>You haven't added any properties yet.</p>
                 <button 
-                  className="hero-btn"
+                  className="add-first-property-btn"
                   onClick={() => setShowNewPropertyForm(true)}
                 >
-                  <Plus size={20} /> Add Your First Property
+                  <Plus size={20} />
+                  Add Your First Property
                 </button>
               </div>
             ) : (
-              properties.map((property, idx) => (
-                <div
-                  key={property.id}
+              properties.map(property => (
+                <div 
+                  key={property.id} 
                   className="property-card"
-                  data-aos={idx % 2 === 0 ? "slide-left" : "slide-right"}
+                  onClick={() => handlePropertyClick(property)}
+                  style={{ cursor: 'pointer' }}
                 >
                   <img src={getImage(property)} alt={property.title} style={{margin: 0}}/>
                   <div className="property-info">
-                    <h3 className="section-title">{property.title}</h3>
+                    <h3>{property.title}</h3>
                     <p className="location">{property.location}</p>
                     <p className="price">{property.price} LKR</p>
                     <div className="property-stats">
@@ -226,8 +228,25 @@ const LandlordDashboard = () => {
             )}
           </div>
         </div>
+
+        <div className="insights-section">
+          <div className="section-header">
+            <h2>Performance Insights</h2>
+          </div>
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={properties}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="title" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="views" fill="#8884d8" name="Views" />
+                <Bar dataKey="inquiries" fill="#82ca9d" name="Inquiries" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
-      {/* Add more sections as needed, alternating data-aos */}
 
       {showNewPropertyForm && (
         <NewProperty
@@ -295,20 +314,33 @@ const LandlordDashboard = () => {
                   <strong>University:</strong> {studentDetails.university}
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                  <strong>University ID:</strong> {studentDetails.universityId}
+                  <strong>Student ID:</strong> {studentDetails.studentId}
                 </div>
                 <div style={{ marginBottom: '15px' }}>
                   <strong>Date of Birth:</strong> {studentDetails.dateOfBirthDay}/{studentDetails.dateOfBirthMonth}/{studentDetails.dateOfBirthYear}
                 </div>
-                <div style={{ marginBottom: '15px' }}>
-                  <strong>Verified:</strong> {studentDetails.verified ? 'Yes' : 'No'}
-                </div>
+                {studentDetails.profileImage && (
+                  <div style={{ marginBottom: '15px' }}>
+                    <strong>Profile Image:</strong>
+                    <img 
+                      src={studentDetails.profileImage} 
+                      alt="Student Profile" 
+                      style={{ 
+                        width: '100px', 
+                        height: '100px', 
+                        borderRadius: '50%', 
+                        objectFit: 'cover',
+                        marginLeft: '10px'
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
