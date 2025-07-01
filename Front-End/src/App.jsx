@@ -30,6 +30,8 @@ import Loader from "./components/Loader/Loader.jsx";
 import LandlordProfile from "./components/Profile/LandloardProfile.jsx";
 import useAuthStore from "./store/auth-store.js";
 import PropTypes from 'prop-types';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 // Protected route component
@@ -107,6 +109,10 @@ function App() {
       }
     }
   }, [location.pathname, authStore, navigate]);
+
+  useEffect(() => {
+    AOS.init({ once: true, duration: 900, offset: 80 });
+  }, []);
 
   return (
     <ErrorBoundary>
