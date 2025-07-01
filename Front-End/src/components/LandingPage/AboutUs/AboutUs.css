@@ -1,5 +1,5 @@
 :root {
-    /* Colors */
+   
     --color-primary: #d6e4ed;
     --color-background: #efefef;
     --color-text-dark: #141414;
@@ -107,7 +107,7 @@
     position: relative;
   }
   
-  /* Underline animation for section headings */
+  
   .info-section h2::after {
     content: '';
     position: absolute;
@@ -130,7 +130,7 @@
     font-weight: 500;
   }
   
-  /* Right Section */
+  
   .right-section {
     flex: 1;
     background-color: var(--color-dark);
@@ -154,7 +154,7 @@
     overflow: hidden;
   }
   
-  /* Text reveal animation */
+ 
   .contact-title::after {
     content: '';
     position: absolute;
