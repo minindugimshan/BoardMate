@@ -85,10 +85,10 @@ export default function StudentBasicDetails({ handleSubmitData }) {
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+          <label htmlFor="mobile">Phone Number</label>
           <input
             type="tel"
-            id="phone"
+            id="mobile"
             placeholder="Enter your phone number"
             value={formData.mobile}
             onChange={handleChange}
