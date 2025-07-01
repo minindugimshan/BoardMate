@@ -94,11 +94,15 @@ public class VerificationController {
             return response;
         }
 
-        Map<String, String> response = verificationService.verifyCode(recipient, code);
-
-        // If successful, mark user as verified
-        if ("success".equals(response.get("status"))) {
+        boolean valid = verificationService.verifyCode(recipient, code);
+        Map<String, String> response = new HashMap<>();
+        if (valid) {
+            response.put("status", "success");
+            response.put("message", "Verification successful");
             userService.markUserAsVerified(recipient);
+        } else {
+            response.put("status", "error");
+            response.put("message", "Invalid verification code");
         }
         return response;
     }
@@ -132,6 +136,18 @@ public class VerificationController {
 
         Map<String, Object> response = twilioService.verifyCode(phoneNumber, code);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<?> sendCode(@RequestParam String email) {
+        verificationService.sendVerificationCodeToEmail(email);
+        return ResponseEntity.ok("Verification code sent");
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<?> checkCode(@RequestParam String email, @RequestParam String code) {
+        boolean valid = verificationService.verifyCode(email, code);
+        return valid ? ResponseEntity.ok("Verified") : ResponseEntity.badRequest().body("Invalid code");
     }
 }
 
