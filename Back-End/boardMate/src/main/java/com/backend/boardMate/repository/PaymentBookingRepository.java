@@ -21,3 +21,4 @@ public interface PaymentBookingRepository extends JpaRepository<PaymentBookingDe
     // Check if a booking exists for a user and property
     boolean existsByUserIdAndPropertyId(Long userId, Long propertyId);
 }
+
