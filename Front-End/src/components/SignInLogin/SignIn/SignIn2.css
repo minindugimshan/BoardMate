@@ -42,7 +42,7 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/background2.jpeg') !important;
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
+    min-height: 120vh;
   }
   
   /* Content Box */
@@ -55,6 +55,7 @@
                 0 8px 20px rgba(0, 0, 0, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     width: 100%;
+    /* height: 750px; */
     max-width: 450px;
     animation: float 0.8s ease-out;
     border: 1px solid rgba(255, 255, 255, 0.2);
