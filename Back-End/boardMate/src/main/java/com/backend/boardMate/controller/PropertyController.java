@@ -132,4 +132,38 @@ public class PropertyController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(file);
     }
+
+    @GetMapping("/{propertyId}/student-details")
+    public ResponseEntity<?> getStudentDetailsForProperty(@PathVariable Long propertyId) {
+        // Gets student details for a booked property
+        try {
+            Map<String, Object> studentDetails = propertyService.getStudentDetailsForProperty(propertyId);
+            return ResponseEntity.ok(studentDetails);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{propertyId}/book")
+    public ResponseEntity<?> bookProperty(@PathVariable Long propertyId, @RequestBody Map<String, Object> request) {
+        // Books a property for a student
+        try {
+            Long studentId = Long.valueOf(request.get("studentId").toString());
+            Property bookedProperty = propertyService.bookProperty(propertyId, studentId);
+            return ResponseEntity.ok(Map.of("message", "Property booked successfully", "property", bookedProperty));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{propertyId}/cancel-booking")
+    public ResponseEntity<?> cancelBooking(@PathVariable Long propertyId) {
+        // Cancels a property booking
+        try {
+            Property property = propertyService.cancelBooking(propertyId);
+            return ResponseEntity.ok(Map.of("message", "Booking cancelled successfully", "property", property));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 }
