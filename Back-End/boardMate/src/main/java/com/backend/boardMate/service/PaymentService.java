@@ -2,45 +2,61 @@ package com.backend.boardMate.service;
 
 import com.backend.boardMate.model.PaymentBookingDetails;
 import com.backend.boardMate.repository.PaymentBookingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+
+    private final PaymentBookingRepository paymentRepository;
+    private final EmailService emailService;
+    private final UserService userService;
 
     @Autowired
-    private PaymentBookingRepository paymentBookingRepository;
+    public PaymentService(PaymentBookingRepository paymentRepository,
+                         EmailService emailService,
+                         UserService userService) {
+        this.paymentRepository = paymentRepository;
+        this.emailService = emailService;
+        this.userService = userService;
+    }
 
-    public PaymentBookingDetails savePaymentBooking(PaymentBookingDetails paymentBookingDetails) {
+    @Transactional
+    public PaymentBookingDetails processPayment(PaymentBookingDetails paymentDetails) {
+        // Validate and process payment
+        PaymentBookingDetails savedPayment = paymentRepository.save(paymentDetails);
+        sendReceiptEmailAsync(savedPayment);
+        return savedPayment;
+    }
+
+    @Async
+    public CompletableFuture<Void> sendReceiptEmailAsync(PaymentBookingDetails payment) {
         try {
-            // Log the payment details being saved
-            System.out.println("Saving payment details: " + paymentBookingDetails);
-            return paymentBookingRepository.save(paymentBookingDetails);
+            String userEmail = userService.getUserEmailById(payment.getUserId());
+            emailService.sendPaymentReceipt(payment, userEmail);
+            payment.setReceiptSent(true);
+            paymentRepository.save(payment);
+            return CompletableFuture.completedFuture(null);
         } catch (Exception e) {
-            // Log the exception for better debugging
-            e.printStackTrace();
-            throw new RuntimeException("Failed to save payment booking: " + e.getMessage(), e);
+            logger.error("Failed to send receipt: {}", e.getMessage());
+            return CompletableFuture.failedFuture(e);
         }
     }
 
-    public List<PaymentBookingDetails> getBookingsByUserId(Long userId) {
-        try {
-            return paymentBookingRepository.findByUserId(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to fetch bookings by user ID: " + e.getMessage(), e);
-        }
+    public List<PaymentBookingDetails> getUserPayments(Long userId) {
+        return paymentRepository.findByUserId(userId);
     }
 
-    public PaymentBookingDetails getBookingById(Long id) {
-        try {
-            return paymentBookingRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Booking not found with ID: " + id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to fetch booking by ID: " + e.getMessage(), e);
-        }
+    public Optional<PaymentBookingDetails> getPaymentById(Long id) {
+        return paymentRepository.findById(id);
     }
 }
