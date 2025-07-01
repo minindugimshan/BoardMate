@@ -378,7 +378,7 @@ const LandlordProfile = () => {
               </div>
             </div>
 
-            <div className="profile-section">
+            {/* <div className="profile-section">
               <h3>Properties Listed ({landlordData.properties.length})</h3>
               <div className="properties-list">
                 {landlordData.properties.map(property => (
@@ -399,7 +399,7 @@ const LandlordProfile = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
