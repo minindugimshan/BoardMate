@@ -30,6 +30,9 @@ public class Property {
     private Integer landlordId;
     private Boolean isActive;
 
+    // Student who booked this property (nullable - null means not booked)
+    private Long studentId;
+
     // defeult values
     @Column(columnDefinition = "integer default 0")
     @Basic(optional = false)
@@ -217,5 +220,13 @@ public class Property {
 
     public void setImagesList(String imagesList) {
         this.imagesList = imagesList;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 }
