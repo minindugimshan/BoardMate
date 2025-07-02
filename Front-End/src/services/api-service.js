@@ -3,7 +3,7 @@ import { useLoaderStore } from '../store/use-loader-store';
 
 // Create an axios instance with default config
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://boardmate-production.up.railway.app',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
