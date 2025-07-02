@@ -30,7 +30,7 @@ const StudentSignIn = () => {
     setLoading(true);
     try {
       // Attempt login and get user data
-      const loginResponse = await apiService.post('/auth/login', {
+      const loginResponse = await apiService.post('api/auth/login', {
         email: formData.email,
         password: formData.password
       });
