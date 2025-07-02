@@ -46,7 +46,7 @@ const EmailPasswordSignIn = ({ handleSubmitData, email }) => {
         universityId: ''
       });
       if (response.data) {
-        toast.success('Registration successful! Please check your email for verification.');
+        toast.success('Registration successful!');
         navigate('/student-login');
       }
     } catch (error) {
